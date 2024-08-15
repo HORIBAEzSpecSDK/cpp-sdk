@@ -19,7 +19,7 @@ project(
   horiba_cpp_sdk
   VERSION 0.1.0
   DESCRIPTION ""
-  HOMEPAGE_URL "https://github.com/w-samuelgauthier/horiba_cpp_sdk"
+  HOMEPAGE_URL "https://github.com/HORIBAEzSpecSDK/cpp-sdk"
   LANGUAGES CXX C)
 
 include(cmake/PreventInSourceBuilds.cmake)
