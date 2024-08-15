@@ -515,6 +515,43 @@ class ChargeCoupledDevice final : public Device {
    */
   void abort_acquisition(bool reset_port) noexcept(false);
 
+  /**
+   * @brief Sets the center wavelength value to be used in the grating equation.
+   *
+   * Used when X axis conversion is @ref
+   * XAxisConversionType::FROM_ICL_SETTINGS_INI
+   *
+   * @param monochromator_id Monochromator ID that is used with this CCD
+   * @param wavelength Center wavelength value in nm
+   *
+   * @throws std::exception When an error occurs on the device side.
+   */
+  void set_center_wavelength(int monochromator_id,
+                             double wavelength) noexcept(false);
+
+  /**
+   * @brief Finds the center wavelength positions based on the input range and
+   * pixel overlap.
+   *
+   * The following commands are prerequisites and should be called prior to
+   * using this command:
+   *    - @ref set_x_axis_conversion_type,
+   *    - @ref set_acquisition_format,
+   *    - @ref set_region_of_interest
+   *
+   * @param monochromator_id Monochromator ID that is used with this CCD
+   * @param start_wavelength Start wavelength
+   * @param end_wavelength End wavelength
+   * @param pixel_overlap Overlap in pixels
+   *
+   * @return std::vector<double> Center wavelengths
+   *
+   * @throws std::exception When an error occurs on the device side.
+   */
+  std::vector<double> range_mode_center_wavelenghts(
+      int monochromator_id, double start_wavelength, double end_wavelength,
+      double pixel_overlap) noexcept(false);
+
  private:
 };
 } /* namespace horiba::devices::single_devices */
