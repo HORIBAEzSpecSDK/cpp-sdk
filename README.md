@@ -1,4 +1,4 @@
-# Horiba CPP SDK
+# HORIBA CPP SDK
 
 [![Actions Status](https://github.com/HORIBAEzSpecSDK/cpp-sdk/workflows/MacOS/badge.svg)](https://github.com/HORIBAEzSpecSDK/cpp-sdk/actions)
 [![Actions Status](https://github.com/HORIBAEzSpecSDK/cpp-sdk/workflows/Windows/badge.svg)](https://github.com/HORIBAEzSpecSDK/cpp-sdk/actions)
@@ -8,7 +8,7 @@
 <!-- [![CodeQL](https://github.com/HORIBAEzSpecSDK/cpp_sdk/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/HORIBAEzSpecSDK/cpp_sdk/actions/workflows/codeql-analysis.yml) -->
 [![doc](https://img.shields.io/badge/docs-blue)](https://HORIBAEzSpecSDK.github.io/cpp-sdk/)
 
-*horiba-cpp-sdk* is a C++ library that provides source code for the development with Horiba devices.
+*horiba-cpp-sdk* is a C++ library that provides source code for the development with HORIBA devices.
 
 ___
 
@@ -18,7 +18,7 @@ ___
 > This SDK is under development and not yet released.
 
 > [!IMPORTANT]
-> For this python code to work, the SDK from Horiba has to be purchased, installed and licensed.
+> For this python code to work, the SDK from HORIBA has to be purchased, installed and licensed.
 > The code in this repo and the SDK are under development and not yet released for public use!
 
 ⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️
