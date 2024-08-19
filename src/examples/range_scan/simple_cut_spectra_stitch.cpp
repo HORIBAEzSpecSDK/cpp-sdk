@@ -2,6 +2,8 @@
 
 #include <spdlog/spdlog.h>
 
+#include <stdexcept>
+
 namespace horiba::examples {
 
 SimpleCutSpectraStitch::SimpleCutSpectraStitch(

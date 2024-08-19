@@ -1,6 +1,9 @@
 #ifndef SIMPLE_CUT_SPECTRA_STITCH_H
 #define SIMPLE_CUT_SPECTRA_STITCH_H
 
+#include <memory>
+#include <vector>
+
 #include "spectra_stitch.h"
 
 namespace horiba::examples {

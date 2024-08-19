@@ -2,7 +2,9 @@
 
 #include <spdlog/spdlog.h>
 
+#include <algorithm>
 #include <iostream>
+#include <stdexcept>
 
 namespace horiba::examples {
 

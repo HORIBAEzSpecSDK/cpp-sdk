@@ -6,7 +6,6 @@
 #include <iterator>
 #include <numeric>
 #include <stdexcept>
-#include <vector>
 
 namespace horiba::examples {
 

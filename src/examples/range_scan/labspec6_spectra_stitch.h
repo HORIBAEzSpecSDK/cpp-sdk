@@ -1,6 +1,9 @@
 #ifndef LAB_SPEC_6_SPECTRA_STITCH_H
 #define LAB_SPEC_6_SPECTRA_STITCH_H
 
+#include <memory>
+#include <vector>
+
 #include "spectra_stitch.h"
 
 namespace horiba::examples {
