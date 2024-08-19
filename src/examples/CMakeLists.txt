@@ -1,2 +1,4 @@
 add_subdirectory(center_scan)
 add_subdirectory(gain_speed_info)
+add_subdirectory(range_scan)
+add_subdirectory(trigger)

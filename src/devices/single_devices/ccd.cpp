@@ -405,4 +405,27 @@ void ChargeCoupledDevice::abort_acquisition(bool reset_port) {
       "ccd_setAcquisitionAbort",
       {{"index", Device::device_id()}, {"resetPort", reset_port}}));
 }
+
+void ChargeCoupledDevice::set_center_wavelength(int monochromator_id,
+                                                double wavelength) {
+  auto _ignored_response = Device::execute_command(communication::Command(
+      "ccd_setCenterWavelength",
+      {{"index", Device::device_id()},
+       {"monoIndex", monochromator_id, "wavelength", wavelength}}));
+}
+
+std::vector<double> ChargeCoupledDevice::range_mode_center_wavelenghts(
+    int monochromator_id, double start_wavelength, double end_wavelength,
+    double pixel_overlap) {
+  auto response = Device::execute_command(communication::Command(
+      "ccd_calculateRangeModePositions",
+      {{"index", Device::device_id()},
+       {"monoIndex", monochromator_id, "start", start_wavelength, "end",
+        end_wavelength, "overlap", pixel_overlap}}));
+  auto json_results = response.json_results();
+  auto wavelengths =
+      json_results.at("centerWavelengths").get<std::vector<double>>();
+
+  return wavelengths;
+}
 } /* namespace horiba::devices::single_devices */
