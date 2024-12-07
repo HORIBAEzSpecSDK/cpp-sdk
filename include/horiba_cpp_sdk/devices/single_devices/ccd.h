@@ -159,6 +159,34 @@ class ChargeCoupledDevice final : public Device {
   void set_speed(int speed_token) noexcept(false);
 
   /**
+   * @brief Returns the parallel speed of the CCD
+   *
+   * Note: The CCD can have different sensors installed, which can have
+   * different parallel speed values. Therefore you need to first check what
+   * parallel speed values are available for the CCD using the get_configuration
+   * function.
+   *
+   * @return Parallel speed token
+   *
+   * @throw std::runtime_error when an error occurred on the device side
+   */
+  int get_parallel_speed_token() noexcept(false);
+
+  /**
+   * @brief Sets the parallel speed of the CCD
+   *
+   * Note: The CCD can have different sensors installed, which can have
+   * different parallel speed values. Therefore you need to first check what
+   * parallel speed values are available for the CCD using the get_configuration
+   * function.
+   *
+   * @param speed_token Token of the parallel speed to set
+   *
+   * @throw std::runtime_error when an error occurred on the device side
+   */
+  void set_parallel_speed(int parallel_speed_token) noexcept(false);
+
+  /**
    * @brief Returns the fit parameters of the CCD
    *
    * @return Fit parameters TODO: units and >details
@@ -166,15 +194,6 @@ class ChargeCoupledDevice final : public Device {
    * @throw std::runtime_error when an error occurred on the device side
    */
   std::vector<int> get_fit_parameters() noexcept(false);
-
-  /**
-   * @brief Sets the fit parameters of the CCD
-   *
-   * @param fit_params Fit parameters TODO: units and >details
-   *
-   * @throw std::runtime_error when an error occurred on the device side
-   */
-  void set_fit_parameters(std::vector<int> fit_params) noexcept(false);
 
   /**
    * @brief Returns the timer resolution of the CCD.
@@ -513,7 +532,44 @@ class ChargeCoupledDevice final : public Device {
    *
    * @throws std::exception When an error occurs on the device side.
    */
-  void abort_acquisition(bool reset_port) noexcept(false);
+  void abort_acquisition() noexcept(false);
+
+  /**
+   * @brief Sets the center wavelength value to be used in the grating equation.
+   *
+   * Used when X axis conversion is @ref
+   * XAxisConversionType::FROM_ICL_SETTINGS_INI
+   *
+   * @param monochromator_id Monochromator ID that is used with this CCD
+   * @param wavelength Center wavelength value in nm
+   *
+   * @throws std::exception When an error occurs on the device side.
+   */
+  void set_center_wavelength(int monochromator_id,
+                             double wavelength) noexcept(false);
+
+  /**
+   * @brief Finds the center wavelength positions based on the input range and
+   * pixel overlap.
+   *
+   * The following commands are prerequisites and should be called prior to
+   * using this command:
+   *    - @ref set_x_axis_conversion_type,
+   *    - @ref set_acquisition_format,
+   *    - @ref set_region_of_interest
+   *
+   * @param monochromator_id Monochromator ID that is used with this CCD
+   * @param start_wavelength Start wavelength
+   * @param end_wavelength End wavelength
+   * @param pixel_overlap Overlap in pixels
+   *
+   * @return std::vector<double> Center wavelengths
+   *
+   * @throws std::exception When an error occurs on the device side.
+   */
+  std::vector<double> range_mode_center_wavelenghts(
+      int monochromator_id, double start_wavelength, double end_wavelength,
+      double pixel_overlap) noexcept(false);
 
  private:
 };

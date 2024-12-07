@@ -159,22 +159,6 @@ TEST_CASE_METHOD(ICLExe, "CCD test on HW", "[ccd_hw]") {
     REQUIRE(fit_parameters == expected_fit_parameters);
   }
 
-  SECTION("CCD fit parameters can be set") {
-    // arrange
-    ccd.open();
-    std::vector<int> fit_parameters = {0, 1, 0, 0, 0};
-    REQUIRE_NOTHROW(ccd.set_fit_parameters(fit_parameters));
-    auto fit_parameters_before = ccd.get_fit_parameters();
-
-    // act
-    fit_parameters = {0, 1, 0, 0, 1};
-    REQUIRE_NOTHROW(ccd.set_fit_parameters(fit_parameters));
-    auto fit_parameters_after = ccd.get_fit_parameters();
-
-    // assert
-    REQUIRE(fit_parameters_before != fit_parameters_after);
-  }
-
   SECTION("CCD get timer resolution") {
     // arrange
     ccd.open();
@@ -541,7 +525,7 @@ TEST_CASE_METHOD(ICLExe, "CCD test on HW", "[ccd_hw]") {
 
     // act
     auto acquisition_busy_before_abort = ccd.get_acquisition_busy();
-    REQUIRE_NOTHROW(ccd.abort_acquisition(true));
+    REQUIRE_NOTHROW(ccd.abort_acquisition());
 
     int wait_ms = 500;
     int total_waited_time_ms = 0;

@@ -121,17 +121,6 @@ TEST_CASE("CCD test with fake ICL", "[ccd_no_hw]") {
     REQUIRE(fit_params == expected_fit_params);
   }
 
-  SECTION("CCD fit params can be set") {
-    // arrange
-    ccd.open();
-
-    // act
-    // assert
-    REQUIRE_NOTHROW(ccd.set_fit_parameters({0, 1, 0, 0, 0}));
-    // we do not check if the new fit params are set, as the fake answer from
-    // the ICL always returns the same value
-  }
-
   SECTION("CCD get timer resolution") {
     // arrange
     ccd.open();
@@ -357,7 +346,7 @@ TEST_CASE("CCD test with fake ICL", "[ccd_no_hw]") {
 
     // act
     // assert
-    REQUIRE_NOTHROW(ccd.abort_acquisition(true));
+    REQUIRE_NOTHROW(ccd.abort_acquisition());
     // we do not check if the acquisition has truly stopped, as the fake answer
     // from the ICL always returns the same value
   }

@@ -71,18 +71,26 @@ void ChargeCoupledDevice::set_speed(int speed_token) {
       {{"index", Device::device_id()}, {"token", speed_token}}));
 }
 
+int ChargeCoupledDevice::get_parallel_speed_token() {
+  auto response = Device::execute_command(communication::Command(
+      "ccd_getParallelSpeed", {{"index", Device::device_id()}}));
+  auto json_results = response.json_results();
+  auto speed = json_results.at("token").get<int>();
+  return speed;
+}
+
+void ChargeCoupledDevice::set_parallel_speed(int parallel_speed_token) {
+  auto _ignored_response = Device::execute_command(communication::Command(
+      "ccd_setParallelSpeed",
+      {{"index", Device::device_id()}, {"token", parallel_speed_token}}));
+}
+
 std::vector<int> ChargeCoupledDevice::get_fit_parameters() {
   auto response = Device::execute_command(communication::Command(
       "ccd_getFitParams", {{"index", Device::device_id()}}));
   auto json_results = response.json_results();
   auto fit_params = json_results.at("fitParameters").get<std::vector<int>>();
   return fit_params;
-}
-
-void ChargeCoupledDevice::set_fit_parameters(std::vector<int> fit_params) {
-  auto _ignored_response = Device::execute_command(communication::Command(
-      "ccd_setFitParams",
-      {{"index", Device::device_id()}, {"params", fit_params}}));
 }
 
 ChargeCoupledDevice::TimerResolution
@@ -365,7 +373,7 @@ bool ChargeCoupledDevice::get_acquisition_ready() {
 
 void ChargeCoupledDevice::set_acquisition_start(bool open_shutter) {
   auto _ignored_response = Device::execute_command(communication::Command(
-      "ccd_setAcquisitionStart",
+      "ccd_acquisitionStart",
       {{"index", Device::device_id()}, {"openShutter", open_shutter}}));
 }
 
@@ -400,9 +408,32 @@ bool ChargeCoupledDevice::get_acquisition_busy() {
   return ready;
 }
 
-void ChargeCoupledDevice::abort_acquisition(bool reset_port) {
+void ChargeCoupledDevice::abort_acquisition() {
   auto _ignored_response = Device::execute_command(communication::Command(
-      "ccd_setAcquisitionAbort",
-      {{"index", Device::device_id()}, {"resetPort", reset_port}}));
+      "ccd_acquisitionAbort", {{"index", Device::device_id()}}));
+}
+
+void ChargeCoupledDevice::set_center_wavelength(int monochromator_id,
+                                                double wavelength) {
+  auto _ignored_response = Device::execute_command(communication::Command(
+      "ccd_setCenterWavelength", {{"index", Device::device_id()},
+                                  {"monoIndex", monochromator_id},
+                                  {"wavelength", wavelength}}));
+}
+
+std::vector<double> ChargeCoupledDevice::range_mode_center_wavelenghts(
+    int monochromator_id, double start_wavelength, double end_wavelength,
+    double pixel_overlap) {
+  auto response = Device::execute_command(communication::Command(
+      "ccd_calculateRangeModePositions", {{"index", Device::device_id()},
+                                          {"monoIndex", monochromator_id},
+                                          {"start", start_wavelength},
+                                          {"end", end_wavelength},
+                                          {"overlap", pixel_overlap}}));
+  auto json_results = response.json_results();
+  auto wavelengths =
+      json_results.at("centerWavelengths").get<std::vector<double>>();
+
+  return wavelengths;
 }
 } /* namespace horiba::devices::single_devices */

@@ -23,11 +23,11 @@ class Device {
    */
   virtual void close() = 0;
 
+  [[nodiscard]] int device_id() const;
+
  protected:
   communication::Response execute_command(
       const communication::Command& command);
-
-  [[nodiscard]] int device_id() const;
 
  private:
   int id;
