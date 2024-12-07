@@ -1,14 +1,15 @@
 // Note: on Windows if you use scaling, add the environment variable
 // GNUTERM="qt" to avoid strange rendering artifacts
+#include <horiba_cpp_sdk/communication/command.h>
 #include <horiba_cpp_sdk/communication/websocket_communicator.h>
 #include <horiba_cpp_sdk/devices/icl_device_manager.h>
 #include <horiba_cpp_sdk/devices/single_devices/ccd.h>
 #include <horiba_cpp_sdk/devices/single_devices/mono.h>
 #include <horiba_cpp_sdk/os/process.h>
 #include <matplot/matplot.h>
+#include <spdlog/spdlog.h>
 
 #include <chrono>
-#include <cmath>
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <thread>
@@ -38,22 +39,26 @@ auto main(int argc, char *argv[]) -> int {
   using namespace matplot;
   using namespace std;
 
+  spdlog::set_level(spdlog::level::debug);
+
 #ifdef _WIN32
   auto icl_process = std::make_shared<WindowsProcess>(
       R"(C:\Program Files\HORIBA Scientific\SDK\)", R"(icl.exe)");
 #else
   auto icl_process = std::make_shared<FakeProcess>();
 #endif
+
   auto icl_device_manager = ICLDeviceManager(icl_process);
 
   icl_device_manager.start();
   icl_device_manager.discover_devices();
 
   const auto ccds = icl_device_manager.charge_coupled_devices();
-  const auto ccd = ccds[0];
+  const auto &ccd = ccds[0];
 
   const auto monos = icl_device_manager.monochromators();
-  const auto mono = monos[0];
+  const auto &mono = monos[0];
+  cout << "Mono index: " << mono->device_id() << "\n";
   const auto timeout = std::chrono::seconds(180);
 
   try {
@@ -64,44 +69,44 @@ auto main(int argc, char *argv[]) -> int {
     mono->home();
     mono->wait_until_ready(timeout);
 
-    auto target_wavelength = 123.0;
+    mono->set_turret_grating(Monochromator::Grating::THIRD);
+    mono->wait_until_ready(timeout);
+    const auto target_wavelength = 123.0;
     mono->move_to_target_wavelength(target_wavelength);
     mono->wait_until_ready(timeout);
+    mono->set_slit_position(Monochromator::Slit::A, 0);
+    mono->set_mirror_position(Monochromator::Mirror::ENTRANCE,
+                              Monochromator::MirrorPosition::AXIAL);
+    mono->wait_until_ready(timeout);
 
-    ccd->set_acquisition_format(
-        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
+    // ccd configuration
     ccd->set_acquisition_count(1);
-    ccd->set_x_axis_conversion_type(
-        ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);
+    ccd->set_center_wavelength(mono->device_id(), target_wavelength);
+    ccd->set_exposure_time(chrono::milliseconds(1000).count());
+    ccd->set_gain(0);   // Hight Light
+    ccd->set_speed(2);  // 1 MHz Ultra
     ccd->set_timer_resolution(
         ChargeCoupledDevice::TimerResolution::THOUSAND_MICROSECONDS);
-    ccd->set_exposure_time(2);
+    ccd->set_acquisition_format(
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
     ccd->set_region_of_interest();
+    ccd->set_x_axis_conversion_type(
+        ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);
 
     if (ccd->get_acquisition_ready()) {
-      auto open_shutter = true;
+      const auto open_shutter = true;
       ccd->set_acquisition_start(open_shutter);
       // wait a short time for the acquisition to start
-      this_thread::sleep_for(chrono::milliseconds(200));
+      this_thread::sleep_for(chrono::seconds(1));
 
       while (ccd->get_acquisition_busy()) {
         this_thread::sleep_for(chrono::milliseconds(500));
       }
 
       auto raw_data = any_cast<json>(ccd->get_acquisition_data());
-      auto xy_data = raw_data[0]["roi"][0]["xyData"];
-      cout << xy_data << endl;
 
-      auto x_data =
-          xy_data | views::transform([](const auto &pair) { return pair[0]; });
-      auto y_data =
-          xy_data | views::transform([](const auto &pair) { return pair[1]; });
-
-      vector<double> x_values;
-      vector<int> y_values;
-
-      ranges::copy(x_data, back_inserter(x_values));
-      ranges::copy(y_data, back_inserter(y_values));
+      vector<double> x_values = raw_data[0]["roi"][0]["xData"];
+      vector<int> y_values = raw_data[0]["roi"][0]["yData"][0];
 
       plot(x_values, y_values);
       title("Center Scan At Wavelength " + to_string(target_wavelength) + "nm");
@@ -111,7 +116,7 @@ auto main(int argc, char *argv[]) -> int {
     }
 
   } catch (const exception &e) {
-    cout << e.what() << endl;
+    cout << e.what() << "\n";
     ccd->close();
     mono->close();
     icl_device_manager.stop();
@@ -123,7 +128,7 @@ auto main(int argc, char *argv[]) -> int {
     mono->close();
     icl_device_manager.stop();
   } catch (const exception &e) {
-    cout << e.what() << endl;
+    cout << e.what() << "\n";
     // we expect an exception when the socket gets closed by the remote
   }
 

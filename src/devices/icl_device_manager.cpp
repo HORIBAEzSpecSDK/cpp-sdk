@@ -10,6 +10,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -32,6 +33,7 @@ void ICLDeviceManager::start() {
                 this->manage_icl_lifetime);
   if (this->manage_icl_lifetime && !this->icl_process->running()) {
     this->icl_process->start();
+    std::this_thread::sleep_for(std::chrono::seconds(4));
   }
   spdlog::debug("[ICLDeviceManager] ICL started");
 
