@@ -104,9 +104,23 @@ class Monochromator final : public Device {
    *
    * Use is_busy() to know if the operation is still taking place.
    *
+   * @param foce_homing Force starts the initialization process.
+   *
    * @throw std::runtime_error when an error occurred on the device side
    */
-  void home() noexcept(false);
+  void home(bool force_homing = false) noexcept(false);
+
+  /**
+   * @brief Checks if the monochromator is initialized.
+   *
+   * Note: This command may also return false when the mono is busy with another
+   * command.
+   *
+   * @return True if initialized, false otherwise
+   *
+   * @throw std::runtime_error when an error occurred on the device side
+   */
+  bool initialized() noexcept(false);
 
   /**
    * @brief Returns the configuration of the monochromator.

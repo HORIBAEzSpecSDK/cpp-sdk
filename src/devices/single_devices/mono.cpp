@@ -34,14 +34,21 @@ bool Monochromator::is_busy() {
   return json_results.at("busy").get<bool>();
 }
 
-void Monochromator::home() {
-  auto _ignored_response = Device::execute_command(
-      communication::Command("mono_init", {{"index", Device::device_id()}}));
+void Monochromator::home(bool force_homing) {
+  auto _ignored_response = Device::execute_command(communication::Command(
+      "mono_init", {{"index", Device::device_id()}, {"force", force_homing}}));
+}
+
+bool Monochromator::initialized() {
+  auto response = Device::execute_command(communication::Command(
+      "mono_isInitialized", {{"index", Device::device_id()}}));
+  auto json_results = response.json_results();
+  return json_results.at("initialized").get<bool>();
 }
 
 std::string Monochromator::configuration() {
   auto response = Device::execute_command(communication::Command(
-      "mono_getConfig", {{"index", Device::device_id()}, {"compact", false}}));
+      "mono_getConfig", {{"index", Device::device_id()}}));
   auto json_results = response.json_results();
   return json_results.dump();
 }
