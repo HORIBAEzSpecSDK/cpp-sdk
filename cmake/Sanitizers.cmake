@@ -70,6 +70,13 @@ function(
         target_compile_options(${project_name} INTERFACE -fsanitize=${LIST_OF_SANITIZERS})
         target_link_options(${project_name} INTERFACE -fsanitize=${LIST_OF_SANITIZERS})
       else()
+        if(LIST_OF_SANITIZERS STREQUAL "address" AND CMAKE_BUILD_TYPE STREQUAL "Debug")
+          message(
+            SEND_ERROR
+              "AddressSanitizer is not compatible with MSVC Debug runtime (/MDd). Use Release or switch to Clang."
+          )
+        endif()
+
         string(FIND "$ENV{PATH}" "$ENV{VSINSTALLDIR}" index_of_vs_install_dir)
         if("${index_of_vs_install_dir}" STREQUAL "-1")
           message(
@@ -77,9 +84,12 @@ function(
               "Using MSVC sanitizers requires setting the MSVC environment before building the project. Please manually open the MSVC command prompt and rebuild the project."
           )
         endif()
-        target_compile_options(${project_name} INTERFACE /fsanitize=${LIST_OF_SANITIZERS} /Zi /INCREMENTAL:NO)
-        target_compile_definitions(${project_name} INTERFACE _DISABLE_VECTOR_ANNOTATION _DISABLE_STRING_ANNOTATION)
-        target_link_options(${project_name} INTERFACE /INCREMENTAL:NO)
+
+        if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+          target_compile_options(${project_name} INTERFACE /fsanitize=${LIST_OF_SANITIZERS} /Zi /INCREMENTAL:NO)
+          target_compile_definitions(${project_name} INTERFACE _DISABLE_VECTOR_ANNOTATION _DISABLE_STRING_ANNOTATION)
+          target_link_options(${project_name} INTERFACE /INCREMENTAL:NO)
+        endif()
       endif()
     endif()
   endif()

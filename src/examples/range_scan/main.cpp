@@ -6,12 +6,15 @@
 #include <horiba_cpp_sdk/devices/single_devices/mono.h>
 #include <horiba_cpp_sdk/os/process.h>
 #include <matplot/matplot.h>
+#include <spdlog/spdlog.h>
 
+#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <thread>
+#include <vector>
 
 #include "labspec6_spectra_stitch.h"
 #include "linear_spectra_stitch.h"
@@ -43,6 +46,8 @@ auto main() -> int {
   using namespace matplot;
   using namespace std;
 
+  spdlog::set_level(spdlog::level::debug);
+
 #ifdef _WIN32
   auto icl_process = std::make_shared<WindowsProcess>(
       R"(C:\Program Files\HORIBA Scientific\SDK\)", R"(icl.exe)");
@@ -69,21 +74,34 @@ auto main() -> int {
     mono->home();
     mono->wait_until_ready(timeout);
 
+    /* mono->set_turret_grating(Monochromator::Grating::THIRD); */
+    mono->set_turret_grating(Monochromator::Grating::SECOND);
+    mono->wait_until_ready(timeout);
+    const auto target_wavelength = 123.0;
+    mono->move_to_target_wavelength(target_wavelength);
+    mono->wait_until_ready(timeout);
+    mono->set_slit_position(Monochromator::Slit::A, 0);
+    mono->set_mirror_position(Monochromator::Mirror::ENTRANCE,
+                              Monochromator::MirrorPosition::AXIAL);
+    mono->wait_until_ready(timeout);
+
+    // ccd configuration
+    ccd->set_acquisition_count(1);
     ccd->set_acquisition_format(
         1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
-    ccd->set_acquisition_count(1);
-    ccd->set_x_axis_conversion_type(
-        ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);
     ccd->set_timer_resolution(
         ChargeCoupledDevice::TimerResolution::THOUSAND_MICROSECONDS);
     ccd->set_exposure_time(2);
+    ccd->set_center_wavelength(mono->device_id(), 0.0);
+    ccd->set_x_axis_conversion_type(
+        ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);
     ccd->set_region_of_interest();
 
     if (ccd->get_acquisition_ready()) {
-      vector<vector<vector<double>>> spectra;
+      std::vector<std::vector<std::vector<double>>> spectra;
 
       const double start_wavelength = 200.0;
-      const double end_wavelength = 600.0;
+      const double end_wavelength = 1000.0;
       const int pixel_overlap = 10;
 
       auto wavelengths = ccd->range_mode_center_wavelenghts(
@@ -92,6 +110,7 @@ auto main() -> int {
       for (auto wavelength : wavelengths) {
         mono->move_to_target_wavelength(wavelength);
         mono->wait_until_ready(timeout);
+
         ccd->set_center_wavelength(mono->device_id(), wavelength);
 
         auto open_shutter = true;
@@ -104,30 +123,25 @@ auto main() -> int {
         }
 
         auto raw_data = any_cast<json>(ccd->get_acquisition_data());
-        auto xy_data = raw_data[0]["roi"][0]["xyData"];
-
-        auto x_data_view = xy_data | views::transform([](const auto &pair) {
-                             return pair[0];
-                           });
-        auto y_data_view = xy_data | views::transform([](const auto &pair) {
-                             return pair[1];
-                           });
-
-        const vector<double> x_data(x_data_view.begin(), x_data_view.end());
-        const vector<double> y_data(y_data_view.begin(), y_data_view.end());
+        std::vector<double> x_data =
+            raw_data[0]["roi"][0]["xData"].get<std::vector<double>>();
+        std::ranges::reverse(x_data);
+        std::vector<double> y_data =
+            raw_data[0]["roi"][0]["yData"][0].get<std::vector<double>>();
+        std::ranges::reverse(y_data);
         spectra.push_back({x_data, y_data});
       }
 
+      std::ranges::sort(spectra, [](const auto &a, const auto &b) {
+        return a[0][0] < b[0][0];
+      });
+
       // Here are some examples of how to stitch the spectra together.
       // You can of course create your own stitching algorithm.
-      /* auto stitched_spectra =
-       * make_unique<SimpleCutSpectraStitch>(spectra_list); */
-      /* auto stitched_spectra_data = stitched_spectra->stitched_spectra(); */
-      /* auto stitched_spectra =
-       * make_unique<LabSpec6SpectraStitch>(spectra_list); */
-      /* auto stitched_spectra_data = stitched_spectra->stitched_spectra(); */
-      auto stitched_spectra = make_unique<LinearSpectraStitch>(spectra);
-      auto stitched_spectra_data = stitched_spectra->stitched_spectra();
+      /* auto spectra_stitch = make_unique<SimpleCutSpectraStitch>(spectra); */
+      /* auto spectra_stitch = make_unique<LabSpec6SpectraStitch>(spectra); */
+      auto spectra_stitch = make_unique<LinearSpectraStitch>(spectra);
+      auto stitched_spectra_data = spectra_stitch->stitched_spectra();
 
       plot(stitched_spectra_data[0], stitched_spectra_data[1]);
       title("Range Scan From " + to_string(start_wavelength) + "nm to " +
@@ -138,7 +152,7 @@ auto main() -> int {
     }
 
   } catch (const exception &e) {
-    cout << e.what() << endl;
+    cout << e.what() << "\n";
     ccd->close();
     mono->close();
     icl_device_manager.stop();
@@ -150,7 +164,7 @@ auto main() -> int {
     mono->close();
     icl_device_manager.stop();
   } catch (const exception &e) {
-    cout << e.what() << endl;
+    cout << e.what() << "\n";
     // we expect an exception when the socket gets closed by the remote
   }
 
