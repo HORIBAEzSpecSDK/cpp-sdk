@@ -73,8 +73,7 @@ function(
         if(LIST_OF_SANITIZERS STREQUAL "address" AND CMAKE_BUILD_TYPE STREQUAL "Debug")
           message(
             SEND_ERROR
-              "AddressSanitizer is not compatible with MSVC Debug runtime (/MDd). Use Release or switch to Clang."
-          )
+              "AddressSanitizer is not compatible with MSVC Debug runtime (/MDd). Use Release or switch to Clang.")
         endif()
 
         string(FIND "$ENV{PATH}" "$ENV{VSINSTALLDIR}" index_of_vs_install_dir)
