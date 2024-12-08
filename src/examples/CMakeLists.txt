@@ -1,5 +1,5 @@
 add_subdirectory(center_scan)
-add_subdirectory(dark_count_substraction)
+add_subdirectory(dark_count_subtraction)
 add_subdirectory(gain_speed_info)
 add_subdirectory(range_scan)
 add_subdirectory(trigger)
