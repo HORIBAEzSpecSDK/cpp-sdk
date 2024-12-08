@@ -6,8 +6,7 @@ set(SOURCES
     linear_spectra_stitch.cpp
     simple_cut_spectra_stitch.h
     simple_cut_spectra_stitch.cpp
-    main.cpp
-  )
+    main.cpp)
 
 add_executable(range_scan ${SOURCES})
 
@@ -18,7 +17,6 @@ target_link_libraries(
           horiba_cpp_sdk::horiba_cpp_sdk
           nlohmann_json::nlohmann_json
           Matplot++::matplot
-          Boost::beast
-        )
+          Boost::beast)
 
 target_include_directories(range_scan PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include")
