@@ -25,16 +25,39 @@ ___
 
 ___
 
+# 📦 About this repository
 
-## Basic Usage Example
+`horiba-cpp-sdk` is a library that provides source code for the development of custom applications that include
+interaction with HORIBA devices, namely monochromators and multichannel detectors (e.g. CCD cameras). Future versions of
+this package will include access to more devices. The SDK exists for several programming languages:
+
+* [C++](https://github.com/HORIBAEzSpecSDK/cpp-sdk) (This repository)
+* [Python](https://github.com/HORIBAEzSpecSDK/python-sdk)
+* [C#](https://github.com/HORIBAEzSpecSDK/dotnet-sdk)
+* [LabVIEW](https://github.com/HORIBAEzSpecSDK/labview-sdk)
+
+# ☑️ Prerequisites
+
+* CMake 3.22
+* C++20 compiler, see [Dependency Setup](README_dependencies.md) for mor information.
+* ICL.exe installed as part of the `HORIBA SDK`, licensed and activated. The HORIBA SDK can be purchased by contacting
+  the [Horiba Support](https://www.horiba.com/int/scientific/contact/) and sending a message to the `Scientific`
+  business segment, specifying `no division` and selecting the `sales` department
+*
+  <details>
+  <summary>To make sure that the USB devices do not get disconnected, uncheck the following boxes in the properties</summary>
+
+  ![generic usb hub properties](documentation/images/generic_usb_hub_properties.png)
+
+  </details>
+
+# 🛠️ Getting Started
 
 > [!WARNING]
 > This example only works under Windows.
 
-### Prerequisites
+## Prerequisites
 
-* CMake 3.22
-* C++20 compiler, see [Dependency Setup](README_dependencies.md) for mor information.
 
 1. Create a new folder with the following structure:
 
@@ -184,10 +207,25 @@ ___
 
 7. Launch the example with `./build/horiba_cpp_example`
 
-## More Details
+
+# 🏗️ Architecture
+
+The functionality is distributed over two parts, the `instrument control layer (ICL)` and the `github source code`. This
+split is shown in the following image:
+![SDK Split](documentation/images/SDK_Overview_Dark.png#gh-dark-mode-only "SDK Split")
+![SDK Split](documentation/images/SDK_Overview_Dark.png#gh-light-mode-only "SDK Split")
+
+The ICL itself is sold and distributed by HORIBA. The source code to communicate with the ICL and drive the instruments
+is located in this repo for C++, but can be also found for Python, C#, C++ and LabVIEW as described above.
+The communication between SDK and ICL is websocket based. I.e. in essence the ICL is steered by a `command and control`
+pattern where commands and their replies are JSON commands.
+
+# 🔗 Examples
 
 For more details on the usage of the library:
  * [Usage Examples](src/examples/README.md)
+
+# 👩‍💻 First steps as contributor
 
 For contributors to the library:
  * [Dependency Setup](README_dependencies.md)
@@ -195,5 +233,6 @@ For contributors to the library:
  * [Docker](README_docker.md)
 
 ## Credits
+
 * Cmake project template from [lefticus](https://github.com/cpp-best-practices/cmake_template)
 * GitHub Actions CI/CD from [TheLartians](https://github.com/TheLartians/ModernCppStarter)
