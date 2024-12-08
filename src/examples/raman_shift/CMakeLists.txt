@@ -1,7 +1,4 @@
-set(SOURCES
-    raman_shift.h
-    raman_shift.cpp
-    main.cpp)
+set(SOURCES raman_shift.h raman_shift.cpp main.cpp)
 
 add_executable(raman_shift ${SOURCES})
 

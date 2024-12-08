@@ -15,7 +15,7 @@ Acquisition examples:
   dark count subtraction. Before running this example, set the environement variable
   `GNUTERM` to `qt` to avoid issues with the `gnuplot` library.
 - [`abort_acquisition`](abort_acquisition/main.cpp): This example demonstrates how to abort a running acquisition.
-- [`raman_shift`](raman_shift/main.cpp): This example demonstrates how to remove the raman shift from a spectrum.
+- [`raman_shift`](raman_shift/main.cpp): This example demonstrates how to compute the raman shift of a spectrum.
 
 Configuration examples:
 - [`gain_speed_info`](gain_speed_info/main.cpp): This example demonstrates how to create your own gain and speed enums based on
