@@ -18,7 +18,7 @@ ___
 > This SDK is under development and not yet released.
 
 > [!IMPORTANT]
-> For this python code to work, the SDK from HORIBA has to be purchased, installed and licensed.
+> For this C++ code to work, the SDK from HORIBA has to be purchased, installed and licensed.
 > The code in this repo and the SDK are under development and not yet released for public use!
 
 ⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️
