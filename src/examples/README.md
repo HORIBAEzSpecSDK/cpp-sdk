@@ -2,6 +2,28 @@
 
 This folder contains various examples of how to use the `horiba_cpp_sdk` library.
 
+## Building
+
+In order to excute the examples, you need to clone and build the `cpp-sdk` repository. 
+
+> [!NOTE]
+> For a straightforward setup, we recommend under Windows to install the dependencies using chocolatey as explained in
+> [Dependencies](../README_dependencies.md), use Visual Studio 2022 as compiler and its corresponding CMake generator.
+>
+> This would correspond to the following steps:
+> 1. In an admin PowerShell execute:
+> ```powershell
+> choco install -y git cmake ninja visualstudio2022community --package-parameters "add Microsoft.VisualStudio.Workload.NativeDesktop --includeRecommended --includeOptional --passive --locale en-US"
+> ```
+> 2. Clone the `cpp-sdk` repository
+> 3. Configure and build the sdk:
+> ```powershell
+> cd cpp-sdk
+> cmake -B build -S . -G "Visual Studio 17 2022"
+> cmake --build build
+> ```
+> 4. The examples' executables are then located under `.\build\src\examples\`.
+
 ## Examples
 
 Acquisition examples:

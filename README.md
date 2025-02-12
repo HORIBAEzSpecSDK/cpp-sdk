@@ -222,7 +222,7 @@ pattern where commands and their replies are JSON commands.
 
 # 🔗 Examples
 
-For more details on the usage of the library:
+For more details on the usage of the library and a list of examples, see:
  * [Usage Examples](src/examples/README.md)
 
 # 👩‍💻 First steps as contributor
