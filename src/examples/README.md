@@ -4,11 +4,11 @@ This folder contains various examples of how to use the `horiba_cpp_sdk` library
 
 ## Building
 
-In order to excute the examples, you need to clone and build the `cpp-sdk` repository. 
+In order to execute the examples, you need to clone and build the `cpp-sdk` repository. 
 
 > [!NOTE]
 > For a straightforward setup, we recommend under Windows to install the dependencies using chocolatey as explained in
-> [Dependencies](../README_dependencies.md), use Visual Studio 2022 as compiler and its corresponding CMake generator.
+> [Dependencies](../../README_dependencies.md), use Visual Studio 2022 as compiler and its corresponding CMake generator (see [Building](../../README_building.md)).
 >
 > This would correspond to the following steps:
 > 1. In an admin PowerShell execute:
@@ -28,13 +28,13 @@ In order to excute the examples, you need to clone and build the `cpp-sdk` repos
 
 Acquisition examples:
 - [`center_scan`](center_scan/main.cpp): This example demonstrates how to perform a center scan using the
-  `horiba_cpp_sdk` library. Before running this example, set the environement variable `GNUTERM` to `qt` to avoid issues
+  `horiba_cpp_sdk` library. Before running this example, set the environment variable `GNUTERM` to `qt` to avoid issues
   with the `gnuplot` library.
 - [`range_scan`](range_scan/main.cpp): This example demonstrates how to perform a range scan using the
-  `horiba_cpp_sdk` library including stitching of spectra. Before running this example, set the environement variable
+  `horiba_cpp_sdk` library including stitching of spectra. Before running this example, set the environment variable
   `GNUTERM` to `qt` to avoid issues with the `gnuplot` library.
 - [`dark_count_subtraction`](dark_count_subtraction/main.cpp): This example demonstrates how to perform a
-  dark count subtraction. Before running this example, set the environement variable
+  dark count subtraction. Before running this example, set the environment variable
   `GNUTERM` to `qt` to avoid issues with the `gnuplot` library.
 - [`abort_acquisition`](abort_acquisition/main.cpp): This example demonstrates how to abort a running acquisition.
 - [`raman_shift`](raman_shift/main.cpp): This example demonstrates how to compute the raman shift of a spectrum.
