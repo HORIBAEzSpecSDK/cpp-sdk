@@ -27,7 +27,7 @@ void ChargeCoupledDevice::close() {
 
 bool ChargeCoupledDevice::is_open() {
   auto response = Device::execute_command(
-      communication::Command("ccd_isOpen", {{"index", Device::device_id()}}));
+      communication::Command("ccd_is_open", {{"index", Device::device_id()}}));
   auto json_results = response.json_results();
   return json_results.at("open").get<bool>();
 }
