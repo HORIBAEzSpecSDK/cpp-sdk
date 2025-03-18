@@ -7,6 +7,8 @@
 
 #include <string>
 
+#include "horiba_cpp_sdk/devices/single_devices/spectracq3.h"
+
 namespace horiba::communication {
 class Communicator;
 } /* namespace horiba::communication */
@@ -61,7 +63,8 @@ class ICLDeviceManager final : public DeviceManager {
    *
    * @return connected monochromators
    */
-  std::vector<std::shared_ptr<horiba::devices::single_devices::Monochromator>>
+  [[nodiscard]] std::vector<
+      std::shared_ptr<horiba::devices::single_devices::Monochromator>>
   monochromators() const override;
 
   /**
@@ -69,9 +72,18 @@ class ICLDeviceManager final : public DeviceManager {
    *
    * @return connected ccds
    */
-  std::vector<
+  [[nodiscard]] std::vector<
       std::shared_ptr<horiba::devices::single_devices::ChargeCoupledDevice>>
   charge_coupled_devices() const override;
+
+  /**
+   * @brief The connected SpectrAcq3s
+   *
+   * @return connected SpectrAcq3s
+   */
+  [[nodiscard]] std::vector<
+      std::shared_ptr<horiba::devices::single_devices::SpectrAcq3>>
+  spectracq3_devices() const override;
 
  private:
   std::shared_ptr<horiba::os::Process> icl_process;
@@ -85,6 +97,8 @@ class ICLDeviceManager final : public DeviceManager {
   std::vector<
       std::shared_ptr<horiba::devices::single_devices::ChargeCoupledDevice>>
       ccds;
+  std::vector<std::shared_ptr<horiba::devices::single_devices::SpectrAcq3>>
+      spectracq3s;
 
   void enable_binary_messages_on_icl();
 };

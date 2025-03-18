@@ -8,8 +8,6 @@
 #include <nlohmann/json.hpp>
 #include <vector>
 
-// test
-
 namespace horiba::devices::single_devices {
 
 using namespace nlohmann;

@@ -7,6 +7,7 @@
 namespace horiba::devices::single_devices {
 class Monochromator;
 class ChargeCoupledDevice;
+class SpectrAcq3;
 } /* namespace horiba::devices::single_devices */
 
 namespace horiba::devices {
@@ -54,6 +55,15 @@ class DeviceManager {
   [[nodiscard]] virtual std::vector<
       std::shared_ptr<horiba::devices::single_devices::ChargeCoupledDevice>>
   charge_coupled_devices() const = 0;
+
+  /**
+   * @brief The connected SpectrAcq3s
+   *
+   * @return connected SpectrAcq3s
+   */
+  [[nodiscard]] virtual std::vector<
+      std::shared_ptr<horiba::devices::single_devices::SpectrAcq3>>
+  spectracq3_devices() const = 0;
 };
 } /* namespace horiba::devices */
 

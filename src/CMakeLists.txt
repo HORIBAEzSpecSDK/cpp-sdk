@@ -10,7 +10,8 @@ set(HORIBA_CPP_LIB_SOURCES
     devices/single_devices/ccd.cpp
     devices/single_devices/device.cpp
     devices/single_devices/mono.cpp
-    devices/single_devices/spectracq3.cpp)
+    devices/single_devices/spectracq3.cpp
+    devices/spectracq3s_discovery.cpp)
 
 set(HORIBA_CPP_LIB_HEADERS
     include/horiba_cpp_sdk/communication/command.h
@@ -22,6 +23,7 @@ set(HORIBA_CPP_LIB_HEADERS
     include/horiba_cpp_sdk/devices/device_manager.h
     include/horiba_cpp_sdk/devices/icl_device_manager.h
     include/horiba_cpp_sdk/devices/monos_discovery.h
+    include/horiba_cpp_sdk/devices/spectracq3s_discovery.h
     include/horiba_cpp_sdk/devices/single_devices/ccd.h
     include/horiba_cpp_sdk/devices/single_devices/device.h
     include/horiba_cpp_sdk/devices/single_devices/mono.h
