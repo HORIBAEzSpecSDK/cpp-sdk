@@ -43,3 +43,4 @@ Configuration examples:
 - [`gain_speed_info`](gain_speed_info/main.cpp): This example demonstrates how to create your own gain and speed enums based on
   the device's capabilities.
 - [`trigger`](trigger/main.cpp): This example demonstrates how to set a custom trigger.
+- [`spectracq3`](spectracq3/main.cpp): This example demonstrates how to interact with the SpectrAcq3 device.

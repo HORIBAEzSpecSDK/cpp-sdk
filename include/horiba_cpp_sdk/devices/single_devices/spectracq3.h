@@ -64,6 +64,12 @@ class AcquisitionSetParameters final {
 
 class SpectrAcq3 final : public Device {
  public:
+  enum class TriggerMode : int {
+    START_AND_INTERVAL = 1,
+    TRIGGER_AND_INTERVAL = 2,
+    WAIT_FOR_TRIGGER = 3,
+  };
+
   SpectrAcq3(int id, std::shared_ptr<communication::Communicator> communicator);
   ~SpectrAcq3() override = default;
 
