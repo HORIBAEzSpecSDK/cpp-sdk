@@ -21,9 +21,9 @@
 namespace horiba::os {
 class FakeProcess : public Process {
  public:
-  void start() { this->is_running = true; }
-  bool running() { return this->is_running; }
-  void stop() { this->is_running = false; }
+  void start() override { this->is_running = true; }
+  bool running() override { return this->is_running; }
+  void stop() override { this->is_running = false; }
 
  private:
   bool is_running = false;

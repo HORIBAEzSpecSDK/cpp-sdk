@@ -4,7 +4,6 @@
 #include <horiba_cpp_sdk/os/process.h>
 #include <spdlog/spdlog.h>
 
-#include <iostream>
 #include <nlohmann/json.hpp>
 
 #ifdef _WIN32
@@ -14,16 +13,16 @@
 namespace horiba::os {
 class FakeProcess : public Process {
  public:
-  void start() { this->is_running = true; }
-  bool running() { return this->is_running; }
-  void stop() { this->is_running = false; }
+  void start() override { this->is_running = true; }
+  bool running() override { return this->is_running; }
+  void stop() override { this->is_running = false; }
 
  private:
   bool is_running = false;
 };
 } /* namespace horiba::os */
 
-auto main(int argc, char *argv[]) -> int {
+auto main() -> int {
   using namespace nlohmann;
   using namespace horiba::devices;
   using namespace horiba::os;
@@ -56,7 +55,7 @@ auto main(int argc, char *argv[]) -> int {
   }
 
   spdlog::info("found {} CCDs", ccds.size());
-  const auto ccd = ccds[0];
+  const auto &ccd = ccds[0];
 
   try {
     ccd->open();
