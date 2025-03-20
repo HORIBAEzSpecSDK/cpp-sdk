@@ -252,8 +252,14 @@ class SpectrAcq3 final : public Device {
    */
   void set_in_trigger_mode(int mode) noexcept(false);
 
-  /* [saq3\_setTriggerInPolarity](#saq3_setTriggerInPolarity) */
-  /* [saq3\_getTriggerInPolarity](#saq3_getTriggerInPolarity) */
+  /**
+   * @brief Returns the acquisition trigger mode defined in @ref
+   * acquisition_start, as well as, the hardware input trigger mode defined in
+   * @ref set_in_trigger_mode
+   *
+   * @return trigger mode and hardware input trigger mode TODO: create enums
+   */
+  std::pair<int, int> get_in_trigger_mode() noexcept(false);
 
   /**
    * @brief Defines the polarity of the input trigger.

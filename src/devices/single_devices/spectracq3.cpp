@@ -35,51 +35,51 @@ bool SpectrAcq3::is_open() {
 
 bool SpectrAcq3::is_busy() {
   auto response = Device::execute_command(
-      communication::Command("saq3_is_busy", {{"id", Device::device_id()}}));
-  return response.json_results().at("is_busy").get<bool>();
+      communication::Command("saq3_isBusy", {{"id", Device::device_id()}}));
+  return response.json_results().at("isBusy").get<bool>();
 }
 
 std::string SpectrAcq3::get_firmware_version() {
   auto response = Device::execute_command(communication::Command(
-      "saq3_get_firmware_version", {{"id", Device::device_id()}}));
-  return response.json_results().at("firmware_version").get<std::string>();
+      "saq3_getFirmwareVersion", {{"id", Device::device_id()}}));
+  return response.json_results().at("firmwareVersion").get<std::string>();
 }
 
 std::string SpectrAcq3::get_fpga_version() {
   auto response = Device::execute_command(communication::Command(
-      "saq3_get_fpga_version", {{"id", Device::device_id()}}));
-  return response.json_results().at("FPGA_version").get<std::string>();
+      "saq3_getFpgaVersion", {{"id", Device::device_id()}}));
+  return response.json_results().at("FpgaVersion").get<std::string>();
 }
 
 std::string SpectrAcq3::get_board_revision() {
   auto response = Device::execute_command(communication::Command(
-      "saq3_get_board_revision", {{"id", Device::device_id()}}));
-  return response.json_results().at("board_revision").get<std::string>();
+      "saq3_getBoardRevision", {{"id", Device::device_id()}}));
+  return response.json_results().at("boardRevision").get<std::string>();
 }
 
 std::string SpectrAcq3::get_serial_number() {
   auto response = Device::execute_command(communication::Command(
-      "saq3_get_serial_number", {{"id", Device::device_id()}}));
-  return response.json_results().at("serial_number").get<std::string>();
+      "saq3_getSerialNumber", {{"id", Device::device_id()}}));
+  return response.json_results().at("serialNumber").get<std::string>();
 }
 
 void SpectrAcq3::set_hv_bias_voltage(int bias_voltage) {
   [[maybe_unused]] auto ignored_response =
       Device::execute_command(communication::Command(
           "saq3_setHVBiasVoltage",
-          {{"id", Device::device_id()}, {"bias_voltage", bias_voltage}}));
+          {{"id", Device::device_id()}, {"biasVoltage", bias_voltage}}));
 }
 
 int SpectrAcq3::get_hv_bias_voltage() {
   auto response = Device::execute_command(communication::Command(
       "saq3_getHVBiasVoltage", {{"id", Device::device_id()}}));
-  return response.json_results().at("bias_voltage").get<int>();
+  return response.json_results().at("biasVoltage").get<int>();
 }
 
 int SpectrAcq3::get_max_hv_voltage_allowed() {
   auto response = Device::execute_command(communication::Command(
       "saq3_getMaxHVVoltageAllowed", {{"id", Device::device_id()}}));
-  return response.json_results().at("bias_voltage").get<int>();
+  return response.json_results().at("biasVoltage").get<int>();
 }
 
 void SpectrAcq3::set_acquisition_set(int scan_count, int time_step,
@@ -87,10 +87,10 @@ void SpectrAcq3::set_acquisition_set(int scan_count, int time_step,
   [[maybe_unused]] auto ignored_response =
       Device::execute_command(communication::Command(
           "saq3_setAcqSet", {{"id", Device::device_id()},
-                             {"scan_count", scan_count},
-                             {"time_step", time_step},
-                             {"integration_time", integration_time},
-                             {"external_param", external_param}}));
+                             {"scanCount", scan_count},
+                             {"timeStep", time_step},
+                             {"integrationTime", integration_time},
+                             {"externalParam", external_param}}));
 }
 
 AcquisitionSetParameters SpectrAcq3::get_acquisition_set() {
@@ -98,10 +98,10 @@ AcquisitionSetParameters SpectrAcq3::get_acquisition_set() {
       communication::Command("saq3_getAcqSet", {{"id", Device::device_id()}}));
   auto json_results = response.json_results();
   return AcquisitionSetParameters{
-      json_results.at("scan_count").get<int>(),
-      std::chrono::seconds(json_results.at("time_step").get<int>()),
-      std::chrono::seconds(json_results.at("integration_time").get<int>()),
-      json_results.at("external_param").get<int>()};
+      json_results.at("scanCount").get<int>(),
+      std::chrono::seconds(json_results.at("timeStep").get<int>()),
+      std::chrono::seconds(json_results.at("integrationTime").get<int>()),
+      json_results.at("externalParam").get<int>()};
 }
 
 void SpectrAcq3::acquisition_start(int trigger) {
@@ -148,6 +148,19 @@ void SpectrAcq3::force_trigger() {
           "saq3_forceTrigger", {{"id", Device::device_id()}}));
 }
 
+void SpectrAcq3::set_in_trigger_mode(int mode) {
+  [[maybe_unused]] auto ignored_response = Device::execute_command(
+      communication::Command("saq3_setInTriggerMode",
+                             {{"id", Device::device_id()}, {"mode", mode}}));
+}
+
+std::pair<int, int> SpectrAcq3::get_in_trigger_mode() {
+  auto response = Device::execute_command(communication::Command(
+      "saq3_getInTriggerMode", {{"id", Device::device_id()}}));
+  return {response.json_results().at("inputTriggerMode").get<int>(),
+          response.json_results().at("scanStartMode").get<int>()};
+}
+
 void SpectrAcq3::set_trigger_in_polarity(int polarity) {
   [[maybe_unused]] auto ignored_response =
       Device::execute_command(communication::Command(
@@ -164,7 +177,7 @@ int SpectrAcq3::get_trigger_in_polarity() {
 std::string SpectrAcq3::get_last_error() {
   auto response = Device::execute_command(communication::Command(
       "saq3_getLastError", {{"id", Device::device_id()}}));
-  return response.json_results().at("last_error").get<std::string>();
+  return response.json_results().at("error").get<std::string>();
 }
 
 std::string SpectrAcq3::get_error_log() {
