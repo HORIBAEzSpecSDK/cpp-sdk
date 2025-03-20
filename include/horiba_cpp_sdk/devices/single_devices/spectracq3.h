@@ -133,25 +133,6 @@ class SpectrAcq3 final : public Device {
   std::string get_serial_number() noexcept(false);
 
   /**
-   * @brief Sets the integration time for the acquisition. If not set, the
-   * default value will be used.
-   *
-   * @note This parameter can be set using @see @ref define_acquisition_set()
-   *
-   * @param integration_time
-   */
-  void set_integration_time(std::chrono::seconds integration_time) noexcept(
-      false);
-
-  /**
-   * @brief Gets the integration time that was previously set. If no integration
-   * time has been explicitly set, the default value is returned.
-   *
-   * @return Integration time in seconds
-   */
-  std::chrono::seconds get_integration_time() noexcept(false);
-
-  /**
    * @brief Set the high bias voltage in Volts.
    *
    * TODO: check how and which default value
@@ -191,9 +172,8 @@ class SpectrAcq3 final : public Device {
    *
    * @throw std::runtime_error when an error occurred on the device side
    */
-  void define_acquisition_set(int scan_count, int time_step,
-                              int integration_time,
-                              int external_param) noexcept(false);
+  void set_acquisition_set(int scan_count, int time_step, int integration_time,
+                           int external_param) noexcept(false);
 
   /**
    * @brief Get the acquisition set parameters.
@@ -276,12 +256,19 @@ class SpectrAcq3 final : public Device {
   /* [saq3\_getTriggerInPolarity](#saq3_getTriggerInPolarity) */
 
   /**
-   * TODO: Needs clarification
-   * @brief Read the trigger mode
+   * @brief Defines the polarity of the input trigger.
    *
-   * @return
+   * @param polarity TODO: add int enum
    */
-  nlohmann::json get_trigger_mode() noexcept(false);
+  void set_trigger_in_polarity(int polarity) noexcept(false);
+
+  /**
+   * @brief Polarity of the input trigger.
+   *
+   * @return Returns the polarity of the input trigger.
+   */
+  int get_trigger_in_polarity() noexcept(false);
+
   std::string get_last_error() noexcept(false);
   std::string get_error_log() noexcept(false);
   void clear_error_log() noexcept(false);

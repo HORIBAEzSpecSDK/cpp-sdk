@@ -63,20 +63,6 @@ std::string SpectrAcq3::get_serial_number() {
   return response.json_results().at("serial_number").get<std::string>();
 }
 
-void SpectrAcq3::set_integration_time(std::chrono::seconds integration_time) {
-  [[maybe_unused]] auto ignored_response = Device::execute_command(
-      communication::Command("saq3_setIntegrationTime",
-                             {{"id", Device::device_id()},
-                              {"integration_time", integration_time.count()}}));
-}
-
-std::chrono::seconds SpectrAcq3::get_integration_time() {
-  auto response = Device::execute_command(communication::Command(
-      "saq3_getIntegrationTime", {{"id", Device::device_id()}}));
-  return std::chrono::seconds(
-      response.json_results().at("integration_time").get<int>());
-}
-
 void SpectrAcq3::set_hv_bias_voltage(int bias_voltage) {
   [[maybe_unused]] auto ignored_response =
       Device::execute_command(communication::Command(
@@ -96,16 +82,15 @@ int SpectrAcq3::get_max_hv_voltage_allowed() {
   return response.json_results().at("bias_voltage").get<int>();
 }
 
-void SpectrAcq3::define_acquisition_set(int scan_count, int time_step,
-                                        int integration_time,
-                                        int external_param) {
+void SpectrAcq3::set_acquisition_set(int scan_count, int time_step,
+                                     int integration_time, int external_param) {
   [[maybe_unused]] auto ignored_response =
       Device::execute_command(communication::Command(
-          "saq3_defineAcqSet", {{"id", Device::device_id()},
-                                {"scan_count", scan_count},
-                                {"time_step", time_step},
-                                {"integration_time", integration_time},
-                                {"external_param", external_param}}));
+          "saq3_setAcqSet", {{"id", Device::device_id()},
+                             {"scan_count", scan_count},
+                             {"time_step", time_step},
+                             {"integration_time", integration_time},
+                             {"external_param", external_param}}));
 }
 
 AcquisitionSetParameters SpectrAcq3::get_acquisition_set() {
@@ -163,16 +148,17 @@ void SpectrAcq3::force_trigger() {
           "saq3_forceTrigger", {{"id", Device::device_id()}}));
 }
 
-void SpectrAcq3::set_in_trigger_mode(int mode) {
-  [[maybe_unused]] auto ignored_response = Device::execute_command(
-      communication::Command("saq3_setInTriggerMode",
-                             {{"id", Device::device_id()}, {"mode", mode}}));
+void SpectrAcq3::set_trigger_in_polarity(int polarity) {
+  [[maybe_unused]] auto ignored_response =
+      Device::execute_command(communication::Command(
+          "saq3_setTriggerInPolarity",
+          {{"id", Device::device_id()}, {"polarity", polarity}}));
 }
 
-nlohmann::json SpectrAcq3::get_trigger_mode() {
+int SpectrAcq3::get_trigger_in_polarity() {
   auto response = Device::execute_command(communication::Command(
-      "saq3_getTriggerMode", {{"id", Device::device_id()}}));
-  return response.json_results();
+      "saq3_getTriggerInPolarity", {{"id", Device::device_id()}}));
+  return response.json_results().at("polarity").get<int>();
 }
 
 std::string SpectrAcq3::get_last_error() {
