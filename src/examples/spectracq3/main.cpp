@@ -99,9 +99,9 @@ auto main() -> int {
     cout << "Firmware version: " << firmware_version << "\n";
 
     // do and acquisition
-    constexpr auto scan_count = 40;
-    constexpr auto time_step = 1;
-    constexpr auto integration_time = 5;
+    constexpr auto scan_count = 10;
+    constexpr auto time_step = 0;
+    constexpr auto integration_time = 1;
     constexpr auto external_param = 0;
 
     spectracq3->set_acquisition_set(scan_count, time_step, integration_time,
@@ -126,10 +126,10 @@ auto main() -> int {
     auto voltage_signals = std::vector<double>();
 
     for (const auto &record : data) {
-      time_stamps.push_back(record.at("timeStamp").get<double>());
-      current_signals.push_back(record.at("currentSignal").get<double>());
-      pmt_signals.push_back(record.at("pmtSignal").get<double>());
-      voltage_signals.push_back(record.at("voltageSignal").get<double>());
+      time_stamps.push_back(record["elapsedTime"].get<double>());
+      current_signals.push_back(record["currentSignal"]["value"].get<double>());
+      pmt_signals.push_back(record["pmtSignal"]["value"].get<double>());
+      voltage_signals.push_back(record["voltageSignal"]["value"].get<double>());
     }
 
     plot_spectral_data(time_stamps, current_signals, pmt_signals,
