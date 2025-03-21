@@ -36,7 +36,8 @@ auto plot_spectral_data(const std::vector<double> &time_stamps,
                         const std::vector<double> &voltage_signals) -> void {
   using namespace matplot;
 
-  figure();
+  auto fig = figure(true);
+  fig->size(800, 900);
 
   subplot(3, 1, 1);
   plot(time_stamps, current_signals, "b-");
@@ -107,9 +108,11 @@ auto main() -> int {
     spectracq3->set_acquisition_set(scan_count, time_step, integration_time,
                                     external_param);
     spectracq3->acquisition_start(1);
-    while (spectracq3->is_busy()) {
-      std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
+    // TODO: uncomment as soon as saq3_isBusy works as expected
+    /* while (spectracq3->is_busy()) { */
+    /*   std::this_thread::sleep_for(std::chrono::seconds(1)); */
+    /* } */
+    std::this_thread::sleep_for(std::chrono::seconds(15));
 
     if (!spectracq3->is_data_available()) {
       cout << "ERROR: No data available!\n";
@@ -118,7 +121,7 @@ auto main() -> int {
       return 1;
     }
 
-    auto data = spectracq3->get_available_data();
+    auto data = spectracq3->get_acquisition_data();
 
     auto time_stamps = std::vector<double>();
     auto current_signals = std::vector<double>();

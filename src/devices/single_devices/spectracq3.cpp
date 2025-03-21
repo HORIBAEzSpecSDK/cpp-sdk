@@ -6,7 +6,6 @@
 #include <chrono>
 #include <memory>
 #include <nlohmann/json.hpp>
-#include <vector>
 
 namespace horiba::devices::single_devices {
 
@@ -133,14 +132,10 @@ bool SpectrAcq3::is_data_available() {
   return response.json_results().at("isDataAvailable").get<bool>();
 }
 
-std::vector<nlohmann::json> SpectrAcq3::get_available_data() {
+nlohmann::json SpectrAcq3::get_acquisition_data() {
   auto response = Device::execute_command(communication::Command(
       "saq3_getAvailableData", {{"index", Device::device_id()}}));
-  std::vector<nlohmann::json> data;
-  for (const auto& record : response.json_results().at("data")) {
-    data.push_back(record);
-  }
-  return data;
+  return response.json_results()["data"];
 }
 
 void SpectrAcq3::force_trigger() {

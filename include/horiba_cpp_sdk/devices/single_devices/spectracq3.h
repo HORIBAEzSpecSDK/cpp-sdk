@@ -235,7 +235,7 @@ class SpectrAcq3 final : public Device {
    *
    * @return TODO create class or return json?
    */
-  std::vector<nlohmann::json> get_available_data() noexcept(false);
+  nlohmann::json get_acquisition_data() noexcept(false);
 
   /**
    * @brief Software Trigger, treated the same as Hardware Trigger (IN).
