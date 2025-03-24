@@ -1,4 +1,3 @@
-
 #include <horiba_cpp_sdk/communication/command.h>
 #include <horiba_cpp_sdk/communication/websocket_communicator.h>
 #include <horiba_cpp_sdk/devices/single_devices/ccd.h>
