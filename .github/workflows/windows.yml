@@ -41,7 +41,7 @@ jobs:
           opencppcoverage: true
 
       - name: configure
-        run: cmake -S . -B build
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 
       - name: build
         run: cmake --build build --config Debug -j4
