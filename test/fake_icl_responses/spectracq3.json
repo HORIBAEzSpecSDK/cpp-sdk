@@ -1,0 +1,270 @@
+{
+  "saq3_discover": {
+    "id": 1234,
+    "command": "saq3_discover",
+    "results": {
+      "count": 1
+    },
+    "errors": []
+  },
+  "saq3_list": {
+    "command": "saq3_list",
+    "errors": [],
+    "id": 1234,
+    "results": {
+      "devices": [
+        {
+          "deviceType": "SpectrAcq3",
+          "index": 0,
+          "productId": 42,
+          "serialNumber": "SAQ3_SN_12345"
+        }
+      ]
+    }
+  },
+  "saq3_listCount": {
+    "id": 1234,
+    "command": "saq3_listCount",
+    "results": {
+      "count": 2
+    },
+    "errors": []
+  },
+  "saq3_open": {
+    "id": 1234,
+    "command": "saq3_open",
+    "errors": [],
+    "results": {}
+  },
+  "saq3_close": {
+    "id": 1234,
+    "command": "saq3_close",
+    "errors": [],
+    "results": {}
+  },
+  "saq3_isOpen": {
+    "id": 1234,
+    "command": "saq3_isOpen",
+    "results": {
+      "open": true
+    },
+    "errors": []
+  },
+  "saq3_isBusy": {
+    "id": 1234,
+    "command": "saq3_isBusy",
+    "results": {
+      "open": true
+    },
+    "errors": []
+  },
+  "saq3_getFPGAVersion": {
+    "command": "saq3_getFPGAVersion",
+    "errors": [],
+    "id": 1234,
+    "results": {
+      "FpgaVersion" : "3.2.0"
+    }
+  },
+  "saq3_getBoardRevision": {
+    "command": "saq3_getBoardRevision",
+    "errors": [],
+    "id": 1234,
+    "results": {
+      "boardRevision" : "B"
+    }
+  },
+  "saq3_getSerialNumber": {
+    "command": "saq3_getSerialNumber",
+    "errors": [],
+    "id": 1234,
+    "results": {
+      "serialNumber" : "123456SN"
+    }
+  },
+  "saq3_setHVBiasVoltage": {
+    "command": "saq3_setHVBiasVoltage",
+    "errors": [],
+    "id": 1234,
+    "results": {}
+  },
+  "saq3_getHVBiasVoltage": {
+    "command": "saq3_getHVBiasVoltage",
+    "errors": [],
+    "id": 1234,
+    "results": {
+      "biasVoltage": 50
+    }
+  },
+  "saq3_getMaxHVVoltageAllowed": {
+    "command": "saq3_getMaxHVVoltageAllowed",
+    "errors": [],
+    "id": 1234,
+    "results": {
+      "biasVoltage": 100
+    }
+  },
+  "saq3_setAcqSet": {
+    "command": "saq3_setAcqSet",
+    "errors": [],
+    "id": 1234,
+    "results": {}
+  },
+  "saq3_getAcqSet": {
+    "command": "saq3_getAcqSet",
+    "errors": [],
+    "id": 1234,
+    "results": {
+      "scanCount": 10,
+      "timeStep": 1,
+      "integrationTime": 10,
+      "externalParam": 0
+    }
+  },
+  "saq3_acqStart": {
+    "command": "saq3_acqStart",
+    "errors": [],
+    "id": 1234,
+    "results": {}
+  },
+  "saq3_acqStop": {
+    "command": "saq3_acqStop",
+    "errors": [],
+    "id": 1234,
+    "results": {}
+  },
+  "saq3_acqPause": {
+    "command": "saq3_acqPause",
+    "errors": [],
+    "id": 1234,
+    "results": {}
+  },
+  "saq3_acqContinue": {
+    "command": "saq3_acqContinue",
+    "errors": [],
+    "id": 1234,
+    "results": {}
+  },
+  "saq3_isDataAvailable": {
+    "command": "saq3_isDataAvailable",
+    "errors": [],
+    "id": 1234,
+    "results": {
+      "isDataAvailable" : false
+    }
+  },
+  "saq3_isDataAvailable": {
+    "command": "saq3_getAvailableData",
+    "errors": [],
+    "id": 1234,
+    "results": {
+      "data":
+      [
+        {
+          "currentSignal": {
+          "unit": "uAmps",
+          "value": 9.15133285522461
+          },
+          "elapsedTime": 0,
+          "eventMarker": false,
+          "overscaleCurrentChannel": false,
+          "overscaleVoltageChannel": false,
+          "pmtSignal": {
+          "unit": "Counts/Second",
+          "value": 436278
+          },
+          "pointNumber": 0,
+          "ppdSignal": {
+          "unit": "Counts/Second",
+          "value": 0
+          },
+          "voltageSignal": {
+          "unit": "Volts",
+          "value": -0.3545374572277069
+          }
+        },
+        {
+          "currentSignal": {
+          "unit": "uAmps",
+          "value": 9.151333808898926
+          },
+          "elapsedTime": 500,
+          "event_marker": false,
+          "overscaleCurrentChannel": false,
+          "overscaleVoltageChannel": false,
+          "pmtSignal": {
+          "unit": "Counts/Second",
+          "value": 437530
+          },
+          "pointNumber": 1,
+          "ppdSignal": {
+          "unit": "Counts/Second",
+          "value": 0
+          },
+          "voltageSignal": {
+          "unit": "Volts",
+          "value": -0.35507217049598694
+          }
+        }
+      ]
+    }
+  },
+  "saq3_forceTrigger": {
+    "command": "saq3_forceTrigger",
+    "errors": [],
+    "id": 1234,
+    "results": {}
+  },
+  "saq3_setTriggerInPolarity": {
+    "command": "saq3_setTriggerInPolarity",
+    "errors": [],
+    "id": 1234,
+    "results": {}
+  },
+  "saq3_getTriggerInPolarity": {
+    "command": "saq3_getTriggerInPolarity",
+    "errors": [],
+    "id": 1234,
+    "results": {
+      "polarity": 1
+    }
+  },
+  "saq3_setInTriggerMode": {
+    "command": "saq3_setInTriggerMode",
+    "errors": [],
+    "id": 1234,
+    "results": {}
+  },
+  "saq3_getInTriggerMode": {
+    "command": "saq3_getInTriggerMode",
+    "errors": [],
+    "id": 1234,
+    "results": {
+      "inputTriggerMode": 1,
+      "scanStartMode" : 1
+    }
+  },
+  "saq3_getLastError": {
+    "command": "saq3_getLastError",
+    "errors": [],
+    "id": 1234,
+    "results": {
+        "error": "[E];-900;Acquisition still running!!!"
+    }
+  },
+  "saq3_getErrorLog": {
+    "command": "saq3_getErrorLog",
+    "errors": [],
+    "id": 1234,
+    "results": {
+        "errors": "[E];-900;Acquisition still running!!!"
+    }
+  },
+  "saq3_clearErrorLog": {
+    "command": "saq3_clearErrorLog",
+    "errors": [],
+    "id": 1234,
+    "results": {}
+  }
+}
+
