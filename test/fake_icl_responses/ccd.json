@@ -468,13 +468,13 @@
       "isBusy": false
     }
   },
-  "ccd_setAcquisitionStart": {
+  "ccd_acquisitionStart": {
     "command": "ccd_setAcquisitionStart",
     "errors": [],
     "id": 1234,
     "results": {}
   },
-  "ccd_setAcquisitionAbort": {
+  "ccd_acquisitionAbort": {
     "command": "ccd_setAcquisitionAbort",
     "errors": [],
     "id": 1234,
