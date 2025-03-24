@@ -4,6 +4,7 @@
 #include <horiba_cpp_sdk/communication/communicator.h>
 #include <horiba_cpp_sdk/devices/single_devices/device.h>
 
+#include <nlohmann/json.hpp>
 #include <string>
 
 namespace horiba::devices::single_devices {
@@ -129,7 +130,7 @@ class Monochromator final : public Device {
    *
    * @throw std::runtime_error when an error occurred on the device side
    */
-  std::string configuration() noexcept(false);
+  nlohmann::json configuration() noexcept(false);
 
   /**
    * @brief Current wavelength of the monochromator's position in nm.

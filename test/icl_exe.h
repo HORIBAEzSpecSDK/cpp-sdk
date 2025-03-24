@@ -28,6 +28,7 @@ class ICLExe {
 
   void start() {
 #if _WIN32
+    spdlog::debug("[ICLExe] starting {}...", ICL_EXE_NAME);
     this->icl_process = std::make_shared<horiba::os::WindowsProcess>(
         ICL_EXE_PATH, ICL_EXE_NAME);
     this->icl_process->start();

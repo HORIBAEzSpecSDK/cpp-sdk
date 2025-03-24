@@ -28,8 +28,8 @@ void SpectrAcq3::close() {
 
 bool SpectrAcq3::is_open() {
   auto response = Device::execute_command(
-      communication::Command("saq3_is_open", {{"index", Device::device_id()}}));
-  return response.json_results().at("is_open").get<bool>();
+      communication::Command("saq3_isOpen", {{"index", Device::device_id()}}));
+  return response.json_results().at("open").get<bool>();
 }
 
 bool SpectrAcq3::is_busy() {
@@ -46,7 +46,7 @@ std::string SpectrAcq3::get_firmware_version() {
 
 std::string SpectrAcq3::get_fpga_version() {
   auto response = Device::execute_command(communication::Command(
-      "saq3_getFpgaVersion", {{"index", Device::device_id()}}));
+      "saq3_getFPGAVersion", {{"index", Device::device_id()}}));
   return response.json_results().at("FpgaVersion").get<std::string>();
 }
 

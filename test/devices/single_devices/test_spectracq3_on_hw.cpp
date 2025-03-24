@@ -28,12 +28,14 @@ TEST_CASE_METHOD(ICLExe, "SpectrAcq3 test on HW", "[spectracq3_hw]") {
 
   start();
 
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+
   // arrange
   auto websocket_communicator =
       std::make_shared<WebSocketCommunicator>("127.0.0.1", "25010");
   websocket_communicator->open();
   auto _ignored_response =
-      websocket_communicator->request_with_response(Command("ccd_discover"));
+      websocket_communicator->request_with_response(Command("saq3_discover"));
   auto spectracq3 = SpectrAcq3(0, websocket_communicator);
 
   SECTION("SpectrAcq3 can be opened") {
