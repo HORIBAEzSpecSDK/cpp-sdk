@@ -20,16 +20,16 @@
 namespace horiba::os {
 class FakeProcess : public Process {
  public:
-  void start() { this->is_running = true; }
-  bool running() { return this->is_running; }
-  void stop() { this->is_running = false; }
+  void start() override { this->is_running = true; }
+  bool running() override { return this->is_running; }
+  void stop() override { this->is_running = false; }
 
  private:
   bool is_running = false;
 };
 } /* namespace horiba::os */
 
-auto main(int argc, char *argv[]) -> int {
+auto main() -> int {
   using namespace nlohmann;
   using namespace horiba::devices;
   using namespace horiba::os;
@@ -54,13 +54,13 @@ auto main(int argc, char *argv[]) -> int {
   const auto ccds = icl_device_manager.charge_coupled_devices();
 
   if (ccds.empty()) {
-    cout << "No CCDs found" << "\n";
+    cout << "No CCDs found"
+         << "\n";
     icl_device_manager.stop();
     return 1;
   }
 
   const auto &ccd = ccds[0];
-  const auto timeout = std::chrono::seconds(180);
 
   try {
     ccd->open();
@@ -69,7 +69,8 @@ auto main(int argc, char *argv[]) -> int {
         ChargeCoupledDevice::XAxisConversionType::FROM_CCD_FIRMWARE);
     ccd->set_acquisition_format(
         1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
-    ccd->set_exposure_time(chrono::milliseconds(1000).count());
+    constexpr auto exposure_time = chrono::milliseconds(1000);
+    ccd->set_exposure_time(exposure_time.count());
     ccd->set_region_of_interest();
     ccd->set_trigger_input(true, 0, 0, 1);
 
@@ -79,8 +80,9 @@ auto main(int argc, char *argv[]) -> int {
       // wait a short time for the acquisition to start
       this_thread::sleep_for(chrono::seconds(1));
 
+      constexpr auto sleep_time = chrono::milliseconds(500);
       while (ccd->get_acquisition_busy()) {
-        this_thread::sleep_for(chrono::milliseconds(500));
+        this_thread::sleep_for(sleep_time);
         ccd->abort_acquisition();
       }
 
@@ -88,8 +90,9 @@ auto main(int argc, char *argv[]) -> int {
 
       vector<double> x_values = raw_data[0]["roi"][0]["xData"];
       vector<int> y_values = raw_data[0]["roi"][0]["yData"][0];
-      cout << "Data" << "\n";
-      for (int i = 0; i < x_values.size(); i++) {
+      cout << "Data"
+           << "\n";
+      for (size_t i = 0; i < x_values.size(); i++) {
         cout << "x: " << x_values[i] << ", y: " << y_values[i] << "\n";
       }
     }

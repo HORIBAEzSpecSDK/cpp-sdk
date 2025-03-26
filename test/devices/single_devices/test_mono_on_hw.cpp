@@ -5,7 +5,9 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 #include <catch2/matchers/catch_matchers_string.hpp>
+#include <chrono>
 #include <cstdlib>
+#include <thread>
 
 #include "../../icl_exe.h"
 
@@ -30,6 +32,8 @@ TEST_CASE_METHOD(ICLExe, "Mono test on HW", "[mono_hw]") {
 
   // From the fixture ICLExe
   start();
+
+  std::this_thread::sleep_for(std::chrono::seconds(1));
 
   // arrange
   auto websocket_communicator =
@@ -158,6 +162,12 @@ TEST_CASE_METHOD(ICLExe, "Mono test on HW", "[mono_hw]") {
   SECTION("Mono can change filter wheel position") {
     // arrange
     mono.open();
+    auto config = mono.configuration();
+    if (config["filterWheels"].empty()) {
+      SUCCEED("Skipped: Filter wheel is not supported by this mono");
+      return;
+    }
+
     const auto filter_wheel = Monochromator::FilterWheel::FIRST;
     const auto expected_filter_wheel_position_before =
         Monochromator::FilterWheelPosition::RED;

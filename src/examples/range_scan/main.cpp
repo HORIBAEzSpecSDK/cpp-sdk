@@ -10,15 +10,14 @@
 
 #include <algorithm>
 #include <chrono>
-#include <cmath>
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <thread>
 #include <vector>
 
-#include "labspec6_spectra_stitch.h"
+// #include "labspec6_spectra_stitch.h"
 #include "linear_spectra_stitch.h"
-#include "simple_cut_spectra_stitch.h"
+// #include "simple_cut_spectra_stitch.h"
 
 #ifdef _WIN32
 #include <horiba_cpp_sdk/os/windows_process.h>
@@ -60,10 +59,10 @@ auto main() -> int {
   icl_device_manager.discover_devices();
 
   const auto ccds = icl_device_manager.charge_coupled_devices();
-  const auto ccd = ccds[0];
+  const auto &ccd = ccds[0];
 
   const auto monos = icl_device_manager.monochromators();
-  const auto mono = monos[0];
+  const auto &mono = monos[0];
   const auto timeout = std::chrono::seconds(180);
 
   try {
@@ -116,10 +115,11 @@ auto main() -> int {
         auto open_shutter = true;
         ccd->set_acquisition_start(open_shutter);
         // wait a short time for the acquisition to start
-        this_thread::sleep_for(chrono::milliseconds(200));
+        constexpr auto sleep_time = chrono::milliseconds(500);
+        this_thread::sleep_for(sleep_time);
 
         while (ccd->get_acquisition_busy()) {
-          this_thread::sleep_for(chrono::milliseconds(500));
+          this_thread::sleep_for(sleep_time);
         }
 
         auto raw_data = any_cast<json>(ccd->get_acquisition_data());

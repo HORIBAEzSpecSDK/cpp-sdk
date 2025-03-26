@@ -39,6 +39,7 @@ add_executable(
   devices/single_devices/test_ccd_on_hw.cpp
   devices/single_devices/test_mono.cpp
   devices/single_devices/test_mono_on_hw.cpp
+  devices/single_devices/test_spectracq3_on_hw.cpp
   devices/test_ccds_discovery.cpp
   devices/test_monos_discovery.cpp
   devices/test_icl_device_manager.cpp)

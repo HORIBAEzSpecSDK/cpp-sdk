@@ -29,7 +29,7 @@ function(horiba_cpp_sdk_setup_dependencies)
   # Used only in the examples
   if(NOT TARGET Matplot++::matplot)
     message(STATUS "Matplot++ not added already, adding it as a CPM package")
-    CPMAddPackage("gh:alandefreitas/matplotplusplus@1.2.1")
+    CPMAddPackage("gh:alandefreitas/matplotplusplus@1.2.2")
   endif()
 
   if(NOT TARGET Boost::beast)

@@ -23,16 +23,16 @@
 namespace horiba::os {
 class FakeProcess : public Process {
  public:
-  void start() { this->is_running = true; }
-  bool running() { return this->is_running; }
-  void stop() { this->is_running = false; }
+  void start() override { this->is_running = true; }
+  bool running() override { return this->is_running; }
+  void stop() override { this->is_running = false; }
 
  private:
   bool is_running = false;
 };
 } /* namespace horiba::os */
 
-auto main(int argc, char *argv[]) -> int {
+auto main() -> int {
   using namespace nlohmann;
   using namespace horiba::devices;
   using namespace horiba::examples;
@@ -71,7 +71,8 @@ auto main(int argc, char *argv[]) -> int {
         ChargeCoupledDevice::XAxisConversionType::FROM_CCD_FIRMWARE);
     ccd->set_acquisition_format(
         1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
-    ccd->set_exposure_time(chrono::milliseconds(5).count());
+    constexpr auto exposure_time = chrono::milliseconds(5);
+    ccd->set_exposure_time(exposure_time.count());
     ccd->set_timer_resolution(
         ChargeCoupledDevice::TimerResolution::THOUSAND_MICROSECONDS);
     ccd->set_region_of_interest();
@@ -82,14 +83,15 @@ auto main(int argc, char *argv[]) -> int {
       // wait a short time for the acquisition to start
       this_thread::sleep_for(chrono::seconds(1));
 
+      constexpr auto sleep_time = chrono::milliseconds(500);
       while (ccd->get_acquisition_busy()) {
-        this_thread::sleep_for(chrono::milliseconds(500));
+        this_thread::sleep_for(sleep_time);
       }
 
       auto raw_data = any_cast<json>(ccd->get_acquisition_data());
       vector<double> x_values = raw_data[0]["roi"][0]["xData"];
       vector<double> y_values = raw_data[0]["roi"][0]["yData"][0];
-      double excitation_wavelength = 520.0;
+      const double excitation_wavelength = 520.0;
       auto raman_shift = RamanShift(x_values, excitation_wavelength);
       auto x_values_raman_shift = raman_shift.compute();
 

@@ -21,16 +21,16 @@
 namespace horiba::os {
 class FakeProcess : public Process {
  public:
-  void start() { this->is_running = true; }
-  bool running() { return this->is_running; }
-  void stop() { this->is_running = false; }
+  void start() override { this->is_running = true; }
+  bool running() override { return this->is_running; }
+  void stop() override { this->is_running = false; }
 
  private:
   bool is_running = false;
 };
 } /* namespace horiba::os */
 
-auto main(int argc, char *argv[]) -> int {
+auto main() -> int {
   using namespace nlohmann;
   using namespace horiba::devices;
   using namespace horiba::os;
@@ -82,7 +82,8 @@ auto main(int argc, char *argv[]) -> int {
     // ccd configuration
     ccd->set_acquisition_count(1);
     ccd->set_center_wavelength(mono->device_id(), target_wavelength);
-    ccd->set_exposure_time(chrono::milliseconds(1000).count());
+    constexpr auto exposure_time = chrono::milliseconds(1000);
+    ccd->set_exposure_time(exposure_time.count());
     ccd->set_gain(0);   // Hight Light
     ccd->set_speed(2);  // 1 MHz Ultra
     ccd->set_timer_resolution(
@@ -101,8 +102,9 @@ auto main(int argc, char *argv[]) -> int {
       // wait a short time for the acquisition to start
       this_thread::sleep_for(chrono::seconds(1));
 
+      constexpr auto sleep_time = chrono::milliseconds(500);
       while (ccd->get_acquisition_busy()) {
-        this_thread::sleep_for(chrono::milliseconds(500));
+        this_thread::sleep_for(sleep_time);
       }
 
       auto raw_data = any_cast<json>(ccd->get_acquisition_data());
@@ -119,8 +121,9 @@ auto main(int argc, char *argv[]) -> int {
       // wait a short time for the acquisition to start
       this_thread::sleep_for(chrono::seconds(1));
 
+      constexpr auto sleep_time = chrono::milliseconds(500);
       while (ccd->get_acquisition_busy()) {
-        this_thread::sleep_for(chrono::milliseconds(500));
+        this_thread::sleep_for(sleep_time);
       }
 
       auto raw_data = any_cast<json>(ccd->get_acquisition_data());

@@ -1,10 +1,6 @@
+#include <horiba_cpp_sdk/communication/command.h>
 #include <horiba_cpp_sdk/devices/single_devices/ccd.h>
 #include <spdlog/spdlog.h>
-
-#include <sstream>
-#include <unordered_map>
-
-#include "horiba_cpp_sdk/communication/command.h"
 
 namespace horiba::devices::single_devices {
 

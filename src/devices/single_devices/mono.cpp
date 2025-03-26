@@ -46,11 +46,11 @@ bool Monochromator::initialized() {
   return json_results.at("initialized").get<bool>();
 }
 
-std::string Monochromator::configuration() {
+nlohmann::json Monochromator::configuration() {
   auto response = Device::execute_command(communication::Command(
       "mono_getConfig", {{"index", Device::device_id()}}));
   auto json_results = response.json_results();
-  return json_results.dump();
+  return json_results["configuration"];
 }
 
 double Monochromator::get_current_wavelength() {

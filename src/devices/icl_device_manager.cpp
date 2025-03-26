@@ -14,6 +14,8 @@
 #include <utility>
 #include <vector>
 
+#include "horiba_cpp_sdk/devices/spectracq3s_discovery.h"
+
 namespace horiba::devices {
 ICLDeviceManager::ICLDeviceManager(
     std::shared_ptr<horiba::os::Process> icl_process, std::string websocket_ip,
@@ -81,6 +83,12 @@ void ICLDeviceManager::discover_devices(bool error_on_no_device) {
 
   monochromators_discovery.execute(error_on_no_device);
   this->monos = monochromators_discovery.monochromators();
+
+  SpectrAcq3sDiscovery spectracq3s_discovery =
+      SpectrAcq3sDiscovery(this->communicator);
+
+  spectracq3s_discovery.execute(error_on_no_device);
+  this->spectracq3s = spectracq3s_discovery.spectracq3s();
 }
 
 std::vector<std::shared_ptr<horiba::devices::single_devices::Monochromator>>
@@ -92,6 +100,11 @@ std::vector<
     std::shared_ptr<horiba::devices::single_devices::ChargeCoupledDevice>>
 ICLDeviceManager::charge_coupled_devices() const {
   return this->ccds;
+}
+
+std::vector<std::shared_ptr<horiba::devices::single_devices::SpectrAcq3>>
+ICLDeviceManager::spectracq3_devices() const {
+  return this->spectracq3s;
 }
 
 void ICLDeviceManager::enable_binary_messages_on_icl() {

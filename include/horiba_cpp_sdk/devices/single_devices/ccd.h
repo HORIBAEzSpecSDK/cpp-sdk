@@ -570,8 +570,6 @@ class ChargeCoupledDevice final : public Device {
   std::vector<double> range_mode_center_wavelenghts(
       int monochromator_id, double start_wavelength, double end_wavelength,
       double pixel_overlap) noexcept(false);
-
- private:
 };
 } /* namespace horiba::devices::single_devices */
 #endif /* ifndef CCD_H */

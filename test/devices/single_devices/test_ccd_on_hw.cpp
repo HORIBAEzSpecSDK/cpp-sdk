@@ -1,4 +1,3 @@
-
 #include <horiba_cpp_sdk/communication/command.h>
 #include <horiba_cpp_sdk/communication/websocket_communicator.h>
 #include <horiba_cpp_sdk/devices/single_devices/ccd.h>
@@ -29,6 +28,8 @@ TEST_CASE_METHOD(ICLExe, "CCD test on HW", "[ccd_hw]") {
   }
 
   start();
+
+  std::this_thread::sleep_for(std::chrono::seconds(1));
 
   // arrange
   auto websocket_communicator =
@@ -369,7 +370,7 @@ TEST_CASE_METHOD(ICLExe, "CCD test on HW", "[ccd_hw]") {
                                ChargeCoupledDevice::AcquisitionFormat::IMAGE);
 
     // act
-    ccd.set_region_of_interest(0, 0, 0, 1000, 200, 1, 200);
+    ccd.set_region_of_interest(1, 0, 0, 1000, 200, 1, 200);
     if (ccd.get_acquisition_ready()) {
       ccd.set_acquisition_start(true);
 
@@ -439,6 +440,7 @@ TEST_CASE_METHOD(ICLExe, "CCD test on HW", "[ccd_hw]") {
   SECTION("CCD get acquisition ready") {
     // arrange
     ccd.open();
+    REQUIRE_NOTHROW(ccd.set_region_of_interest());
 
     // act
     auto acquisition_ready = ccd.get_acquisition_ready();
