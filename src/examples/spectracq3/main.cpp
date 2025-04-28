@@ -12,6 +12,7 @@
 #include <chrono>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include <string>
 #include <thread>
 
 #ifdef _WIN32
@@ -30,33 +31,23 @@ class FakeProcess : public Process {
 };
 } /* namespace horiba::os */
 
-auto plot_spectral_data(const std::vector<double> &time_stamps,
-                        const std::vector<double> &current_signals,
-                        const std::vector<double> &pmt_signals,
-                        const std::vector<double> &voltage_signals) -> void {
+auto plot_spectral_data(const int start_wavelength, const int end_wavelength,
+                        const std::vector<int> &x_data,
+                        const std::vector<double> &y_data) -> void {
   using namespace matplot;
 
   auto fig = figure(true);
   fig->size(800, 900);
 
-  subplot(3, 1, 1);
-  plot(time_stamps, current_signals, "b-");
-  xlabel("Elapsed Time (ms)");
-  ylabel("Current (uAmps)");
-  title("Current Signal vs Elapsed Time");
+  plot(x_data, y_data, "b-");
 
-  subplot(3, 1, 2);
-  plot(time_stamps, pmt_signals, "g-");
-  xlabel("Elapsed Time (ms)");
-  ylabel("PMT Signal (Counts/sec)");
-  title("PMT Signal vs Elapsed Time");
-
-  subplot(3, 1, 3);
-  plot(time_stamps, voltage_signals, "r-");
-  xlabel("Elapsed Time (ms)");
-  ylabel("Voltage (Volts)");
-  title("Voltage Signal vs Elapsed Time");
-
+  xlabel("wavelength (nm)");
+  ylabel("current (nA)");
+  auto plot_title = "Spectral data for range " +
+                    std::to_string(start_wavelength) + "-" +
+                    std::to_string(end_wavelength) + "[nm]";
+  title(plot_title);
+  grid(true);
   show();
 }
 
@@ -91,7 +82,16 @@ auto main() -> int {
   }
   const auto &spectracq3 = spectracq3s[0];
 
+  const auto monos = icl_device_manager.monochromators();
+  if (monos.empty()) {
+    cout << "No monochromators found\n";
+    icl_device_manager.stop();
+    return 1;
+  }
+  const auto &mono = monos[0];
+
   try {
+    mono->open();
     spectracq3->open();
 
     auto serial_number = spectracq3->get_serial_number();
@@ -99,54 +99,73 @@ auto main() -> int {
     auto firmware_version = spectracq3->get_firmware_version();
     cout << "Firmware version: " << firmware_version << "\n";
 
-    // do and acquisition
-    constexpr auto scan_count = 10;
+    // do an acquisition
+    constexpr auto start_wavelength = 490;
+    constexpr auto end_wavelength = 520;
+    constexpr auto increment_wavelength = 3;
+    std::vector<int> wavelengths;
+    for (int wavelength :
+         std::views::iota(start_wavelength, end_wavelength + 1)) {
+      if ((wavelength - start_wavelength) % increment_wavelength == 0) {
+        wavelengths.push_back(wavelength);
+      }
+    }
+
+    constexpr auto scan_count = 1;
     constexpr auto time_step = 0;
     constexpr auto integration_time = 1;
     constexpr auto external_param = 0;
-
     spectracq3->set_acquisition_set(scan_count, time_step, integration_time,
                                     external_param);
-    spectracq3->acquisition_start(1);
-    // TODO: uncomment as soon as saq3_isBusy works as expected
-    /* while (spectracq3->is_busy()) { */
-    /*   std::this_thread::sleep_for(std::chrono::seconds(1)); */
-    /* } */
-    std::this_thread::sleep_for(std::chrono::seconds(15));
 
-    if (!spectracq3->is_data_available()) {
-      cout << "ERROR: No data available!\n";
-      spectracq3->close();
-      icl_device_manager.stop();
-      return 1;
+    std::vector<int> x_data(wavelengths.begin(), wavelengths.end());
+    std::vector<double> y_data_current;
+    std::vector<double> y_data_voltage;
+    std::vector<double> y_data_counts;
+
+    for (const auto &wavelength : wavelengths) {
+      mono->move_to_target_wavelength(wavelength);
+      while (mono->is_busy()) {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+      }
+      cout << "Moved Mono to wavelength: " << wavelength << "\n";
+
+      spectracq3->acquisition_start(1);
+      std::this_thread::sleep_for(std::chrono::seconds(3));
+      /* while (spectracq3->is_busy()) { */
+      /*   std::this_thread::sleep_for(std::chrono::seconds(1)); */
+      /*   cout << "Acquisition in progress...\n"; */
+      /* } */
+      if (!spectracq3->is_data_available()) {
+        cout << "ERROR: No data available!\n";
+        spectracq3->close();
+        mono->close();
+        icl_device_manager.stop();
+        return 1;
+      }
+      auto data = spectracq3->get_acquisition_data();
+      cout << "Acquisition completed for wavelength: " << wavelength << "nm, "
+           << data << "\n";
+
+      y_data_current.push_back(data[0]["currentSignal"]["value"]);
+      y_data_voltage.push_back(data[0]["voltageSignal"]["value"]);
+      y_data_counts.push_back(data[0]["ppdSignal"]["value"]);
     }
 
-    auto data = spectracq3->get_acquisition_data();
-
-    auto time_stamps = std::vector<double>();
-    auto current_signals = std::vector<double>();
-    auto pmt_signals = std::vector<double>();
-    auto voltage_signals = std::vector<double>();
-
-    for (const auto &record : data) {
-      time_stamps.push_back(record["elapsedTime"].get<double>());
-      current_signals.push_back(record["currentSignal"]["value"].get<double>());
-      pmt_signals.push_back(record["pmtSignal"]["value"].get<double>());
-      voltage_signals.push_back(record["voltageSignal"]["value"].get<double>());
-    }
-
-    plot_spectral_data(time_stamps, current_signals, pmt_signals,
-                       voltage_signals);
+    plot_spectral_data(start_wavelength, end_wavelength, x_data,
+                       y_data_current);
 
   } catch (const exception &e) {
     cout << e.what() << "\n";
     spectracq3->close();
+    mono->close();
     icl_device_manager.stop();
     return 1;
   }
 
   try {
     spectracq3->close();
+    mono->close();
     icl_device_manager.stop();
   } catch (const exception &e) {
     cout << e.what() << "\n";
