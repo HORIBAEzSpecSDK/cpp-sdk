@@ -44,3 +44,4 @@ Configuration examples:
   the device's capabilities.
 - [`trigger`](trigger/main.cpp): This example demonstrates how to set a custom trigger.
 - [`spectracq3`](spectracq3/main.cpp): This example demonstrates how to interact with the SpectrAcq3 device.
+- [`save_data_to_disk`](save_data_to_disk/main.cpp): This example demonstrates how to save aquisition data to disk.
