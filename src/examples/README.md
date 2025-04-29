@@ -38,10 +38,11 @@ Acquisition examples:
   `GNUTERM` to `qt` to avoid issues with the `gnuplot` library.
 - [`abort_acquisition`](abort_acquisition/main.cpp): This example demonstrates how to abort a running acquisition.
 - [`raman_shift`](raman_shift/main.cpp): This example demonstrates how to compute the raman shift of a spectrum.
+- [`spectracq3`](spectracq3/main.cpp): This example demonstrates how to do an acquisition with the SpectrAcq3 device and
+  monochromator.
 
 Configuration examples:
 - [`gain_speed_info`](gain_speed_info/main.cpp): This example demonstrates how to create your own gain and speed enums based on
   the device's capabilities.
 - [`trigger`](trigger/main.cpp): This example demonstrates how to set a custom trigger.
-- [`spectracq3`](spectracq3/main.cpp): This example demonstrates how to interact with the SpectrAcq3 device.
 - [`save_data_to_disk`](save_data_to_disk/main.cpp): This example demonstrates how to save aquisition data to disk.
