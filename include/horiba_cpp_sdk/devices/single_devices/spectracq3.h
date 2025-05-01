@@ -12,6 +12,9 @@
 
 namespace horiba::devices::single_devices {
 
+/**
+ * @brief Represents the parameters for the acquisition set
+ */
 class AcquisitionSetParameters final {
  public:
   explicit AcquisitionSetParameters(int scan_count,
@@ -62,12 +65,41 @@ class AcquisitionSetParameters final {
   int _external_param;
 };
 
+/**
+ * @brief Represents a SpectrAcq3 device
+ *
+ * This class should not be created directly by the end user. Instead a
+ * DeviceManager should be used to access the detected SpectrAcq3s on the
+ * system.
+ */
 class SpectrAcq3 final : public Device {
  public:
+  /**
+   * @brief Trigger modes for the SpectrAcq3 device
+   */
   enum class TriggerMode : int {
     START_AND_INTERVAL = 1,
     TRIGGER_AND_INTERVAL = 2,
     WAIT_FOR_TRIGGER = 3,
+  };
+
+  /**
+   * @brief Hardware trigger pins for the SpectrAcq3 device
+   */
+  enum class HardwareTriggerPinMode : int {
+    TTL_INPUT = 0,
+    EVENT_MARKER_INPUT = 1,
+    HARDWARE_TRIGGER_INPUT = 2,
+  };
+
+  /**
+   * @brief Polarity of the input trigger for the SpectrAcq3 device
+   */
+  enum class TriggerInPolarity : int {
+    /// Falling edge
+    ACTIVE_LOW = 0,
+    /// Rising edge
+    ACTIVE_HIGH = 1,
   };
 
   SpectrAcq3(int id, std::shared_ptr<communication::Communicator> communicator);
@@ -135,8 +167,9 @@ class SpectrAcq3 final : public Device {
   /**
    * @brief Set the high bias voltage in Volts.
    *
-   * TODO: check how and which default value
    * If not set then default value will be used.
+   *
+   * @todo what is the default value?
    *
    * @param bias_voltage High bias voltage in Volts
    */
@@ -168,7 +201,7 @@ class SpectrAcq3 final : public Device {
    * @param scan_count Number of acquisitions to perform
    * @param time_step Time interval in seconds between acquisitions
    * @param integration_time
-   * @param external_paramu ser defined parameter
+   * @param external_param ser defined parameter
    *
    * @throw std::runtime_error when an error occurred on the device side
    */
@@ -194,9 +227,9 @@ class SpectrAcq3 final : public Device {
    *   an `error_count` field indicating the number of errors detected.
    *   @see @ref get_error_log() to get the detailed error.
    *
-   * @param trigger TODO create enum
+   * @param trigger
    */
-  void acquisition_start(int trigger) noexcept(false);
+  void acquisition_start(SpectrAcq3::TriggerMode trigger) noexcept(false);
 
   /**
    * @brief Stops the current acquisition. The current data point is discarded.
@@ -233,7 +266,7 @@ class SpectrAcq3 final : public Device {
    * device/software's data buffer. Ensure that you save the data to a local
    * buffer or storage before reading to prevent data loss.
    *
-   * @return TODO create class or return json?
+   * @return acquisition data
    */
   nlohmann::json get_acquisition_data() noexcept(false);
 
@@ -248,32 +281,35 @@ class SpectrAcq3 final : public Device {
    * @brief Tell the device how Hardware Trigger pin is used. Returns Error if
    * Acquisition is in Progress.
    *
-   * @param mode TODO: add int enum
+   * @param mode Trigger mode
    */
-  void set_in_trigger_mode(int mode) noexcept(false);
+  void set_in_trigger_mode(SpectrAcq3::HardwareTriggerPinMode mode) noexcept(
+      false);
 
   /**
    * @brief Returns the acquisition trigger mode defined in @ref
    * acquisition_start, as well as, the hardware input trigger mode defined in
    * @ref set_in_trigger_mode
    *
-   * @return trigger mode and hardware input trigger mode TODO: create enums
+   * @return trigger mode and hardware input trigger mode
    */
-  std::pair<int, int> get_in_trigger_mode() noexcept(false);
+  std::pair<SpectrAcq3::TriggerMode, SpectrAcq3::HardwareTriggerPinMode>
+  get_in_trigger_mode() noexcept(false);
 
   /**
    * @brief Defines the polarity of the input trigger.
    *
-   * @param polarity TODO: add int enum
+   * @param polarity Polarity of the input trigger
    */
-  void set_trigger_in_polarity(int polarity) noexcept(false);
+  void set_trigger_in_polarity(SpectrAcq3::TriggerInPolarity polarity) noexcept(
+      false);
 
   /**
    * @brief Polarity of the input trigger.
    *
    * @return Returns the polarity of the input trigger.
    */
-  int get_trigger_in_polarity() noexcept(false);
+  SpectrAcq3::TriggerInPolarity get_trigger_in_polarity() noexcept(false);
 
   std::string get_last_error() noexcept(false);
   std::string get_error_log() noexcept(false);

@@ -25,7 +25,7 @@ jobs:
           brew install doxygen
           python3 -m venv path/to/venv
           source path/to/venv/bin/activate
-          pip3 install jinja2 Pygments
+          pip3 install jinja2 Pygments doxygen
 
       - name: Build
         run: |

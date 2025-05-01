@@ -11,6 +11,7 @@ namespace horiba::devices::single_devices {
 
 /**
  * @brief Represents a Monochromator
+ *
  * This class should not be created directly by the end user. Instead a
  * DeviceManager should be used to access the detected Monochromators on the
  * system.
@@ -105,7 +106,7 @@ class Monochromator final : public Device {
    *
    * Use is_busy() to know if the operation is still taking place.
    *
-   * @param foce_homing Force starts the initialization process.
+   * @param force_homing Force starts the initialization process.
    *
    * @throw std::runtime_error when an error occurred on the device side
    */

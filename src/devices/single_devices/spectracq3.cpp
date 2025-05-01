@@ -103,7 +103,7 @@ AcquisitionSetParameters SpectrAcq3::get_acquisition_set() {
       json_results.at("externalParam").get<int>()};
 }
 
-void SpectrAcq3::acquisition_start(int trigger) {
+void SpectrAcq3::acquisition_start(SpectrAcq3::TriggerMode trigger) {
   [[maybe_unused]] auto ignored_response = Device::execute_command(
       communication::Command("saq3_acqStart", {{"index", Device::device_id()},
                                                {"trigger", trigger}}));
@@ -144,30 +144,35 @@ void SpectrAcq3::force_trigger() {
           "saq3_forceTrigger", {{"index", Device::device_id()}}));
 }
 
-void SpectrAcq3::set_in_trigger_mode(int mode) {
+void SpectrAcq3::set_in_trigger_mode(HardwareTriggerPinMode mode) {
   [[maybe_unused]] auto ignored_response = Device::execute_command(
       communication::Command("saq3_setInTriggerMode",
                              {{"index", Device::device_id()}, {"mode", mode}}));
 }
 
-std::pair<int, int> SpectrAcq3::get_in_trigger_mode() {
+std::pair<SpectrAcq3::TriggerMode, SpectrAcq3::HardwareTriggerPinMode>
+SpectrAcq3::get_in_trigger_mode() {
   auto response = Device::execute_command(communication::Command(
       "saq3_getInTriggerMode", {{"index", Device::device_id()}}));
-  return {response.json_results().at("inputTriggerMode").get<int>(),
-          response.json_results().at("scanStartMode").get<int>()};
+  return {static_cast<SpectrAcq3::TriggerMode>(
+              response.json_results().at("inputTriggerMode").get<int>()),
+          static_cast<SpectrAcq3::HardwareTriggerPinMode>(
+              response.json_results().at("scanStartMode").get<int>())};
 }
 
-void SpectrAcq3::set_trigger_in_polarity(int polarity) {
+void SpectrAcq3::set_trigger_in_polarity(
+    SpectrAcq3::TriggerInPolarity polarity) {
   [[maybe_unused]] auto ignored_response =
       Device::execute_command(communication::Command(
           "saq3_setTriggerInPolarity",
           {{"index", Device::device_id()}, {"polarity", polarity}}));
 }
 
-int SpectrAcq3::get_trigger_in_polarity() {
+SpectrAcq3::TriggerInPolarity SpectrAcq3::get_trigger_in_polarity() {
   auto response = Device::execute_command(communication::Command(
       "saq3_getTriggerInPolarity", {{"index", Device::device_id()}}));
-  return response.json_results().at("polarity").get<int>();
+  return static_cast<SpectrAcq3::TriggerInPolarity>(
+      response.json_results().at("polarity").get<int>());
 }
 
 std::string SpectrAcq3::get_last_error() {

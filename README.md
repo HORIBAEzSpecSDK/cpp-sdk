@@ -212,8 +212,7 @@ this package will include access to more devices. The SDK exists for several pro
 
 The functionality is distributed over two parts, the `instrument control layer (ICL)` and the `github source code`. This
 split is shown in the following image:
-![SDK Split](documentation/images/SDK_Overview_Dark.png#gh-dark-mode-only "SDK Split")
-![SDK Split](documentation/images/SDK_Overview_Dark.png#gh-light-mode-only "SDK Split")
+![SDK Split](documentation/images/SDK_Overview_Light.png "SDK Split")
 
 The ICL itself is sold and distributed by HORIBA. The source code to communicate with the ICL and drive the instruments
 is located in this repo for C++, but can be also found for Python, C#, C++ and LabVIEW as described above.
@@ -223,7 +222,7 @@ pattern where commands and their replies are JSON commands.
 # 🔗 Examples
 
 For more details on the usage of the library and a list of examples, see:
- * [Usage Examples](src/examples/README.md)
+ * [Usage Examples](src/examples/README_examples.md)
 
 # 👩‍💻 First steps as contributor
 
