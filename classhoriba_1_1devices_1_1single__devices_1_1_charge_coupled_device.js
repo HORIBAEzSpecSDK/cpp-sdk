@@ -1,0 +1,65 @@
+var classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device =
+[
+    [ "AcquisitionFormat", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a6781cffa0697ec780fe9ef723a165a6c", [
+      [ "SPECTRA", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a6781cffa0697ec780fe9ef723a165a6ca8aacf9c365d9c19890e4b87f23da6a91", null ],
+      [ "IMAGE", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a6781cffa0697ec780fe9ef723a165a6ca23a12f67f614b5518c7f1c2465bf95e3", null ],
+      [ "CROP", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a6781cffa0697ec780fe9ef723a165a6ca611b0ab62590d6a92a429520f6a06363", null ],
+      [ "FAST_KINETICS", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a6781cffa0697ec780fe9ef723a165a6ca36135800b675049715e2abc7407b1a83", null ]
+    ] ],
+    [ "CleanCountMode", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#afb83c611c399254178407fad8a4b8206", [
+      [ "NEVER", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#afb83c611c399254178407fad8a4b8206a443475558f0168dff92ecde26b98ae5a", null ],
+      [ "FIRST_ONLY", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#afb83c611c399254178407fad8a4b8206aa74e5c0c3863743378c1b2dffd8c1b23", null ],
+      [ "BETWEEN_ONLY", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#afb83c611c399254178407fad8a4b8206acca7a6924e87838f22e81ce7f973d1c9", null ],
+      [ "EACH", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#afb83c611c399254178407fad8a4b8206a510653b6d02db326c35f84313367806a", null ],
+      [ "MODE_UNKNOWN", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#afb83c611c399254178407fad8a4b8206a6a11106c9b0583798fe9ad3032bc7da9", null ]
+    ] ],
+    [ "TimerResolution", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a5731c71deed7bbd761107c52cfa99c0e", [
+      [ "THOUSAND_MICROSECONDS", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a5731c71deed7bbd761107c52cfa99c0ea7fbab4adfda3ffae24f31727aeb359e0", null ],
+      [ "ONE_MICROSECOND", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a5731c71deed7bbd761107c52cfa99c0eac354ffeeeff99de289d902dadfbcc1c7", null ]
+    ] ],
+    [ "XAxisConversionType", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#ac5ed95993cf7bb5843ba0c81ce71978b", [
+      [ "NONE", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#ac5ed95993cf7bb5843ba0c81ce71978bab50339a10e1de285ac99d4c3990b8693", null ],
+      [ "FROM_CCD_FIRMWARE", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#ac5ed95993cf7bb5843ba0c81ce71978bad1bfe7576c2a7d33b60a29aeeb4b4f81", null ],
+      [ "FROM_ICL_SETTINGS_INI", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#ac5ed95993cf7bb5843ba0c81ce71978bae1394349490e74af2dfcf3cb17e79635", null ]
+    ] ],
+    [ "ChargeCoupledDevice", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a2686e26aad66f002af2519a2b5d14ccd", null ],
+    [ "~ChargeCoupledDevice", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a2d5b4bb122fc88acc5d65c10c2113425", null ],
+    [ "abort_acquisition", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a21087bac4cbebf2b3d12ffa1e384eb6a", null ],
+    [ "close", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#ac2727df47790b11e99044faf90408fc7", null ],
+    [ "get_acquisition_busy", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a8649e5360979be28378b40ec1ef34d89", null ],
+    [ "get_acquisition_count", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#ac3b7e5ec7a10303c6b78f0c58c64365b", null ],
+    [ "get_acquisition_data", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a97e6ce9c17b589779de1109762fd6d12", null ],
+    [ "get_acquisition_data_size", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a09396d5df4d07be904f58e8890c64a25", null ],
+    [ "get_acquisition_ready", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a7e8e357220fa19a948edafd5bbd31ccb", null ],
+    [ "get_chip_size", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#aed098d2020a43407186e5434fb89781d", null ],
+    [ "get_clean_count", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a7eed85aeac0d0ed75c2960d7c26099db", null ],
+    [ "get_configuration", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a1d15e79587fccf608427ba653082041f", null ],
+    [ "get_exposure_time", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#acdbafd1c74e00bb15dbf819080e3d060", null ],
+    [ "get_fit_parameters", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#ad92f454971814a1b8de534fbb460cbe3", null ],
+    [ "get_gain_token", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a2867871ac2df19903a053ecf43a6a25c", null ],
+    [ "get_parallel_speed_token", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#ae437c1c2d3da399532085d6058cd11f7", null ],
+    [ "get_signal_output", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a19e638c0532eabdd3cf3889394736d46", null ],
+    [ "get_speed_token", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#aed812efa0aa24f4fbb87ff27573ed3e0", null ],
+    [ "get_temperature", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#abb74274ef38b25f8f4d6208576fecc1d", null ],
+    [ "get_timer_resolution", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#af0753c3a3507434ba41e4e44982ffa96", null ],
+    [ "get_trigger_input", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a15f595fbaa07f97dfd1e0dfacbe49d6a", null ],
+    [ "get_x_axis_conversion_type", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#acd2dd62e665c99da6979d7ace04b32f1", null ],
+    [ "is_open", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a463ceee03bfedb9e846ba364a9851902", null ],
+    [ "open", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a23ba8f76d42d78956846f3b713fc07ee", null ],
+    [ "range_mode_center_wavelenghts", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a44f547e92a82b0d34c602fa902b975f1", null ],
+    [ "restart", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a1dcedfefb5f50040fe11f12dde16876b", null ],
+    [ "set_acquisition_count", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#aa30ea3470be59889dbfaf03afb2e8ac7", null ],
+    [ "set_acquisition_format", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a8e87fc1bc349df58848cb08e74a9d81d", null ],
+    [ "set_acquisition_start", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#ab5096fb8fecf1bb2ddbd5a224eb38221", null ],
+    [ "set_center_wavelength", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a73886c5c94ca87f4d9b69a89a4a272f2", null ],
+    [ "set_clean_count", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a74855a483fea6574ce0e9bc789dfff28", null ],
+    [ "set_exposure_time", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a4d12ff38a4061018c501813d88a24df9", null ],
+    [ "set_gain", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a1bf5c0dba6460bd151bb2f8c7a18d9aa", null ],
+    [ "set_parallel_speed", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a008556836314b1201af75ba622a9ee8c", null ],
+    [ "set_region_of_interest", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#abf9fbde5f43a0f6021de87db21399fa5", null ],
+    [ "set_signal_output", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a912990c700b2f6eafc9e71fdec157fa5", null ],
+    [ "set_speed", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#af820aa0d13a6143f369aa5fe4d41b3f1", null ],
+    [ "set_timer_resolution", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#ae685e57ad62e92e6673ec7896a6997b4", null ],
+    [ "set_trigger_input", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a3e5745617235cb689f6c712e7be4c324", null ],
+    [ "set_x_axis_conversion_type", "classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a82420f41139e5c094a8df6098991dd79", null ]
+];

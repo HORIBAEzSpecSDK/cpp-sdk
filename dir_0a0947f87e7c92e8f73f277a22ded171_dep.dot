@@ -1,0 +1,20 @@
+digraph "/Users/runner/work/cpp-sdk/cpp-sdk/include/horiba_cpp_sdk"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  compound=true
+  subgraph clusterdir_d44c64559bbebec7f509842c48db8b23 {
+    graph [ bgcolor="#daedff", pencolor="grey25", label="include", fontname=Helvetica,fontsize=10 style="filled,dashed", URL="dir_d44c64559bbebec7f509842c48db8b23.html",tooltip=""]
+  subgraph clusterdir_0a0947f87e7c92e8f73f277a22ded171 {
+    graph [ bgcolor="#daedff", pencolor="grey25", label="", fontname=Helvetica,fontsize=10 style="filled,bold", URL="dir_0a0947f87e7c92e8f73f277a22ded171.html",tooltip=""]
+    dir_0a0947f87e7c92e8f73f277a22ded171 [shape=plaintext, label="horiba_cpp_sdk"];
+  dir_204152443ea10cc080fc8797ed539c8d [label="communication", fillcolor="#4ea9ff", color="grey25", style="filled", URL="dir_204152443ea10cc080fc8797ed539c8d.html",tooltip=""];
+  dir_0a72e1163942138f286a81a888524db7 [label="devices", fillcolor="#4ea9ff", color="grey25", style="filled", URL="dir_0a72e1163942138f286a81a888524db7.html",tooltip=""];
+  dir_a6e477feee171622fe9a59b20bbf1035 [label="os", fillcolor="#4ea9ff", color="grey25", style="filled", URL="dir_a6e477feee171622fe9a59b20bbf1035.html",tooltip=""];
+  }
+  }
+  dir_0a72e1163942138f286a81a888524db7->dir_204152443ea10cc080fc8797ed539c8d [headlabel="9", labeldistance=1.5 headhref="dir_000001_000000.html" href="dir_000001_000000.html" color="steelblue1" fontcolor="steelblue1"];
+  dir_0a72e1163942138f286a81a888524db7->dir_a6e477feee171622fe9a59b20bbf1035 [headlabel="1", labeldistance=1.5 headhref="dir_000001_000006.html" href="dir_000001_000006.html" color="steelblue1" fontcolor="steelblue1"];
+}
