@@ -130,7 +130,8 @@ auto main() -> int {
       }
       cout << "Moved Mono to wavelength: " << wavelength << "\n";
 
-      spectracq3->acquisition_start(1);
+      spectracq3->acquisition_start(
+          SpectrAcq3::TriggerMode::START_AND_INTERVAL);
       std::this_thread::sleep_for(std::chrono::seconds(3));
       /* while (spectracq3->is_busy()) { */
       /*   std::this_thread::sleep_for(std::chrono::seconds(1)); */

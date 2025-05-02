@@ -1,9 +1,11 @@
 ## Build Instructions
 
 A full build has different steps:
+
 1) Specifying the compiler using environment variables
 2) Configuring the project
 3) Building the project
+4) Building the documentation (optional)
 
 For the subsequent builds, in case you change the source code, you only need to repeat the last step.
 
@@ -194,3 +196,32 @@ cd ../
 ```
 
 
+### (4) Build the documentation (optional)
+
+To build the documentation, you need to have `Python`, `Doxygen`, and `Graphviz` installed. You can install them using
+the following commands:
+
+```bash
+# Windows
+choco install -y doxygen graphviz
+# MacOS
+brew install doxygen graphviz
+# Debian/Ubuntu
+sudo apt install doxygen graphviz
+```
+
+Then, you need to create a virtual environment and install the required packages:
+```bash
+python3 -m venv ./.venv
+source ./.venv/bin/activate
+pip3 install jinja2 Pygments
+```
+
+And build the documentation using the following commands:
+```bash
+cmake -S documentation -B build-docs
+cmake --build build --target GenerateDocs
+```
+
+The generated html files will be in the `build-docs/doxygen/html/` folder. You can open the `index.html` file in your browser to view the
+documentation.

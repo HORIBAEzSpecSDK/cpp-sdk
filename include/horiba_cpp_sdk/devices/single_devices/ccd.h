@@ -19,8 +19,6 @@ namespace horiba::devices::single_devices {
  * This class should not be created directly by the end user. Instead a
  * DeviceManager should be used to access the detected CCDs on the system.
  *
- * TODO: write a basic description of the CCD
- *
  * The cells of the CCD can be binned and summed up.
  */
 class ChargeCoupledDevice final : public Device {
@@ -50,7 +48,6 @@ class ChargeCoupledDevice final : public Device {
     FIRST_ONLY = 1,
     BETWEEN_ONLY = 2,
     EACH = 3,
-    // TODO: clarify the meaning of the last mode
     MODE_UNKNOWN = 238,
   };
 
@@ -180,7 +177,7 @@ class ChargeCoupledDevice final : public Device {
    * parallel speed values are available for the CCD using the get_configuration
    * function.
    *
-   * @param speed_token Token of the parallel speed to set
+   * @param parallel_speed_token Token of the parallel speed to set
    *
    * @throw std::runtime_error when an error occurred on the device side
    */
@@ -189,7 +186,8 @@ class ChargeCoupledDevice final : public Device {
   /**
    * @brief Returns the fit parameters of the CCD
    *
-   * @return Fit parameters TODO: units and >details
+   * @todo Check the units and details of the fit parameters
+   * @return Fit parameters as a vector of integers
    *
    * @throw std::runtime_error when an error occurred on the device side
    */
@@ -299,7 +297,8 @@ class ChargeCoupledDevice final : public Device {
   /**
    * @brief Returns the size of the data from the CCD.
    *
-   * @return int Size of the data. TODO: In which unit?
+   * @todo Check the unit of the size
+   * @return int Size of the data.
    *
    * @throws std::exception When an error occurs on the device side.
    */

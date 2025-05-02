@@ -147,7 +147,8 @@ TEST_CASE_METHOD(ICLExe, "SpectrAcq3 test on HW", "[spectracq3_hw]") {
     // act
     REQUIRE_NOTHROW(spectracq3.set_acquisition_set(
         scan_count, time_step, integration_time, external_param));
-    REQUIRE_NOTHROW(spectracq3.acquisition_start(1));
+    REQUIRE_NOTHROW(spectracq3.acquisition_start(
+        SpectrAcq3::TriggerMode::START_AND_INTERVAL));
     std::this_thread::sleep_for(std::chrono::seconds(15));
 
     // assert
@@ -163,7 +164,8 @@ TEST_CASE_METHOD(ICLExe, "SpectrAcq3 test on HW", "[spectracq3_hw]") {
     auto external_param = 0;
     REQUIRE_NOTHROW(spectracq3.set_acquisition_set(
         scan_count, time_step, integration_time, external_param));
-    REQUIRE_NOTHROW(spectracq3.acquisition_start(1));
+    REQUIRE_NOTHROW(spectracq3.acquisition_start(
+        SpectrAcq3::TriggerMode::START_AND_INTERVAL));
     std::this_thread::sleep_for(std::chrono::seconds(15));
 
     // act
@@ -185,7 +187,8 @@ TEST_CASE_METHOD(ICLExe, "SpectrAcq3 test on HW", "[spectracq3_hw]") {
 
     // act
     auto acquisition_busy_before_start = spectracq3.is_busy();
-    REQUIRE_NOTHROW(spectracq3.acquisition_start(1));
+    REQUIRE_NOTHROW(spectracq3.acquisition_start(
+        SpectrAcq3::TriggerMode::START_AND_INTERVAL));
     auto acquisition_busy_after_start = spectracq3.is_busy();
     std::this_thread::sleep_for(std::chrono::seconds(15));
     auto acquisition_busy_after_end = spectracq3.is_busy();
@@ -205,7 +208,8 @@ TEST_CASE_METHOD(ICLExe, "SpectrAcq3 test on HW", "[spectracq3_hw]") {
     auto external_param = 0;
     REQUIRE_NOTHROW(spectracq3.set_acquisition_set(
         scan_count, time_step, integration_time, external_param));
-    REQUIRE_NOTHROW(spectracq3.acquisition_start(1));
+    REQUIRE_NOTHROW(spectracq3.acquisition_start(
+        SpectrAcq3::TriggerMode::START_AND_INTERVAL));
     std::this_thread::sleep_for(std::chrono::seconds(5));
 
     // act
@@ -231,7 +235,8 @@ TEST_CASE_METHOD(ICLExe, "SpectrAcq3 test on HW", "[spectracq3_hw]") {
     auto external_param = 0;
     REQUIRE_NOTHROW(spectracq3.set_acquisition_set(
         scan_count, time_step, integration_time, external_param));
-    REQUIRE_NOTHROW(spectracq3.acquisition_start(1));
+    REQUIRE_NOTHROW(spectracq3.acquisition_start(
+        SpectrAcq3::TriggerMode::START_AND_INTERVAL));
     std::this_thread::sleep_for(std::chrono::seconds(5));
 
     // act
@@ -246,8 +251,10 @@ TEST_CASE_METHOD(ICLExe, "SpectrAcq3 test on HW", "[spectracq3_hw]") {
   SECTION("SpectrAcq3 trigger IN polarity") {
     // arrange
     spectracq3.open();
-    auto expected_trigger_in_polarity_before = 0;
-    auto expected_trigger_in_polarity_after = 1;
+    auto expected_trigger_in_polarity_before =
+        SpectrAcq3::TriggerInPolarity::ACTIVE_LOW;
+    auto expected_trigger_in_polarity_after =
+        SpectrAcq3::TriggerInPolarity::ACTIVE_HIGH;
 
     // act
     REQUIRE_NOTHROW(spectracq3.set_trigger_in_polarity(
@@ -269,17 +276,20 @@ TEST_CASE_METHOD(ICLExe, "SpectrAcq3 test on HW", "[spectracq3_hw]") {
   SECTION("SpectrAcq3 trigger IN mode") {
     // arrange
     spectracq3.open();
-    auto expected_trigger_in_mode_before = 1;
-    auto expected_trigger_in_mode_after = 2;
+    auto expected_trigger_in_mode_before =
+        SpectrAcq3::HardwareTriggerPinMode::TTL_INPUT;
+    auto expected_trigger_in_mode_after =
+        SpectrAcq3::HardwareTriggerPinMode::EVENT_MARKER_INPUT;
 
     // act
     REQUIRE_NOTHROW(
         spectracq3.set_in_trigger_mode(expected_trigger_in_mode_before));
-    auto actual_trigger_in_mode_before = spectracq3.get_in_trigger_mode().first;
+    auto actual_trigger_in_mode_before =
+        spectracq3.get_in_trigger_mode().second;
 
     REQUIRE_NOTHROW(
         spectracq3.set_in_trigger_mode(expected_trigger_in_mode_after));
-    auto actual_trigger_in_mode_after = spectracq3.get_in_trigger_mode().first;
+    auto actual_trigger_in_mode_after = spectracq3.get_in_trigger_mode().second;
 
     // assert
     REQUIRE(actual_trigger_in_mode_before == expected_trigger_in_mode_before);
