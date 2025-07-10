@@ -33,7 +33,7 @@ TEST_CASE_METHOD(ICLExe, "Mono test on HW", "[mono_hw]") {
   // From the fixture ICLExe
   start();
 
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(4));
 
   // arrange
   auto websocket_communicator =

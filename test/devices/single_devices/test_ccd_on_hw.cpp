@@ -29,7 +29,7 @@ TEST_CASE_METHOD(ICLExe, "CCD test on HW", "[ccd_hw]") {
 
   start();
 
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(5));
 
   // arrange
   auto websocket_communicator =

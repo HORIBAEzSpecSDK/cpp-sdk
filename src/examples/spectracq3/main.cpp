@@ -115,8 +115,6 @@ auto main() -> int {
     constexpr auto time_step = 0;
     constexpr auto integration_time = 1;
     constexpr auto external_param = 0;
-    spectracq3->set_acquisition_set(scan_count, time_step, integration_time,
-                                    external_param);
 
     std::vector<int> x_data(wavelengths.begin(), wavelengths.end());
     std::vector<double> y_data_current;
@@ -130,13 +128,17 @@ auto main() -> int {
       }
       cout << "Moved Mono to wavelength: " << wavelength << "\n";
 
-      spectracq3->acquisition_start(
-          SpectrAcq3::TriggerMode::START_AND_INTERVAL);
-      std::this_thread::sleep_for(std::chrono::seconds(3));
-      /* while (spectracq3->is_busy()) { */
-      /*   std::this_thread::sleep_for(std::chrono::seconds(1)); */
-      /*   cout << "Acquisition in progress...\n"; */
-      /* } */
+      while (spectracq3->is_busy()) {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        cout << "Spectracq busy...\n";
+      }
+      spectracq3->set_acquisition_set(scan_count, time_step, integration_time,
+                                      external_param);
+      while (spectracq3->is_busy()) {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        cout << "Spectracq busy...\n";
+      }
+      std::this_thread::sleep_for(std::chrono::seconds(5));
       if (!spectracq3->is_data_available()) {
         cout << "ERROR: No data available!\n";
         spectracq3->close();

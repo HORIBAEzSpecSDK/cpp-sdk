@@ -73,34 +73,35 @@ auto main() -> int {
     mono->home();
     mono->wait_until_ready(timeout);
 
-    /* mono->set_turret_grating(Monochromator::Grating::THIRD); */
     mono->set_turret_grating(Monochromator::Grating::SECOND);
     mono->wait_until_ready(timeout);
-    const auto target_wavelength = 123.0;
-    mono->move_to_target_wavelength(target_wavelength);
+    mono->set_slit_position(Monochromator::Slit::A, 0.5);
     mono->wait_until_ready(timeout);
-    mono->set_slit_position(Monochromator::Slit::A, 0);
     mono->set_mirror_position(Monochromator::Mirror::ENTRANCE,
                               Monochromator::MirrorPosition::AXIAL);
     mono->wait_until_ready(timeout);
+    auto wavelength = mono->get_current_wavelength();
 
     // ccd configuration
-    ccd->set_acquisition_count(1);
-    ccd->set_acquisition_format(
-        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
     ccd->set_timer_resolution(
         ChargeCoupledDevice::TimerResolution::THOUSAND_MICROSECONDS);
     ccd->set_exposure_time(2);
-    ccd->set_center_wavelength(mono->device_id(), 0.0);
+    ccd->set_gain(0);   // High light
+    ccd->set_speed(2);  // 1 MHz Ultra
+    ccd->set_acquisition_count(1);
+
+    ccd->set_center_wavelength(mono->device_id(), wavelength);
     ccd->set_x_axis_conversion_type(
         ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);
+    ccd->set_acquisition_format(1,
+                                ChargeCoupledDevice::AcquisitionFormat::IMAGE);
     ccd->set_region_of_interest();
 
     if (ccd->get_acquisition_ready()) {
       std::vector<std::vector<std::vector<double>>> spectra;
 
-      const double start_wavelength = 200.0;
-      const double end_wavelength = 1000.0;
+      const double start_wavelength = 400.0;
+      const double end_wavelength = 600.0;
       const int pixel_overlap = 10;
 
       auto wavelengths = ccd->range_mode_center_wavelenghts(
