@@ -1,5 +1,6 @@
 add_subdirectory(abort_acquisition)
 add_subdirectory(center_scan)
+add_subdirectory(multiple_acquisitions)
 add_subdirectory(dark_count_subtraction)
 add_subdirectory(gain_speed_info)
 add_subdirectory(raman_shift)
