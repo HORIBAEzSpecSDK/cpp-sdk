@@ -18,12 +18,12 @@ function(horiba_cpp_sdk_setup_dependencies)
   if(NOT TARGET spdlog::spdlog)
     CPMAddPackage(
       NAME spdlog
-      VERSION 1.14.0
+      VERSION 1.15.3
       GITHUB_REPOSITORY "gabime/spdlog")
   endif()
 
   if(NOT TARGET Catch2::Catch2)
-    CPMAddPackage("gh:catchorg/Catch2@3.6.0")
+    CPMAddPackage("gh:catchorg/Catch2@3.8.1")
   endif()
 
   # Used only in the examples

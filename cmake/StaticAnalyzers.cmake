@@ -74,7 +74,7 @@ macro(horiba_cpp_sdk_enable_clang_tidy target WARNINGS_AS_ERRORS)
         -extra-arg=-Wno-unknown-warning-option
         -extra-arg=-Wno-ignored-optimization-argument
         -extra-arg=-Wno-unused-command-line-argument
-        -p)
+        )
     # set standard
     if(NOT
        "${CMAKE_CXX_STANDARD}"
