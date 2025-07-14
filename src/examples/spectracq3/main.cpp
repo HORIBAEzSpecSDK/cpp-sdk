@@ -76,7 +76,7 @@ auto main() -> int {
 
   const auto spectracq3s = icl_device_manager.spectracq3_devices();
   if (spectracq3s.empty()) {
-    cout << "No SpectrAcq3 devices found\n";
+    spdlog::error("No SpectrAcq3 devices found.");
     icl_device_manager.stop();
     return 1;
   }
@@ -84,7 +84,7 @@ auto main() -> int {
 
   const auto monos = icl_device_manager.monochromators();
   if (monos.empty()) {
-    cout << "No monochromators found\n";
+    spdlog::error("No Monochromator devices found.");
     icl_device_manager.stop();
     return 1;
   }
@@ -95,9 +95,9 @@ auto main() -> int {
     spectracq3->open();
 
     auto serial_number = spectracq3->get_serial_number();
-    cout << "Serial number: " << serial_number << "\n";
+    spdlog::info("Serial number: {}", serial_number);
     auto firmware_version = spectracq3->get_firmware_version();
-    cout << "Firmware version: " << firmware_version << "\n";
+    spdlog::info("Firmware version: {}", firmware_version);
 
     // do an acquisition
     constexpr auto start_wavelength = 490;
@@ -126,29 +126,29 @@ auto main() -> int {
       while (mono->is_busy()) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
       }
-      cout << "Moved Mono to wavelength: " << wavelength << "\n";
+      spdlog::info("Mono moved to wavelength: {}", wavelength);
 
       while (spectracq3->is_busy()) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
-        cout << "Spectracq busy...\n";
+        spdlog::info("Spectracq3 is busy, waiting...");
       }
       spectracq3->set_acquisition_set(scan_count, time_step, integration_time,
                                       external_param);
       while (spectracq3->is_busy()) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
-        cout << "Spectracq busy...\n";
+        spdlog::info("Spectracq3 is busy, waiting...");
       }
       std::this_thread::sleep_for(std::chrono::seconds(5));
       if (!spectracq3->is_data_available()) {
-        cout << "ERROR: No data available!\n";
+        spdlog::error("No data available for wavelength: {}", wavelength);
         spectracq3->close();
         mono->close();
         icl_device_manager.stop();
         return 1;
       }
       auto data = spectracq3->get_acquisition_data();
-      cout << "Acquisition completed for wavelength: " << wavelength << "nm, "
-           << data << "\n";
+      spdlog::info("Acquisition data for wavelength {}nm: {}", wavelength,
+                   data.dump());
 
       y_data_current.push_back(data[0]["currentSignal"]["value"]);
       y_data_voltage.push_back(data[0]["voltageSignal"]["value"]);
@@ -159,7 +159,7 @@ auto main() -> int {
                        y_data_current);
 
   } catch (const exception &e) {
-    cout << e.what() << "\n";
+    spdlog::error("An error occurred: {}", e.what());
     spectracq3->close();
     mono->close();
     icl_device_manager.stop();
@@ -171,7 +171,7 @@ auto main() -> int {
     mono->close();
     icl_device_manager.stop();
   } catch (const exception &e) {
-    cout << e.what() << "\n";
+    spdlog::info("An error occurred while closing devices: {}", e.what());
     // we expect an exception when the socket gets closed by the remote
   }
 

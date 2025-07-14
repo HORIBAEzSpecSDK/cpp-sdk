@@ -59,9 +59,17 @@ auto main() -> int {
   icl_device_manager.discover_devices();
 
   const auto ccds = icl_device_manager.charge_coupled_devices();
+  if (ccds.empty()) {
+    spdlog::error("No CCD devices found.");
+    return 1;
+  }
   const auto &ccd = ccds[0];
 
   const auto monos = icl_device_manager.monochromators();
+  if (monos.empty()) {
+    spdlog::error("No Monochromator devices found.");
+    return 1;
+  }
   const auto &mono = monos[0];
   const auto timeout = std::chrono::seconds(180);
 
@@ -153,7 +161,7 @@ auto main() -> int {
     }
 
   } catch (const exception &e) {
-    cout << e.what() << "\n";
+    spdlog::error("An error occurred: {}", e.what());
     ccd->close();
     mono->close();
     icl_device_manager.stop();
@@ -165,8 +173,8 @@ auto main() -> int {
     mono->close();
     icl_device_manager.stop();
   } catch (const exception &e) {
-    cout << e.what() << "\n";
     // we expect an exception when the socket gets closed by the remote
+    spdlog::info("An error occurred while closing devices: {}", e.what());
   }
 
   return 0;
