@@ -28,7 +28,7 @@ TEST_CASE_METHOD(ICLExe, "SpectrAcq3 test on HW", "[spectracq3_hw]") {
 
   start();
 
-  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::this_thread::sleep_for(std::chrono::seconds(4));
 
   // arrange
   auto websocket_communicator =

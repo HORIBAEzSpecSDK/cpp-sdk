@@ -33,6 +33,8 @@ Acquisition examples:
 - [`range_scan`](range_scan/main.cpp): This example demonstrates how to perform a range scan using the
   `horiba_cpp_sdk` library including stitching of spectra. Before running this example, set the environment variable
   `GNUTERM` to `qt` to avoid issues with the `gnuplot` library.
+- [`multiple_acquisitions`](multiple_acquisitions/main.cpp): This example shows how
+  to perform multiple acquisitions.
 - [`dark_count_subtraction`](dark_count_subtraction/main.cpp): This example demonstrates how to perform a
   dark count subtraction. Before running this example, set the environment variable
   `GNUTERM` to `qt` to avoid issues with the `gnuplot` library.

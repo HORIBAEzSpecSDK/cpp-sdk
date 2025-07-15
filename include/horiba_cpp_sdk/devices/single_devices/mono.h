@@ -67,7 +67,7 @@ class Monochromator final : public Device {
    * @brief Slits available on the monochromator. Depending on the model, not
    * all slits may be available.
    */
-  enum class Slit : int { A, B, C, D };
+  enum class Slit : int { A = 1, B = 2, C = 3, D = 4 };
 
   /**
    * @brief Opens the device.
