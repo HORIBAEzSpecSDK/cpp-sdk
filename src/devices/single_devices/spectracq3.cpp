@@ -2,6 +2,7 @@
 #include <horiba_cpp_sdk/communication/communicator.h>
 #include <horiba_cpp_sdk/devices/single_devices/device.h>
 #include <horiba_cpp_sdk/devices/single_devices/spectracq3.h>
+#include <spdlog/spdlog.h>
 
 #include <chrono>
 #include <memory>
@@ -10,6 +11,14 @@
 namespace horiba::devices::single_devices {
 
 using namespace nlohmann;
+
+const SpectrAcq3::Channel SpectrAcq3::Channel::Current{"current"};
+const SpectrAcq3::Channel SpectrAcq3::Channel::Voltage{"voltage"};
+const SpectrAcq3::Channel SpectrAcq3::Channel::Ppd{"ppd"};
+const SpectrAcq3::Channel SpectrAcq3::Channel::Pmt{"pmt"};
+
+const std::unordered_set<SpectrAcq3::Channel, SpectrAcq3::Channel::Hash>
+    SpectrAcq3::Channel::all_existing_channels{Current, Voltage, Ppd, Pmt};
 
 SpectrAcq3::SpectrAcq3(
     int id, std::shared_ptr<communication::Communicator> communicator)
@@ -132,9 +141,41 @@ bool SpectrAcq3::is_data_available() {
   return response.json_results().at("isDataAvailable").get<bool>();
 }
 
-nlohmann::json SpectrAcq3::get_acquisition_data() {
-  auto response = Device::execute_command(communication::Command(
-      "saq3_getAvailableData", {{"index", Device::device_id()}}));
+nlohmann::json SpectrAcq3::get_acquisition_data(
+    std::unordered_set<Channel, Channel::Hash> channels) {
+  if (channels.empty()) {
+    spdlog::error("At least one channel must be requested");
+    throw std::invalid_argument("At least one channel must be requested");
+  }
+  bool all_channel_exist = std::ranges::all_of(channels, [&](const auto& e) {
+    return Channel::all_existing_channels.contains(e);
+  });
+  if (!all_channel_exist) {
+    spdlog::error("One or more requested channels do not exist:");
+    for (const auto& channel : channels) {
+      if (!Channel::all_existing_channels.contains(channel)) {
+        spdlog::error(" - {} is inexistant", channel.json_name());
+      }
+    }
+    throw std::invalid_argument("One or more requested channels do not exist");
+  }
+
+  std::vector<std::string> channels_json_names;
+  channels_json_names.reserve(channels.size());
+
+  for (auto&& channel_json_name :
+       channels | std::views::transform(
+                      [](const Channel& c) { return c.json_name(); })) {
+    channels_json_names.emplace_back(channel_json_name);
+  }
+
+  nlohmann::json json_channels;
+  json_channels["channels"] = channels_json_names;
+
+  auto response = Device::execute_command(
+      communication::Command("saq3_getAvailableData",
+                             {{"index", Device::device_id()}, json_channels}));
+
   return response.json_results()["data"];
 }
 
