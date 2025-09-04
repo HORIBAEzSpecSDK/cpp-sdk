@@ -5,7 +5,7 @@ set(HORIBA_CPP_LIB_SOURCES
     communication/response.cpp
     communication/websocket_communicator.cpp
     # core/stitching/average_spectra_stitch.cpp
-    # core/stitching/offset_spectra_stitch.cpp
+    core/stitching/offset_spectra_stitch.cpp
     core/stitching/simple_spectra_stitch.cpp
     # core/stitching/weight_average_spectra_stitch.cpp
     devices/ccds_discovery.cpp
@@ -22,6 +22,7 @@ set(HORIBA_CPP_LIB_HEADERS
     include/horiba_cpp_sdk/communication/communicator.h
     include/horiba_cpp_sdk/communication/response.h
     include/horiba_cpp_sdk/communication/websocket_communicator.h
+    include/horiba_cpp_sdk/core/stitching/offset_spectra_stitch.h
     include/horiba_cpp_sdk/core/stitching/simple_spectra_stitch.h
     include/horiba_cpp_sdk/core/stitching/spectra_stitch.h
     include/horiba_cpp_sdk/devices/ccds_discovery.h

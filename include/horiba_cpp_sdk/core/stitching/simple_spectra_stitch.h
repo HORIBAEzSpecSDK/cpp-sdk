@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "offset_spectra_stitch.h"
 #include "spectra_stitch.h"
 
 namespace horiba::core::stitching {
@@ -19,11 +20,7 @@ class SimpleSpectraStitch : public SpectraStitch {
       std::unique_ptr<SpectraStitch> other_stitch) override;
 
  private:
-  std::vector<std::vector<double>> stitched_spectrum;
-
-  std::vector<std::vector<double>> stitch_spectra(
-      const std::vector<std::vector<double>>& spectrum1,
-      const std::vector<std::vector<double>>& spectrum2);
+  std::unique_ptr<OffsetSpectraStitch> offset_stitch;
 };
 
 }  // namespace horiba::core::stitching
