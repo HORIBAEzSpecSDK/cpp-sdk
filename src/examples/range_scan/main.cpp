@@ -97,8 +97,8 @@ auto main() -> int {
     ccd->set_center_wavelength(mono->device_id(), wavelength);
     ccd->set_x_axis_conversion_type(
         ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);
-    ccd->set_acquisition_format(1,
-                                ChargeCoupledDevice::AcquisitionFormat::IMAGE);
+    ccd->set_acquisition_format(
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
     ccd->set_region_of_interest();
 
     if (ccd->get_acquisition_ready()) {

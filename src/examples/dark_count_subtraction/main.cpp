@@ -89,7 +89,7 @@ auto main() -> int {
     ccd->set_timer_resolution(
         ChargeCoupledDevice::TimerResolution::THOUSAND_MICROSECONDS);
     ccd->set_acquisition_format(
-        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
     ccd->set_region_of_interest();
     ccd->set_x_axis_conversion_type(
         ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);

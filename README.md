@@ -156,7 +156,7 @@ this package will include access to more devices. The SDK exists for several pro
        mono->move_to_target_wavelength(target_wavelength);
        mono->wait_until_ready(timeout);
 
-       ccd->set_acquisition_format(1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
+       ccd->set_acquisition_format(1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
        ccd->set_acquisition_count(1);
        ccd->set_x_axis_conversion_type(ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);
        ccd->set_timer_resolution(ChargeCoupledDevice::TimerResolution::THOUSAND_MICROSECONDS);

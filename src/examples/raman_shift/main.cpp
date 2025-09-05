@@ -124,7 +124,7 @@ auto main() -> int {
     ccd->set_x_axis_conversion_type(
         ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);
     ccd->set_acquisition_format(
-        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
     constexpr auto exposure_time = chrono::milliseconds(5);
     ccd->set_exposure_time(exposure_time.count());
     ccd->set_timer_resolution(

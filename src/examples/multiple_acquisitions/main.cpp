@@ -76,7 +76,7 @@ auto main() -> int {
     ccd->set_gain(0);   // Hight Light
     ccd->set_speed(2);  // 1 MHz Ultra
     ccd->set_acquisition_format(
-        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
     ccd->set_region_of_interest();
 
     if (ccd->get_acquisition_ready()) {

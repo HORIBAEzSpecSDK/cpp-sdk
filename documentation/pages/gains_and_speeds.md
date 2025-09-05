@@ -53,7 +53,7 @@ auto main(int argc, char *argv[]) -> int {
     spdlog::info("------ Configuration ------");
     spdlog::info("Gains: {}", config["gains"].dump(2));
     spdlog::info("Speeds: {}", config["speeds"].dump(2));
-    ccd->set_acquisition_format(1, ChargeCoupledDevice::AcquisitionFormat::IMAGE);
+    ccd->set_acquisition_format(1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
 
   } catch (const exception &e) {
     spdlog::error("Exception: {}", e.what());
