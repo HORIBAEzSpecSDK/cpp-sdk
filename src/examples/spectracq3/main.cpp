@@ -32,8 +32,8 @@ class FakeProcess : public Process {
 } /* namespace horiba::os */
 
 auto plot_spectral_data(const int start_wavelength, const int end_wavelength,
-                        const std::vector<int> &x_data,
-                        const std::vector<double> &y_data) -> void {
+                        const std::vector<int>& x_data,
+                        const std::vector<double>& y_data) -> void {
   using namespace matplot;
 
   auto fig = figure(true);
@@ -80,7 +80,7 @@ auto main() -> int {
     icl_device_manager.stop();
     return 1;
   }
-  const auto &spectracq3 = spectracq3s[0];
+  const auto& spectracq3 = spectracq3s[0];
 
   const auto monos = icl_device_manager.monochromators();
   if (monos.empty()) {
@@ -88,7 +88,7 @@ auto main() -> int {
     icl_device_manager.stop();
     return 1;
   }
-  const auto &mono = monos[0];
+  const auto& mono = monos[0];
 
   try {
     mono->open();
@@ -121,7 +121,7 @@ auto main() -> int {
     std::vector<double> y_data_voltage;
     std::vector<double> y_data_counts;
 
-    for (const auto &wavelength : wavelengths) {
+    for (const auto& wavelength : wavelengths) {
       mono->move_to_target_wavelength(wavelength);
       while (mono->is_busy()) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -158,7 +158,7 @@ auto main() -> int {
     plot_spectral_data(start_wavelength, end_wavelength, x_data,
                        y_data_current);
 
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     spdlog::error("An error occurred: {}", e.what());
     spectracq3->close();
     mono->close();
@@ -170,7 +170,7 @@ auto main() -> int {
     spectracq3->close();
     mono->close();
     icl_device_manager.stop();
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     spdlog::info("An error occurred while closing devices: {}", e.what());
     // we expect an exception when the socket gets closed by the remote
   }

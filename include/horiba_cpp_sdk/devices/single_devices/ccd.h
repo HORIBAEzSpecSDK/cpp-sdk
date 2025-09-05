@@ -24,8 +24,7 @@ namespace horiba::devices::single_devices {
 class ChargeCoupledDevice final : public Device {
  public:
   enum class AcquisitionFormat : int {
-    SPECTRA = 0,
-    IMAGE,
+    SPECTRA_IMAGE = 1,
     CROP,
     FAST_KINETICS,
   };

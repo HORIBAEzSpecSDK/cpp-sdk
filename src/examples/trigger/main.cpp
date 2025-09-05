@@ -55,7 +55,7 @@ auto main() -> int {
   }
 
   spdlog::info("found {} CCDs", ccds.size());
-  const auto &ccd = ccds[0];
+  const auto& ccd = ccds[0];
 
   try {
     ccd->open();
@@ -68,7 +68,7 @@ auto main() -> int {
     // signal type will be the ones that you have to put in the function below:
     ccd->set_trigger_input(true, 0, 0, 0);
 
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     spdlog::error("Exception: {}", e.what());
     ccd->close();
     icl_device_manager.stop();
@@ -78,7 +78,7 @@ auto main() -> int {
   try {
     ccd->close();
     icl_device_manager.stop();
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     spdlog::error("Exception: {}", e.what());
     // we expect an exception when the socket gets closed by the remote
   }
