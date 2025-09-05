@@ -3,7 +3,6 @@
 
 #include <algorithm>
 #include <iterator>
-#include <numeric>
 #include <stdexcept>
 
 namespace horiba::core::stitching {

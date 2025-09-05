@@ -7,7 +7,7 @@ set(HORIBA_CPP_LIB_SOURCES
     core/stitching/average_spectra_stitch.cpp
     core/stitching/offset_spectra_stitch.cpp
     core/stitching/simple_spectra_stitch.cpp
-    # core/stitching/weight_average_spectra_stitch.cpp
+    core/stitching/weight_average_spectra_stitch.cpp
     devices/ccds_discovery.cpp
     devices/icl_device_manager.cpp
     devices/monos_discovery.cpp
