@@ -92,7 +92,7 @@ this package will include access to more devices. The SDK exists for several pro
     CPMAddPackage(
         NAME horiba-cpp-sdk
         GITHUB_REPOSITORY HORIBAEzSpecSDK/cpp-sdk
-        GIT_TAG v0.2.1
+        GIT_TAG v0.2.4
         OPTIONS
             # Uncomment if you enable hardening options
             "horiba_cpp_sdk_ENABLE_HARDENING OFF"
