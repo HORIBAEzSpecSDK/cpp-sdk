@@ -199,7 +199,7 @@ TEST_CASE_METHOD(ICLExe, "CCD test on HW", "[ccd_hw]") {
     // act
     // assert
     REQUIRE_NOTHROW(ccd.set_acquisition_format(
-        1, ChargeCoupledDevice::AcquisitionFormat::IMAGE));
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE));
     // we cannot check those values
   }
 
@@ -366,8 +366,8 @@ TEST_CASE_METHOD(ICLExe, "CCD test on HW", "[ccd_hw]") {
     // arrange
     ccd.open();
     ccd.set_exposure_time(100);
-    ccd.set_acquisition_format(1,
-                               ChargeCoupledDevice::AcquisitionFormat::IMAGE);
+    ccd.set_acquisition_format(
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
 
     // act
     ccd.set_region_of_interest(1, 0, 0, 1000, 200, 1, 200);
@@ -479,7 +479,7 @@ TEST_CASE_METHOD(ICLExe, "CCD test on HW", "[ccd_hw]") {
     REQUIRE_NOTHROW(ccd.set_timer_resolution(
         ChargeCoupledDevice::TimerResolution::THOUSAND_MICROSECONDS));
     REQUIRE_NOTHROW(ccd.set_acquisition_format(
-        1, ChargeCoupledDevice::AcquisitionFormat::IMAGE));
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE));
     REQUIRE_NOTHROW(ccd.set_exposure_time(exposure_time));
     REQUIRE_NOTHROW(ccd.set_region_of_interest());
     REQUIRE_FALSE(ccd.get_acquisition_busy());

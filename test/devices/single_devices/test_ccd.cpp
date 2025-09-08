@@ -152,7 +152,7 @@ TEST_CASE("CCD test with fake ICL", "[ccd_no_hw]") {
     // act
     // assert
     REQUIRE_NOTHROW(ccd.set_acquisition_format(
-        1, ChargeCoupledDevice::AcquisitionFormat::IMAGE));
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE));
     // we do not check if the new acquisition format is set, as the fake answer
     // from the ICL always returns the same value
   }

@@ -1,12 +1,4 @@
-set(SOURCES
-    spectra_stitch.h
-    labspec6_spectra_stitch.h
-    labspec6_spectra_stitch.cpp
-    linear_spectra_stitch.h
-    linear_spectra_stitch.cpp
-    simple_cut_spectra_stitch.h
-    simple_cut_spectra_stitch.cpp
-    main.cpp)
+set(SOURCES main.cpp)
 
 add_executable(range_scan ${SOURCES})
 

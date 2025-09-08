@@ -55,7 +55,7 @@ auto main() -> int {
   }
 
   spdlog::info("found {} CCDs", ccds.size());
-  const auto &ccd = ccds[0];
+  const auto& ccd = ccds[0];
 
   try {
     ccd->open();
@@ -65,10 +65,10 @@ auto main() -> int {
     spdlog::info("------ Configuration ------");
     spdlog::info("Gains: {}", config["gains"].dump(2));
     spdlog::info("Speeds: {}", config["speeds"].dump(2));
-    ccd->set_acquisition_format(1,
-                                ChargeCoupledDevice::AcquisitionFormat::IMAGE);
+    ccd->set_acquisition_format(
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
 
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     spdlog::error("Exception: {}", e.what());
     ccd->close();
     icl_device_manager.stop();
@@ -78,7 +78,7 @@ auto main() -> int {
   try {
     ccd->close();
     icl_device_manager.stop();
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     spdlog::error("Exception: {}", e.what());
     // we expect an exception when the socket gets closed by the remote
   }

@@ -1,17 +1,18 @@
-#ifndef LINEAR_SPECTRA_STITCH_H
-#define LINEAR_SPECTRA_STITCH_H
+#ifndef OFFSET_SPECTRA_STITCH_H
+#define OFFSET_SPECTRA_STITCH_H
 
 #include <memory>
 #include <vector>
 
 #include "spectra_stitch.h"
 
-namespace horiba::examples {
+namespace horiba::core::stitching {
 
-class LinearSpectraStitch : public SpectraStitch {
+class OffsetSpectraStitch : public SpectraStitch {
  public:
-  explicit LinearSpectraStitch(
-      const std::vector<std::vector<std::vector<double>>>& spectra_list);
+  explicit OffsetSpectraStitch(
+      const std::vector<std::vector<std::vector<double>>>& spectra_list,
+      std::optional<double> offset = std::nullopt);
 
   std::vector<std::vector<double>> stitched_spectra() override;
 
@@ -20,12 +21,13 @@ class LinearSpectraStitch : public SpectraStitch {
 
  private:
   std::vector<std::vector<double>> stitched_spectrum;
+  std::optional<double> spectrum_offset;
 
   std::vector<std::vector<double>> stitch_spectra(
       const std::vector<std::vector<double>>& spectrum1,
       const std::vector<std::vector<double>>& spectrum2);
 };
 
-} /* namespace horiba::examples */
+}  // namespace horiba::core::stitching
 
-#endif /* ifndef LINEAR_SPECTRA_STITCH_H */
+#endif /* ifndef OFFSET_SPECTRA_STITCH_H */

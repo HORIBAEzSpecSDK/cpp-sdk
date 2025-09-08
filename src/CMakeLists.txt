@@ -4,6 +4,10 @@ set(HORIBA_CPP_LIB_SOURCES
     communication/command.cpp
     communication/response.cpp
     communication/websocket_communicator.cpp
+    core/stitching/average_spectra_stitch.cpp
+    core/stitching/offset_spectra_stitch.cpp
+    core/stitching/simple_spectra_stitch.cpp
+    core/stitching/weight_average_spectra_stitch.cpp
     devices/ccds_discovery.cpp
     devices/icl_device_manager.cpp
     devices/monos_discovery.cpp
@@ -18,16 +22,20 @@ set(HORIBA_CPP_LIB_HEADERS
     include/horiba_cpp_sdk/communication/communicator.h
     include/horiba_cpp_sdk/communication/response.h
     include/horiba_cpp_sdk/communication/websocket_communicator.h
+    include/horiba_cpp_sdk/core/stitching/average_spectra_stitch.h
+    include/horiba_cpp_sdk/core/stitching/offset_spectra_stitch.h
+    include/horiba_cpp_sdk/core/stitching/simple_spectra_stitch.h
+    include/horiba_cpp_sdk/core/stitching/spectra_stitch.h
     include/horiba_cpp_sdk/devices/ccds_discovery.h
     include/horiba_cpp_sdk/devices/device_discovery.h
     include/horiba_cpp_sdk/devices/device_manager.h
     include/horiba_cpp_sdk/devices/icl_device_manager.h
     include/horiba_cpp_sdk/devices/monos_discovery.h
-    include/horiba_cpp_sdk/devices/spectracq3s_discovery.h
     include/horiba_cpp_sdk/devices/single_devices/ccd.h
     include/horiba_cpp_sdk/devices/single_devices/device.h
     include/horiba_cpp_sdk/devices/single_devices/mono.h
     include/horiba_cpp_sdk/devices/single_devices/spectracq3.h
+    include/horiba_cpp_sdk/devices/spectracq3s_discovery.h
     include/horiba_cpp_sdk/os/process.h)
 
 # Platform specific code

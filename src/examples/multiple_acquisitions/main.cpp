@@ -57,7 +57,7 @@ auto main() -> int {
     return 1;
   }
   spdlog::info("Discovered devices: {}", ccds.size());
-  const auto &ccd = ccds[0];
+  const auto& ccd = ccds[0];
 
   try {
     ccd->open();
@@ -76,7 +76,7 @@ auto main() -> int {
     ccd->set_gain(0);   // Hight Light
     ccd->set_speed(2);  // 1 MHz Ultra
     ccd->set_acquisition_format(
-        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
     ccd->set_region_of_interest();
 
     if (ccd->get_acquisition_ready()) {
@@ -95,7 +95,7 @@ auto main() -> int {
       spdlog::info("Acquisition data: {}", raw_data.dump());
     }
 
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     spdlog::error("An error occurred: {}", e.what());
     ccd->close();
     icl_device_manager.stop();
@@ -105,7 +105,7 @@ auto main() -> int {
   try {
     ccd->close();
     icl_device_manager.stop();
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     // we expect an exception when the socket gets closed by the remote
     spdlog::info("An error occurred while closing the device: {}", e.what());
   }

@@ -8,7 +8,7 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 #include <string>
-#include <vector>
+#include <unordered_set>
 
 namespace horiba::devices::single_devices {
 
@@ -100,6 +100,30 @@ class SpectrAcq3 final : public Device {
     ACTIVE_LOW = 0,
     /// Rising edge
     ACTIVE_HIGH = 1,
+  };
+
+  class Channel {
+   public:
+    std::string_view json_name() const { return name; }
+
+    bool operator==(const Channel&) const = default;
+
+    struct Hash {
+      std::size_t operator()(const Channel& c) const noexcept {
+        return std::hash<std::string_view>{}(c.name);
+      }
+    };
+
+    static const Channel Current;
+    static const Channel Voltage;
+    static const Channel Ppd;
+    static const Channel Pmt;
+
+    static const std::unordered_set<Channel, Hash> all_existing_channels;
+
+   private:
+    explicit Channel(std::string_view name) : name(name) {}
+    std::string_view name;
   };
 
   SpectrAcq3(int id, std::shared_ptr<communication::Communicator> communicator);
@@ -268,7 +292,9 @@ class SpectrAcq3 final : public Device {
    *
    * @return acquisition data
    */
-  nlohmann::json get_acquisition_data() noexcept(false);
+  nlohmann::json get_acquisition_data(
+      std::unordered_set<Channel, Channel::Hash> channels =
+          Channel::all_existing_channels) noexcept(false);
 
   /**
    * @brief Software Trigger, treated the same as Hardware Trigger (IN).

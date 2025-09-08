@@ -54,10 +54,10 @@ auto main() -> int {
   icl_device_manager.discover_devices();
 
   const auto ccds = icl_device_manager.charge_coupled_devices();
-  const auto &ccd = ccds[0];
+  const auto& ccd = ccds[0];
 
   const auto monos = icl_device_manager.monochromators();
-  const auto &mono = monos[0];
+  const auto& mono = monos[0];
   cout << "Mono index: " << mono->device_id() << "\n";
   const auto timeout = std::chrono::seconds(180);
 
@@ -89,7 +89,7 @@ auto main() -> int {
     ccd->set_timer_resolution(
         ChargeCoupledDevice::TimerResolution::THOUSAND_MICROSECONDS);
     ccd->set_acquisition_format(
-        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
     ccd->set_region_of_interest();
     ccd->set_x_axis_conversion_type(
         ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);
@@ -117,7 +117,7 @@ auto main() -> int {
       show();
     }
 
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     cout << e.what() << "\n";
     ccd->close();
     mono->close();
@@ -129,7 +129,7 @@ auto main() -> int {
     ccd->close();
     mono->close();
     icl_device_manager.stop();
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     cout << e.what() << "\n";
     // we expect an exception when the socket gets closed by the remote
   }

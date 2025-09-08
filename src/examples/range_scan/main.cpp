@@ -1,6 +1,7 @@
 // Note: on Windows if you use scaling, add the environment variable
 // GNUTERM="qt" to avoid strange rendering artifacts
 #include <horiba_cpp_sdk/communication/websocket_communicator.h>
+#include <horiba_cpp_sdk/core/stitching/simple_spectra_stitch.h>
 #include <horiba_cpp_sdk/devices/icl_device_manager.h>
 #include <horiba_cpp_sdk/devices/single_devices/ccd.h>
 #include <horiba_cpp_sdk/devices/single_devices/mono.h>
@@ -10,14 +11,9 @@
 
 #include <algorithm>
 #include <chrono>
-#include <iostream>
 #include <nlohmann/json.hpp>
 #include <thread>
 #include <vector>
-
-// #include "labspec6_spectra_stitch.h"
-#include "linear_spectra_stitch.h"
-// #include "simple_cut_spectra_stitch.h"
 
 #ifdef _WIN32
 #include <horiba_cpp_sdk/os/windows_process.h>
@@ -37,10 +33,10 @@ class FakeProcess : public Process {
 
 auto main() -> int {
   using namespace nlohmann;
-  using namespace horiba::examples;
   using namespace horiba::devices;
   using namespace horiba::os;
   using namespace horiba::devices::single_devices;
+  using namespace horiba::core::stitching;
   using namespace horiba::communication;
   using namespace matplot;
   using namespace std;
@@ -63,14 +59,14 @@ auto main() -> int {
     spdlog::error("No CCD devices found.");
     return 1;
   }
-  const auto &ccd = ccds[0];
+  const auto& ccd = ccds[0];
 
   const auto monos = icl_device_manager.monochromators();
   if (monos.empty()) {
     spdlog::error("No Monochromator devices found.");
     return 1;
   }
-  const auto &mono = monos[0];
+  const auto& mono = monos[0];
   const auto timeout = std::chrono::seconds(180);
 
   try {
@@ -101,8 +97,8 @@ auto main() -> int {
     ccd->set_center_wavelength(mono->device_id(), wavelength);
     ccd->set_x_axis_conversion_type(
         ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);
-    ccd->set_acquisition_format(1,
-                                ChargeCoupledDevice::AcquisitionFormat::IMAGE);
+    ccd->set_acquisition_format(
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
     ccd->set_region_of_interest();
 
     if (ccd->get_acquisition_ready()) {
@@ -141,15 +137,13 @@ auto main() -> int {
         spectra.push_back({x_data, y_data});
       }
 
-      std::ranges::sort(spectra, [](const auto &a, const auto &b) {
+      std::ranges::sort(spectra, [](const auto& a, const auto& b) {
         return a[0][0] < b[0][0];
       });
 
       // Here are some examples of how to stitch the spectra together.
       // You can of course create your own stitching algorithm.
-      /* auto spectra_stitch = make_unique<SimpleCutSpectraStitch>(spectra); */
-      /* auto spectra_stitch = make_unique<LabSpec6SpectraStitch>(spectra); */
-      auto spectra_stitch = make_unique<LinearSpectraStitch>(spectra);
+      auto spectra_stitch = make_unique<SimpleSpectraStitch>(spectra);
       auto stitched_spectra_data = spectra_stitch->stitched_spectra();
 
       plot(stitched_spectra_data[0], stitched_spectra_data[1]);
@@ -160,7 +154,7 @@ auto main() -> int {
       show();
     }
 
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     spdlog::error("An error occurred: {}", e.what());
     ccd->close();
     mono->close();
@@ -172,7 +166,7 @@ auto main() -> int {
     ccd->close();
     mono->close();
     icl_device_manager.stop();
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     // we expect an exception when the socket gets closed by the remote
     spdlog::info("An error occurred while closing devices: {}", e.what());
   }

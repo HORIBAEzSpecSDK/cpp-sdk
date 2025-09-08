@@ -60,7 +60,7 @@ auto main() -> int {
     return 1;
   }
 
-  const auto &ccd = ccds[0];
+  const auto& ccd = ccds[0];
 
   try {
     ccd->open();
@@ -68,7 +68,7 @@ auto main() -> int {
     ccd->set_x_axis_conversion_type(
         ChargeCoupledDevice::XAxisConversionType::FROM_CCD_FIRMWARE);
     ccd->set_acquisition_format(
-        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA);
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
     constexpr auto exposure_time = chrono::milliseconds(1000);
     ccd->set_exposure_time(exposure_time.count());
     ccd->set_region_of_interest();
@@ -97,7 +97,7 @@ auto main() -> int {
       }
     }
 
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     cout << e.what() << "\n";
     ccd->close();
     icl_device_manager.stop();
@@ -107,7 +107,7 @@ auto main() -> int {
   try {
     ccd->close();
     icl_device_manager.stop();
-  } catch (const exception &e) {
+  } catch (const exception& e) {
     cout << e.what() << "\n";
     // we expect an exception when the socket gets closed by the remote
   }

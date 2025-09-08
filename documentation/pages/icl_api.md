@@ -1250,13 +1250,12 @@ Returns the position of the specified slit in millimeters. The location id of ea
 ]
 ```
 
-_Note:_ The "locationId" parameter found in the mono configuration is 1-based. However, the mono_getSlitPositionInMM command uses a 0-based "locationId".
 
 **Command parameters:**
 >| parameter  | description   |
 >|---|---|
 >| index | Integer. Used to identify which mono to control. See [mono_list](#mono_list) command|
->| locationId | Integer. Slit location (zero-based) |
+>| locationId | Integer. Slit locationId from mono config |
 
 **Response results:**
 >| results | description |
@@ -1271,7 +1270,7 @@ _Note:_ The "locationId" parameter found in the mono configuration is 1-based. H
     "command": "mono_getSlitPositionInMM",
     "parameters":{
         "index": 0,
-        "locationId": 3
+        "locationId": 4
     }
 }
 ```
@@ -1316,13 +1315,12 @@ Moves the specified slit to the position in millimeters. The location id of each
 ]
 ```
 
-_Note:_ The "locationId" parameter found in the mono configuration is 1-based. However, the mono_moveSlitMM command uses a 0-based "locationId".
 
 **Command parameters:**
 >| parameter  | description   |
 >|---|---|
 >| index | Integer. Used to identify which mono to control. See [mono_list](#mono_list) command|
->| locationId | Integer. Slit location (zero-based) |
+>| locationId | Integer. Slit locationId from mono config |
 >| position | Float. Position in millimeters |
 
 **Response results:**
@@ -1338,7 +1336,7 @@ _Note:_ The "locationId" parameter found in the mono configuration is 1-based. H
     "command": "mono_moveSlitMM",
     "parameters":{
         "index": 0,
-        "locationId": 1,
+        "locationId": 2,
         "position": 1.5
     }
 }
@@ -2773,9 +2771,10 @@ Sets the acquisition format and the number of ROIs (Regions of Interest) or area
 >|---|---|
 >| index | Integer. Used to identify which CCD to target. See [ccd_list](#ccd_list) command|
 >| numberOfRois | Integer. Number of ROIs (Regions of Interest / areas)
->| format | Integer. The acquisition format. <br> 0 = Spectra <br> 1 = Image <br> 2 = Crop\* <br> 3 = Fast Kinetics\*
+>| format | Integer. The acquisition format. <br> 1 = Image/Spectra* (ROI dependant) <br> 2 = Crop\* (Only 1 ROI may be defined per acquisition when using this format)<br> 3 = Fast Kinetics\* (MultiAcq is not supported when using this format)
 
-_\* Note:_ The Crop (2) and Fast Kinetics (3) acquisition formats are not supported by every CCD.
+_\* Note 1:_ To use the Spectra acquisition format, set yBin = ySize when defining the ROI. See [ccd_setRoi](#ccd_setroi) <br>
+_\* Note 2:_ The Crop and Fast Kinetics acquisition formats are not supported by every CCD.
 
 **Return Results:**
 >| results | description |
@@ -5424,13 +5423,11 @@ Moves the specified slit to the position in steps. The location id of each confi
 ]
 ```
 
-_Note:_ The "locationId" parameter found in the mono configuration is 1-based. However, the mono_moveSlit command uses a 0-based "locationId".
-
 **Command parameters:**
 >| parameter  | description   |
 >|---|---|
 >| index | Integer. Used to identify which mono to control. See _mono_list_ command|
->| locationId | Integer. Slit location (zero-based) |
+>| locationId | Integer. Slit locationId from mono config |
 >| position | Integer. Position in steps |
 
 **Response results:**
@@ -5446,7 +5443,7 @@ _Note:_ The "locationId" parameter found in the mono configuration is 1-based. H
     "command": "mono_moveSlit",
     "parameters":{
         "index": 0,
-        "locationId": 1,
+        "locationId": 2,
         "position": 250
     }
 }
@@ -5490,13 +5487,12 @@ Returns the position of the specified slit in steps. The location id of each con
 ]
 ```
 
-_Note:_ The "locationId" parameter found in the mono configuration is 1-based. However, the mono_getSlitStepPosition command uses a 0-based "locationId".
 
 **Command parameters:**
 >| parameter  | description   |
 >|---|---|
 >| index | Integer. Used to identify which mono to control. See _mono_list_ command|
->| locationId | Integer. Slit location (zero-based) |
+>| locationId | Integer. Slit locationId from mono config |
 
 **Response results:**
 >| results | description |
@@ -5511,7 +5507,7 @@ _Note:_ The "locationId" parameter found in the mono configuration is 1-based. H
     "command": "mono_getSlitStepPosition",
     "parameters":{
         "index": 0,
-        "locationId": 3
+        "locationId": 4
     }
 }
 ```
