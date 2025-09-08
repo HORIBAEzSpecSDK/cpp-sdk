@@ -169,12 +169,9 @@ nlohmann::json SpectrAcq3::get_acquisition_data(
     channels_json_names.emplace_back(channel_json_name);
   }
 
-  nlohmann::json json_channels;
-  json_channels["channels"] = channels_json_names;
-
-  auto response = Device::execute_command(
-      communication::Command("saq3_getAvailableData",
-                             {{"index", Device::device_id()}, json_channels}));
+  auto response = Device::execute_command(communication::Command(
+      "saq3_getAvailableData",
+      {{"index", Device::device_id()}, {"channels", channels_json_names}}));
 
   return response.json_results()["data"];
 }
