@@ -170,9 +170,9 @@ TEST_CASE_METHOD(ICLExe, "Mono test on HW", "[mono_hw]") {
 
     const auto filter_wheel = Monochromator::FilterWheel::FIRST;
     const auto expected_filter_wheel_position_before =
-        Monochromator::FilterWheelPosition::RED;
+        Monochromator::FilterWheelPosition::FIRST;
     const auto expected_filter_wheel_position_after =
-        Monochromator::FilterWheelPosition::GREEN;
+        Monochromator::FilterWheelPosition::SECOND;
     const std::chrono::seconds max_timeout{180};
 
     // act
