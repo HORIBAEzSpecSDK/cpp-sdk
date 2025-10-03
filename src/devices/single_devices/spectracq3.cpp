@@ -15,10 +15,10 @@ using namespace nlohmann;
 const SpectrAcq3::Channel SpectrAcq3::Channel::Current{"current"};
 const SpectrAcq3::Channel SpectrAcq3::Channel::Voltage{"voltage"};
 const SpectrAcq3::Channel SpectrAcq3::Channel::Ppd{"ppd"};
-const SpectrAcq3::Channel SpectrAcq3::Channel::Pmt{"pmt"};
+const SpectrAcq3::Channel SpectrAcq3::Channel::Photon{"photon"};
 
 const std::unordered_set<SpectrAcq3::Channel, SpectrAcq3::Channel::Hash>
-    SpectrAcq3::Channel::all_existing_channels{Current, Voltage, Ppd, Pmt};
+    SpectrAcq3::Channel::all_existing_channels{Current, Voltage, Ppd, Photon};
 
 SpectrAcq3::SpectrAcq3(
     int id, std::shared_ptr<communication::Communicator> communicator)
@@ -90,8 +90,8 @@ int SpectrAcq3::get_max_hv_voltage_allowed() {
   return response.json_results().at("biasVoltage").get<int>();
 }
 
-void SpectrAcq3::set_acquisition_set(int scan_count, int time_step,
-                                     int integration_time, int external_param) {
+void SpectrAcq3::set_acquisition_set(int scan_count, double time_step,
+                                     double integration_time, int external_param) {
   [[maybe_unused]] auto ignored_response =
       Device::execute_command(communication::Command(
           "saq3_setAcqSet", {{"index", Device::device_id()},
@@ -107,8 +107,8 @@ AcquisitionSetParameters SpectrAcq3::get_acquisition_set() {
   auto json_results = response.json_results();
   return AcquisitionSetParameters{
       json_results.at("scanCount").get<int>(),
-      std::chrono::seconds(json_results.at("timeStep").get<int>()),
-      std::chrono::seconds(json_results.at("integrationTime").get<int>()),
+      json_results.at("timeStep").get<double>(),
+      json_results.at("integrationTime").get<double>(),
       json_results.at("externalParam").get<int>()};
 }
 
