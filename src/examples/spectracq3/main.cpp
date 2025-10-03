@@ -5,6 +5,7 @@
 #include <horiba_cpp_sdk/devices/icl_device_manager.h>
 #include <horiba_cpp_sdk/devices/single_devices/ccd.h>
 #include <horiba_cpp_sdk/devices/single_devices/mono.h>
+#include <horiba_cpp_sdk/devices/single_devices/spectracq3.h>
 #include <horiba_cpp_sdk/os/process.h>
 #include <matplot/matplot.h>
 #include <spdlog/spdlog.h>
@@ -14,6 +15,7 @@
 #include <nlohmann/json.hpp>
 #include <string>
 #include <thread>
+#include <memory>
 
 #ifdef _WIN32
 #include <horiba_cpp_sdk/os/windows_process.h>
@@ -32,7 +34,7 @@ class FakeProcess : public Process {
 } /* namespace horiba::os */
 
 auto plot_spectral_data(const int start_wavelength, const int end_wavelength,
-                        const std::vector<int>& x_data,
+                        const std::vector<double>& x_data,
                         const std::vector<double>& y_data) -> void {
   using namespace matplot;
 
@@ -59,6 +61,8 @@ auto main() -> int {
   using namespace horiba::communication;
   using namespace matplot;
   using namespace std;
+  using Channel = horiba::devices::single_devices::SpectrAcq3::Channel;
+
 
   spdlog::set_level(spdlog::level::debug);
 
@@ -100,23 +104,21 @@ auto main() -> int {
     spdlog::info("Firmware version: {}", firmware_version);
 
     // do an acquisition
-    constexpr auto start_wavelength = 490;
-    constexpr auto end_wavelength = 520;
-    constexpr auto increment_wavelength = 3;
-    std::vector<int> wavelengths;
-    for (int wavelength :
-         std::views::iota(start_wavelength, end_wavelength + 1)) {
-      if ((wavelength - start_wavelength) % increment_wavelength == 0) {
+    constexpr auto start_wavelength = 400;
+    constexpr auto end_wavelength = 700;
+    constexpr auto increment_wavelength = 1;
+    std::vector<double> wavelengths;
+
+    for (double wavelength = start_wavelength; wavelength <= end_wavelength + 1e-9; wavelength += increment_wavelength) {
         wavelengths.push_back(wavelength);
-      }
     }
 
     constexpr auto scan_count = 1;
     constexpr auto time_step = 0;
-    constexpr auto integration_time = 1;
+    constexpr auto integration_time = 0.1;
     constexpr auto external_param = 0;
 
-    std::vector<int> x_data(wavelengths.begin(), wavelengths.end());
+    std::vector<double> x_data(wavelengths.begin(), wavelengths.end());
     std::vector<double> y_data_current;
     std::vector<double> y_data_voltage;
     std::vector<double> y_data_counts;
@@ -124,21 +126,22 @@ auto main() -> int {
     for (const auto& wavelength : wavelengths) {
       mono->move_to_target_wavelength(wavelength);
       while (mono->is_busy()) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
       }
       spdlog::info("Mono moved to wavelength: {}", wavelength);
 
       while (spectracq3->is_busy()) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         spdlog::info("Spectracq3 is busy, waiting...");
       }
       spectracq3->set_acquisition_set(scan_count, time_step, integration_time,
                                       external_param);
+      spectracq3->acquisition_start(SpectrAcq3::TriggerMode::START_AND_INTERVAL);
       while (spectracq3->is_busy()) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(150));
         spdlog::info("Spectracq3 is busy, waiting...");
       }
-      std::this_thread::sleep_for(std::chrono::seconds(5));
+      std::this_thread::sleep_for(std::chrono::milliseconds(150));
       if (!spectracq3->is_data_available()) {
         spdlog::error("No data available for wavelength: {}", wavelength);
         spectracq3->close();
@@ -146,17 +149,25 @@ auto main() -> int {
         icl_device_manager.stop();
         return 1;
       }
-      auto data = spectracq3->get_acquisition_data();
+
+      std::unordered_set<Channel, Channel::Hash> channels = {
+        Channel::Voltage,
+        Channel::Current,
+        Channel::Photon,          // include only the ones you need
+        //Channel:Ppd
+      };
+
+      auto data = spectracq3->get_acquisition_data(channels);
       spdlog::info("Acquisition data for wavelength {}nm: {}", wavelength,
                    data.dump());
 
       y_data_current.push_back(data[0]["currentSignal"]["value"]);
       y_data_voltage.push_back(data[0]["voltageSignal"]["value"]);
-      y_data_counts.push_back(data[0]["ppdSignal"]["value"]);
+      y_data_counts.push_back(data[0]["pmtSignal"]["value"]);
     }
 
     plot_spectral_data(start_wavelength, end_wavelength, x_data,
-                       y_data_current);
+                       y_data_counts);
 
   } catch (const exception& e) {
     spdlog::error("An error occurred: {}", e.what());
