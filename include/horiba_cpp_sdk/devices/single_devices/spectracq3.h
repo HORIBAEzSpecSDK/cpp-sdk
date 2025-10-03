@@ -18,8 +18,8 @@ namespace horiba::devices::single_devices {
 class AcquisitionSetParameters final {
  public:
   explicit AcquisitionSetParameters(int scan_count,
-                                    std::chrono::seconds time_step,
-                                    std::chrono::seconds integration_time,
+                                    double time_step,
+                                    double integration_time,
                                     int external_param)
       : _scan_count(scan_count),
         _time_step(time_step),
@@ -40,14 +40,14 @@ class AcquisitionSetParameters final {
    *
    * @return Interval between successive scans for time based scan in seconds.
    */
-  [[nodiscard]] std::chrono::seconds time_step() const { return _time_step; }
+  [[nodiscard]] double time_step() const { return _time_step; }
 
   /**
    * @brief Integration time in seconds
    *
    * @return Integration time in seconds
    */
-  [[nodiscard]] std::chrono::seconds integration_time() const {
+  [[nodiscard]] double integration_time() const {
     return _integration_time;
   }
 
@@ -60,8 +60,8 @@ class AcquisitionSetParameters final {
 
  private:
   int _scan_count;
-  std::chrono::seconds _time_step;
-  std::chrono::seconds _integration_time;
+  double _time_step;
+  double _integration_time;
   int _external_param;
 };
 
@@ -115,9 +115,11 @@ class SpectrAcq3 final : public Device {
     };
 
     static const Channel Current;
-    static const Channel Voltage;
+    static const Channel Photon;
     static const Channel Ppd;
-    static const Channel Pmt;
+    static const Channel Voltage;
+
+
 
     static const std::unordered_set<Channel, Hash> all_existing_channels;
 
@@ -229,7 +231,7 @@ class SpectrAcq3 final : public Device {
    *
    * @throw std::runtime_error when an error occurred on the device side
    */
-  void set_acquisition_set(int scan_count, int time_step, int integration_time,
+  void set_acquisition_set(int scan_count, double time_step, double integration_time,
                            int external_param) noexcept(false);
 
   /**
