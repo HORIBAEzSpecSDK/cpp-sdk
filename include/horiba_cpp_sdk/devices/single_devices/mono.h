@@ -50,7 +50,7 @@ class Monochromator final : public Device {
    * @brief Positions of the filter wheel installed in the monochromator.
    * Depending on the model, not all positions may be available.
    */
-  enum class FilterWheelPosition : int { RED, GREEN, BLUE, YELLOW };
+  enum class FilterWheelPosition : int { FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH };
 
   /**
    * @brief Mirrors installed in the monochromator. Depending on the model, not
