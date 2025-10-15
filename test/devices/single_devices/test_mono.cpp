@@ -151,7 +151,8 @@ TEST_CASE("Mono test with fake ICL", "[mono_no_hw]") {
     // arrange
     mono.open();
     const auto filter_wheel = Monochromator::FilterWheel::FIRST;
-    const auto filter_wheel_position = Monochromator::FilterWheelPosition::SECOND;
+    const auto filter_wheel_position =
+        Monochromator::FilterWheelPosition::SECOND;
 
     // act
     // assert
