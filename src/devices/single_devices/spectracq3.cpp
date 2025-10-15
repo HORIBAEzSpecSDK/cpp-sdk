@@ -91,7 +91,8 @@ int SpectrAcq3::get_max_hv_voltage_allowed() {
 }
 
 void SpectrAcq3::set_acquisition_set(int scan_count, double time_step,
-                                     double integration_time, int external_param) {
+                                     double integration_time,
+                                     int external_param) {
   [[maybe_unused]] auto ignored_response =
       Device::execute_command(communication::Command(
           "saq3_setAcqSet", {{"index", Device::device_id()},

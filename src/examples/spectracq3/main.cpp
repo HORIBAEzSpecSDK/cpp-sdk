@@ -12,10 +12,10 @@
 
 #include <chrono>
 #include <iostream>
+#include <memory>
 #include <nlohmann/json.hpp>
 #include <string>
 #include <thread>
-#include <memory>
 
 #ifdef _WIN32
 #include <horiba_cpp_sdk/os/windows_process.h>
@@ -63,7 +63,6 @@ auto main() -> int {
   using namespace std;
   using Channel = horiba::devices::single_devices::SpectrAcq3::Channel;
 
-
   spdlog::set_level(spdlog::level::debug);
 
 #ifdef _WIN32
@@ -109,8 +108,10 @@ auto main() -> int {
     constexpr auto increment_wavelength = 1;
     std::vector<double> wavelengths;
 
-    for (double wavelength = start_wavelength; wavelength <= end_wavelength + 1e-9; wavelength += increment_wavelength) {
-        wavelengths.push_back(wavelength);
+    for (double wavelength = start_wavelength;
+         wavelength <= end_wavelength + 1e-9;
+         wavelength += increment_wavelength) {
+      wavelengths.push_back(wavelength);
     }
 
     constexpr auto scan_count = 1;
@@ -136,7 +137,8 @@ auto main() -> int {
       }
       spectracq3->set_acquisition_set(scan_count, time_step, integration_time,
                                       external_param);
-      spectracq3->acquisition_start(SpectrAcq3::TriggerMode::START_AND_INTERVAL);
+      spectracq3->acquisition_start(
+          SpectrAcq3::TriggerMode::START_AND_INTERVAL);
       while (spectracq3->is_busy()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
         spdlog::info("Spectracq3 is busy, waiting...");
@@ -151,10 +153,9 @@ auto main() -> int {
       }
 
       std::unordered_set<Channel, Channel::Hash> channels = {
-        Channel::Voltage,
-        Channel::Current,
-        Channel::Photon,          // include only the ones you need
-        //Channel:Ppd
+          Channel::Voltage, Channel::Current,
+          Channel::Photon,  // include only the ones you need
+                            // Channel:Ppd
       };
 
       auto data = spectracq3->get_acquisition_data(channels);
@@ -166,8 +167,7 @@ auto main() -> int {
       y_data_counts.push_back(data[0]["pmtSignal"]["value"]);
     }
 
-    plot_spectral_data(start_wavelength, end_wavelength, x_data,
-                       y_data_counts);
+    plot_spectral_data(start_wavelength, end_wavelength, x_data, y_data_counts);
 
   } catch (const exception& e) {
     spdlog::error("An error occurred: {}", e.what());

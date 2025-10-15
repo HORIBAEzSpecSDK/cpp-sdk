@@ -17,10 +17,8 @@ namespace horiba::devices::single_devices {
  */
 class AcquisitionSetParameters final {
  public:
-  explicit AcquisitionSetParameters(int scan_count,
-                                    double time_step,
-                                    double integration_time,
-                                    int external_param)
+  explicit AcquisitionSetParameters(int scan_count, double time_step,
+                                    double integration_time, int external_param)
       : _scan_count(scan_count),
         _time_step(time_step),
         _integration_time(integration_time),
@@ -47,9 +45,7 @@ class AcquisitionSetParameters final {
    *
    * @return Integration time in seconds
    */
-  [[nodiscard]] double integration_time() const {
-    return _integration_time;
-  }
+  [[nodiscard]] double integration_time() const { return _integration_time; }
 
   /**
    * @brief User defined value
@@ -118,8 +114,6 @@ class SpectrAcq3 final : public Device {
     static const Channel Photon;
     static const Channel Ppd;
     static const Channel Voltage;
-
-
 
     static const std::unordered_set<Channel, Hash> all_existing_channels;
 
@@ -231,7 +225,8 @@ class SpectrAcq3 final : public Device {
    *
    * @throw std::runtime_error when an error occurred on the device side
    */
-  void set_acquisition_set(int scan_count, double time_step, double integration_time,
+  void set_acquisition_set(int scan_count, double time_step,
+                           double integration_time,
                            int external_param) noexcept(false);
 
   /**
