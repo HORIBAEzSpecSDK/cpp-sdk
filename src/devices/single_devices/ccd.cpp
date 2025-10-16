@@ -210,6 +210,23 @@ void ChargeCoupledDevice::set_exposure_time(int exposure_time_ms) {
       {{"index", Device::device_id()}, {"time", exposure_time_ms}}));
 }
 
+
+int ChargeCoupledDevice::get_em_gain() {
+  auto response = Device::execute_command(communication::Command(
+      "ccd_getEMGain", {{"index", Device::device_id()}}));
+  auto json_results = response.json_results();
+  auto gain = json_results.at("gain").get<int>();
+
+  return gain;
+}
+
+void ChargeCoupledDevice::set_em_gain(int em_gain) {
+  auto _ignored_response = Device::execute_command(communication::Command(
+      "ccd_setEMGain",
+      {{"index", Device::device_id()}, {"gain", em_gain}}));
+}
+
+
 std::tuple<bool, int, int, int> ChargeCoupledDevice::get_trigger_input() {
   auto response = Device::execute_command(communication::Command(
       "ccd_getTriggerIn", {{"index", Device::device_id()}}));
