@@ -340,6 +340,26 @@ class ChargeCoupledDevice final : public Device {
   void set_exposure_time(int exposure_time_ms) noexcept(false);
 
   /**
+   * @brief Returns the EM Gain value.
+   *
+   * @return int EM Gain.
+   *
+   * @throws std::exception When an error occurs on the device side.
+   */
+  int get_em_gain() noexcept(false);
+
+  /**
+   * @brief Sets the EM Gain value for EMCCDs. Refer to the API document.
+   * for usage and information on detector safety.
+   *
+   * @param em_gain EM Gain value, 1-1000.
+   *
+   * @throws std::exception When an error occurs on the device side.
+   */
+  void set_em_gain(int em_gain) noexcept(false);
+
+
+  /**
    * @brief This command is used to get the current setting of the input
    * trigger.
    *
