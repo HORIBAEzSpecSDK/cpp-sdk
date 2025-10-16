@@ -358,7 +358,6 @@ class ChargeCoupledDevice final : public Device {
    */
   void set_em_gain(int em_gain) noexcept(false);
 
-
   /**
    * @brief This command is used to get the current setting of the input
    * trigger.
