@@ -86,20 +86,30 @@ auto main() -> int {
     mono->wait_until_ready(timeout);
     auto wavelength = mono->get_current_wavelength();
 
-    // ccd configuration
-    ccd->set_timer_resolution(
-        ChargeCoupledDevice::TimerResolution::THOUSAND_MICROSECONDS);
-    ccd->set_exposure_time(2);
-    ccd->set_gain(0);   // High light
-    ccd->set_speed(2);  // 1 MHz Ultra
-    ccd->set_acquisition_count(1);
+    // ccd config
 
-    ccd->set_center_wavelength(mono->device_id(), wavelength);
-    ccd->set_x_axis_conversion_type(
-        ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);
+    auto config = ccd->get_configuration();
+    int chip_x = config["chipWidth"];
+    int chip_y = config["chipHeight"];
+
     ccd->set_acquisition_format(
         1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
-    ccd->set_region_of_interest();
+
+    ccd->set_region_of_interest(1, 0, 0, chip_x, chip_y, 1, chip_y);
+
+    auto center_wavelength = mono->get_current_wavelength();
+    ccd->set_center_wavelength(mono->device_id(), center_wavelength);
+
+    ccd->set_x_axis_conversion_type(
+        ChargeCoupledDevice::XAxisConversionType::FROM_ICL_SETTINGS_INI);
+
+    ccd->set_timer_resolution(
+        ChargeCoupledDevice::TimerResolution::THOUSAND_MICROSECONDS);
+
+    constexpr int exposure_time = 1000;
+    ccd->set_exposure_time(exposure_time);
+
+    ccd->set_acquisition_count(1);
 
     if (ccd->get_acquisition_ready()) {
       std::vector<std::vector<std::vector<double>>> spectra;
@@ -118,16 +128,25 @@ auto main() -> int {
         ccd->set_center_wavelength(mono->device_id(), wavelength);
 
         auto open_shutter = true;
-        ccd->set_acquisition_start(open_shutter);
-        // wait a short time for the acquisition to start
-        constexpr auto sleep_time = chrono::milliseconds(500);
-        this_thread::sleep_for(sleep_time);
 
-        while (ccd->get_acquisition_busy()) {
-          this_thread::sleep_for(sleep_time);
+        std::any data_return;
+
+        ccd->set_acquisition_start(open_shutter);
+        int sleep_time = (exposure_time / 1000) * 2;
+        while (true) {
+          try {
+            this_thread::sleep_for(std::chrono::seconds(sleep_time));
+            ;
+            cout << "Trying for data...\n";
+            data_return = ccd->get_acquisition_data();
+            break;
+          } catch (const std::exception& e) {
+            std::cout << "Data not ready yet...\n";
+          }
         }
 
-        auto raw_data = any_cast<json>(ccd->get_acquisition_data());
+        const json& raw_data = std::any_cast<const json&>(data_return);
+
         std::vector<double> x_data =
             raw_data[0]["roi"][0]["xData"].get<std::vector<double>>();
         std::ranges::reverse(x_data);

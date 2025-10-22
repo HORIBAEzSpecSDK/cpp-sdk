@@ -64,46 +64,66 @@ auto main() -> int {
 
   try {
     ccd->open();
-    ccd->set_acquisition_count(1);
-    ccd->set_x_axis_conversion_type(
-        ChargeCoupledDevice::XAxisConversionType::FROM_CCD_FIRMWARE);
+
+    // ccd config
+
+    auto config = ccd->get_configuration();
+    int chip_x = config["chipWidth"];
+    int chip_y = config["chipHeight"];
+
     ccd->set_acquisition_format(
         1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
-    constexpr auto exposure_time = chrono::milliseconds(1000);
-    ccd->set_exposure_time(exposure_time.count());
-    ccd->set_region_of_interest();
+
+    ccd->set_region_of_interest(1, 0, 0, chip_x, chip_y, 1, chip_y);
+
+    ccd->set_x_axis_conversion_type(
+        ChargeCoupledDevice::XAxisConversionType::NONE);
+
+    ccd->set_acquisition_count(1);
+
+    ccd->set_timer_resolution(
+        ChargeCoupledDevice::TimerResolution::THOUSAND_MICROSECONDS);
+
+    constexpr int exposure_time = 1000;
+    ccd->set_exposure_time(exposure_time);
     ccd->set_trigger_input(true, 0, 0, 1);
 
     if (ccd->get_acquisition_ready()) {
       const auto open_shutter = true;
       ccd->set_acquisition_start(open_shutter);
       // wait a short time for the acquisition to start
-      this_thread::sleep_for(chrono::seconds(1));
-
-      constexpr auto sleep_time = chrono::milliseconds(500);
-      while (ccd->get_acquisition_busy()) {
-        this_thread::sleep_for(sleep_time);
-        ccd->abort_acquisition();
+      int sleep_time = (exposure_time / 1000) * 2;
+      while (true) {
+        try {
+          this_thread::sleep_for(std::chrono::seconds(sleep_time));
+          ;
+          cout << "Trying for data...\n";
+          auto raw_data = any_cast<json>(ccd->get_acquisition_data());
+          break;
+        } catch (const std::exception& e) {
+          std::cout << "Caught exception: " << e.what() << "\n";
+          ccd->abort_acquisition();
+          break;
+        }
       }
 
+      this_thread::sleep_for(std::chrono::seconds(sleep_time));
+      ;
       auto raw_data = any_cast<json>(ccd->get_acquisition_data());
-
       vector<double> x_values = raw_data[0]["roi"][0]["xData"];
       vector<int> y_values = raw_data[0]["roi"][0]["yData"][0];
-      cout << "Data"
+      cout << "Data during wait for trigger"
            << "\n";
       for (size_t i = 0; i < x_values.size(); i++) {
         cout << "x: " << x_values[i] << ", y: " << y_values[i] << "\n";
       }
     }
-
   } catch (const exception& e) {
     cout << e.what() << "\n";
     ccd->close();
     icl_device_manager.stop();
     return 1;
   }
-
   try {
     ccd->close();
     icl_device_manager.stop();
