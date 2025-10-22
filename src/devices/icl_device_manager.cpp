@@ -51,6 +51,8 @@ void ICLDeviceManager::start() {
     this->enable_binary_messages_on_icl();
   }
 
+  std::this_thread::sleep_for(std::chrono::seconds(5));
+
   this->discover_devices();
 }
 

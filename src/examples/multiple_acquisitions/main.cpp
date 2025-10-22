@@ -62,35 +62,48 @@ auto main() -> int {
   try {
     ccd->open();
 
-    // ccd configuration
-    ccd->set_acquisition_count(5);
+    // ccd config
+
+    auto config = ccd->get_configuration();
+    int chip_x = config["chipWidth"];
+    int chip_y = config["chipHeight"];
+
+    ccd->set_acquisition_format(
+        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
+
+    ccd->set_region_of_interest(1, 0, 0, chip_x, chip_y, 1, chip_y);
+
     ccd->set_x_axis_conversion_type(
         ChargeCoupledDevice::XAxisConversionType::NONE);
-    ccd->set_clean_count(2, ChargeCoupledDevice::CleanCountMode::EACH);
 
     ccd->set_timer_resolution(
         ChargeCoupledDevice::TimerResolution::THOUSAND_MICROSECONDS);
-    constexpr auto exposure_time = chrono::milliseconds(5);
-    ccd->set_exposure_time(exposure_time.count());
 
-    ccd->set_gain(0);   // Hight Light
-    ccd->set_speed(2);  // 1 MHz Ultra
-    ccd->set_acquisition_format(
-        1, ChargeCoupledDevice::AcquisitionFormat::SPECTRA_IMAGE);
-    ccd->set_region_of_interest();
+    constexpr int exposure_time = 1000;
+    ccd->set_exposure_time(exposure_time);
+
+    ccd->set_acquisition_count(5);
+
+    std::any data_return;
 
     if (ccd->get_acquisition_ready()) {
       const auto open_shutter = true;
       ccd->set_acquisition_start(open_shutter);
       // wait a short time for the acquisition to start
-      this_thread::sleep_for(chrono::seconds(1));
-
-      constexpr auto sleep_time = chrono::milliseconds(500);
-      while (ccd->get_acquisition_busy()) {
-        this_thread::sleep_for(sleep_time);
+      int sleep_time = (exposure_time / 1000) * 2;
+      while (true) {
+        try {
+          this_thread::sleep_for(std::chrono::seconds(sleep_time));
+          ;
+          cout << "Trying for data...\n";
+          data_return = ccd->get_acquisition_data();
+          break;
+        } catch (const std::exception& e) {
+          std::cout << "Data not ready yet...\n";
+        }
       }
 
-      auto raw_data = any_cast<json>(ccd->get_acquisition_data());
+      const json& raw_data = std::any_cast<const json&>(data_return);
       spdlog::info("Acquisition data size: {}", raw_data.size());
       spdlog::info("Acquisition data: {}", raw_data.dump());
     }
