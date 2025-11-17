@@ -168,7 +168,7 @@ TEST_CASE_METHOD(ICLExe, "Mono test on HW", "[mono_hw]") {
       return;
     }
 
-    const auto filter_wheel = Monochromator::FilterWheel::FIRST;
+    const auto filter_wheel = Monochromator::FilterWheel::INTERNAL;
     const auto expected_filter_wheel_position_before =
         Monochromator::FilterWheelPosition::FIRST;
     const auto expected_filter_wheel_position_after =
