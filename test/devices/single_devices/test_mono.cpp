@@ -136,7 +136,7 @@ TEST_CASE("Mono test with fake ICL", "[mono_no_hw]") {
   SECTION("Mono get filter wheel position") {
     // arrange
     mono.open();
-    const auto filter_wheel = Monochromator::FilterWheel::FIRST;
+    const auto filter_wheel = Monochromator::FilterWheel::INTERNAL;
     const auto expected_filter_wheel_position =
         Monochromator::FilterWheelPosition::FIRST;
 
@@ -150,7 +150,7 @@ TEST_CASE("Mono test with fake ICL", "[mono_no_hw]") {
   SECTION("Mono set filter wheel position") {
     // arrange
     mono.open();
-    const auto filter_wheel = Monochromator::FilterWheel::FIRST;
+    const auto filter_wheel = Monochromator::FilterWheel::INTERNAL;
     const auto filter_wheel_position =
         Monochromator::FilterWheelPosition::SECOND;
 

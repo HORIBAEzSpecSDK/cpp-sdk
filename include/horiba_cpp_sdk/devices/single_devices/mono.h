@@ -44,19 +44,19 @@ class Monochromator final : public Device {
    * @brief Filter wheels installed in the monochromator. Depending on the
    * model, not all filter wheels may be available.
    */
-  enum class FilterWheel : int { FIRST, SECOND };
+  enum class FilterWheel : int { INTERNAL = 1, EXTERNAL = 2 };
 
   /**
    * @brief Positions of the filter wheel installed in the monochromator.
    * Depending on the model, not all positions may be available.
    */
   enum class FilterWheelPosition : int {
-    FIRST,
-    SECOND,
-    THIRD,
-    FOURTH,
-    FIFTH,
-    SIXTH
+    FIRST = 1,
+    SECOND = 2,
+    THIRD = 3,
+    FOURTH = 4,
+    FIFTH = 5,
+    SIXTH = 6
   };
 
   /**
