@@ -14,14 +14,14 @@ ___
 
 ⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️
 
-> [!WARNING]
-> This SDK is under development and not yet released.
+Important
 
-> [!IMPORTANT]
-> For this C++ code to work, the SDK from HORIBA has to be purchased, installed and licensed.
-> The code in this repo and the SDK are under development and not yet released for public use!
+This SDK is now released. For more information, contact your local HORIBA affiliate office, or visit https://www.horiba.com/int/scientific/products/detail/action/show/Product/ezspec-sdk-6853/. 
+For this C++ code to work, the SDK from Horiba has to be purchased, installed and licensed.
 
 ⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️⬆️
+
+
 
 ___
 
