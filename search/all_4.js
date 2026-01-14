@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['a_0',['A',['../classhoriba_1_1devices_1_1single__devices_1_1_monochromator.html#a28ab62f60df225724bcb992ec8e8de91a7fc56270e7a70fa81a5935b72eacbe29',1,'horiba::devices::single_devices::Monochromator']]],
+  ['a_20configuring_20via_20cmake_3a_1',['(2.a) Configuring via cmake:',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2_r_e_a_d_m_e__building.html#autotoc_md12',1,'']]],
+  ['abort_5facquisition_2',['abort_acquisition',['../classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a21087bac4cbebf2b3d12ffa1e384eb6a',1,'horiba::devices::single_devices::ChargeCoupledDevice']]],
+  ['about_20this_20repository_3',['📦 About this repository',['../index.html#autotoc_md1',1,'']]],
+  ['acquisition_5fcontinue_4',['acquisition_continue',['../classhoriba_1_1devices_1_1single__devices_1_1_spectr_acq3.html#ae860fa47f8e6ddbf91eb794b425fc97e',1,'horiba::devices::single_devices::SpectrAcq3']]],
+  ['acquisition_5fpause_5',['acquisition_pause',['../classhoriba_1_1devices_1_1single__devices_1_1_spectr_acq3.html#a6769bf662e1b24efe5b1b8771892e462',1,'horiba::devices::single_devices::SpectrAcq3']]],
+  ['acquisition_5fstart_6',['acquisition_start',['../classhoriba_1_1devices_1_1single__devices_1_1_spectr_acq3.html#a2981587d2ba6a3851573af3d981f77af',1,'horiba::devices::single_devices::SpectrAcq3']]],
+  ['acquisition_5fstop_7',['acquisition_stop',['../classhoriba_1_1devices_1_1single__devices_1_1_spectr_acq3.html#a1e45d5710a364a391dfd78a021a82b21',1,'horiba::devices::single_devices::SpectrAcq3']]],
+  ['acquisitionformat_8',['AcquisitionFormat',['../classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a6781cffa0697ec780fe9ef723a165a6c',1,'horiba::devices::single_devices::ChargeCoupledDevice']]],
+  ['acquisitionsetparameters_9',['AcquisitionSetParameters',['../classhoriba_1_1devices_1_1single__devices_1_1_acquisition_set_parameters.html',1,'horiba::devices::single_devices::AcquisitionSetParameters'],['../classhoriba_1_1devices_1_1single__devices_1_1_acquisition_set_parameters.html#add911c09fca42046157997baf8ccbb66',1,'horiba::devices::single_devices::AcquisitionSetParameters::AcquisitionSetParameters()']]],
+  ['active_5fhigh_10',['ACTIVE_HIGH',['../classhoriba_1_1devices_1_1single__devices_1_1_spectr_acq3.html#af39475c07bd94d382d90724299d64092ab868e37f0edfdbea9838600657b6f4b3',1,'horiba::devices::single_devices::SpectrAcq3']]],
+  ['active_5flow_11',['ACTIVE_LOW',['../classhoriba_1_1devices_1_1single__devices_1_1_spectr_acq3.html#af39475c07bd94d382d90724299d64092ae434209643a0d01f383a46eece525679',1,'horiba::devices::single_devices::SpectrAcq3']]],
+  ['all_5fexisting_5fchannels_12',['all_existing_channels',['../classhoriba_1_1devices_1_1single__devices_1_1_spectr_acq3_1_1_channel.html#a4d8c90f65421374562d06a90fd7bda53',1,'horiba::devices::single_devices::SpectrAcq3::Channel']]],
+  ['and_20control_20api_13',['Command and Control API',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2documentation_2pages_2icl__api.html#autotoc_md34',1,'']]],
+  ['and_20speed_14',['Gain and Speed',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2documentation_2pages_2gains__and__speeds.html',1,'']]],
+  ['api_15',['Command and Control API',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2documentation_2pages_2icl__api.html#autotoc_md34',1,'']]],
+  ['api_20programmers_20manual_16',['ICL API Programmers Manual',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2documentation_2pages_2icl__api.html',1,'']]],
+  ['architecture_17',['🏗️ Architecture',['../index.html#autotoc_md5',1,'']]],
+  ['as_20contributor_18',['👩‍💻 First steps as contributor',['../index.html#autotoc_md7',1,'']]],
+  ['average_5fspectra_5fstitch_2eh_19',['average_spectra_stitch.h',['../average__spectra__stitch_8h.html',1,'']]],
+  ['averagespectrastitch_20',['AverageSpectraStitch',['../classhoriba_1_1core_1_1stitching_1_1_average_spectra_stitch.html',1,'horiba::core::stitching::AverageSpectraStitch'],['../classhoriba_1_1core_1_1stitching_1_1_average_spectra_stitch.html#a603acadc26c680731e50068e625c495e',1,'horiba::core::stitching::AverageSpectraStitch::AverageSpectraStitch()']]],
+  ['axial_21',['AXIAL',['../classhoriba_1_1devices_1_1single__devices_1_1_monochromator.html#a9f1457ac6fc68dcf087a1e5d3c10d772a0337be514c152c6f0a9c748668aa501b',1,'horiba::devices::single_devices::Monochromator']]]
+];

@@ -1,0 +1,17 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node0 [id="Node000000",label="horiba::core::stitching\l::SpectraStitch",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classhoriba_1_1core_1_1stitching_1_1_spectra_stitch.html",tooltip=" "];
+  Node0 -> Node1 [id="edge2_Node000000_Node000001",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 [id="Node000001",label="horiba::core::stitching\l::AverageSpectraStitch",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classhoriba_1_1core_1_1stitching_1_1_average_spectra_stitch.html",tooltip=" "];
+  Node0 -> Node2 [id="edge3_Node000000_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="horiba::core::stitching\l::OffsetSpectraStitch",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classhoriba_1_1core_1_1stitching_1_1_offset_spectra_stitch.html",tooltip=" "];
+  Node0 -> Node3 [id="edge4_Node000000_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="horiba::core::stitching\l::SimpleSpectraStitch",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classhoriba_1_1core_1_1stitching_1_1_simple_spectra_stitch.html",tooltip=" "];
+  Node0 -> Node4 [id="edge5_Node000000_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="horiba::core::stitching\l::WeightAverageSpectraStitch",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$classhoriba_1_1core_1_1stitching_1_1_weight_average_spectra_stitch.html",tooltip=" "];
+}

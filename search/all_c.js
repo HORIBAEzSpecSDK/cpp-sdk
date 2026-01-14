@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['icl_0',['Connecting to ICL',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2documentation_2pages_2icl__api.html#autotoc_md33',1,'']]],
+  ['icl_20api_20programmers_20manual_1',['ICL API Programmers Manual',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2documentation_2pages_2icl__api.html',1,'']]],
+  ['icl_5fapi_2emd_2',['icl_api.md',['../icl__api_8md.html',1,'']]],
+  ['icl_5fbinmode_3',['&lt;a class=&quot;anchor&quot; id=&quot;icl_binmode&quot;&gt;&lt;/a&gt;icl_binMode',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2documentation_2pages_2icl__api.html#autotoc_md40',1,'']]],
+  ['icl_5fdevice_5fmanager_2eh_4',['icl_device_manager.h',['../icl__device__manager_8h.html',1,'']]],
+  ['icl_5finfo_5',['&lt;a class=&quot;anchor&quot; id=&quot;icl_info&quot;&gt;&lt;/a&gt;icl_info',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2documentation_2pages_2icl__api.html#autotoc_md38',1,'']]],
+  ['icl_5fshutdown_6',['&lt;a class=&quot;anchor&quot; id=&quot;icl_shutdown&quot;&gt;&lt;/a&gt;icl_shutdown',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2documentation_2pages_2icl__api.html#autotoc_md39',1,'']]],
+  ['icldevicemanager_7',['ICLDeviceManager',['../classhoriba_1_1devices_1_1_i_c_l_device_manager.html',1,'horiba::devices::ICLDeviceManager'],['../classhoriba_1_1devices_1_1_i_c_l_device_manager.html#a8b37ff3d1f28365df3c7b3418dca7be7',1,'horiba::devices::ICLDeviceManager::ICLDeviceManager()']]],
+  ['initialized_8',['initialized',['../classhoriba_1_1devices_1_1single__devices_1_1_monochromator.html#af7d365143d9714dafa026ec7a4380bdc',1,'horiba::devices::single_devices::Monochromator']]],
+  ['install_9',['Too Long, Didn&apos;t Install',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2_r_e_a_d_m_e__dependencies.html#autotoc_md19',1,'']]],
+  ['instructions_10',['Instructions',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2_r_e_a_d_m_e__building.html',1,'Build Instructions'],['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2_r_e_a_d_m_e__docker.html',1,'Docker Instructions']]],
+  ['integration_5ftime_11',['integration_time',['../classhoriba_1_1devices_1_1single__devices_1_1_acquisition_set_parameters.html#a7600d72f1cb9a7b8f9d6deb353dcff04',1,'horiba::devices::single_devices::AcquisitionSetParameters']]],
+  ['interface_12',['SpectrAcq3 - Single Channel Detector Interface',['../md__2_users_2runner_2work_2cpp-sdk_2cpp-sdk_2documentation_2pages_2icl__api.html#autotoc_md107',1,'']]],
+  ['internal_13',['INTERNAL',['../classhoriba_1_1devices_1_1single__devices_1_1_monochromator.html#aa3622c48e1a6ee0b8e72b1d15cd3cf4da182fa1c42a2468f8488e6dcf75a81b81',1,'horiba::devices::single_devices::Monochromator']]],
+  ['is_5fbusy_14',['is_busy',['../classhoriba_1_1devices_1_1single__devices_1_1_monochromator.html#ac5a19babff8ad56d39de77b7ac2bf70c',1,'horiba::devices::single_devices::Monochromator::is_busy()'],['../classhoriba_1_1devices_1_1single__devices_1_1_spectr_acq3.html#a1cd3663600f2b82176a614a5bb7c3636',1,'horiba::devices::single_devices::SpectrAcq3::is_busy() noexcept(false)']]],
+  ['is_5fdata_5favailable_15',['is_data_available',['../classhoriba_1_1devices_1_1single__devices_1_1_spectr_acq3.html#a2b760014c996d20898e61d95e58f8667',1,'horiba::devices::single_devices::SpectrAcq3']]],
+  ['is_5fopen_16',['is_open',['../classhoriba_1_1communication_1_1_communicator.html#a18a3139dd4a4295aaf01517ca20a23b4',1,'horiba::communication::Communicator::is_open()'],['../classhoriba_1_1communication_1_1_web_socket_communicator.html#a59b8dad61327c2466a018825985d5916',1,'horiba::communication::WebSocketCommunicator::is_open()'],['../classhoriba_1_1devices_1_1single__devices_1_1_charge_coupled_device.html#a463ceee03bfedb9e846ba364a9851902',1,'horiba::devices::single_devices::ChargeCoupledDevice::is_open()'],['../classhoriba_1_1devices_1_1single__devices_1_1_monochromator.html#a83f5ef5cff8cbd3d03ef7b7a1404e1ae',1,'horiba::devices::single_devices::Monochromator::is_open()'],['../classhoriba_1_1devices_1_1single__devices_1_1_spectr_acq3.html#a942158e1d31271ad04f92bbb725daea2',1,'horiba::devices::single_devices::SpectrAcq3::is_open()']]]
+];
