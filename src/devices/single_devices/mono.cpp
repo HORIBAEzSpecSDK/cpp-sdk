@@ -176,11 +176,7 @@ Monochromator::ShutterPosition Monochromator::get_shutter_position(
       "mono_getShutterStatus", {{"index", Device::device_id()}}));
   auto json_results = response.json_results();
   ShutterPosition position = ShutterPosition::CLOSED;
-  if (shutter == Shutter::FIRST) {
-    position = json_results.at("shutter 1").get<ShutterPosition>();
-  } else if (shutter == Shutter::SECOND) {
-    position = json_results.at("shutter 2").get<ShutterPosition>();
-  }
+  position = json_results.at("position").get<ShutterPosition>();
 
   return position;
 }
